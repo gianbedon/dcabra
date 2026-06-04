@@ -1,0 +1,23 @@
+---
+import banner from "../assets/portada1.jpg";
+import logito from "../assets/logo.png";
+import { Image } from "astro:assets";
+---
+
+<section>
+    <Image
+        src={banner}
+        alt="Portada principal"
+        class="w-full h-[700px] object-cover mx-auto rounded-md"
+       
+    />
+    
+    <Image
+    src={logito}
+    alt="logito"
+    width={800}
+    height={600}
+    class="object-cover mx-auto"
+    />
+
+</section>
