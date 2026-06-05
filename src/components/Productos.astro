@@ -1,0 +1,178 @@
+---
+// Productos.astro
+import ProductSection from "./ProductSection.astro";
+import ProductCard from "./ProductCard.astro";
+import ContactForm from "./ContactForm.astro";
+
+// Import local assets
+import lecheCabraImg from "../assets/leche_cabra.png";
+import yogurtGriegoImg from "../assets/yogurt_griego.png";
+import yogurtJaleaImg from "../assets/yogurt_jalea.png";
+import yogurtFrutaImg from "../assets/yogurt_fruta.png";
+
+// Configurable phone number for WhatsApp buttons
+const whatsAppPhone = "51900000000";
+---
+
+<section id="productos" class="py-12 bg-gray-50/30 scroll-mt-20">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <!-- 1. LECHE SECTION -->
+    <ProductSection
+      title="Leche"
+      imageSrc={lecheCabraImg}
+      imageAlt="Leche de Cabra Fresca D'Cabra"
+      imageTag="Producto Fresco"
+      description="Nuestra leche de cabra pasteurizada mantiene su frescura y propiedades nutricionales intactas. Producida bajo estrictos estándares de calidad."
+      benefitsTitle="Beneficios de la Leche de Cabra"
+      benefits={[
+        {
+          title: "Fácil de Digerir",
+          description: "La leche de cabra contiene glóbulos de grasa más pequeños y una mayor cantidad de ácidos grasos de cadena corta de menor tamaño, lo que permite una mejor digestión y absorción intestinal."
+        },
+        {
+          title: "Menos Alergénica",
+          description: "Una de sus principales ventajas es la menor cantidad de caseína alpha-S1, la proteína responsable de la mayor parte de alergias a la leche de vaca, haciéndola apta para personas con sensibilidad al tracto digestivo."
+        },
+        {
+          title: "Rica en Nutrientes",
+          description: "La leche de cabra es una fuente natural rica en vitaminas (principalmente A, B2 y C), además de tener niveles más altos de calcio y fósforo en comparación con la leche de vaca, fortaleciendo tu sistema digestivo."
+        }
+      ]}
+      badges={["Vitamina A", "Vitamina B2", "Vitamina C", "Calcio", "Fósforo", "Zinc", "Magnesio"]}
+      reverse={false}
+    />
+
+    <!-- 2. YOGURT GRIEGO SECTION -->
+    <ProductSection
+      title="Yogurt Griego"
+      imageSrc={yogurtGriegoImg}
+      imageAlt="Yogurt Griego D'Cabra"
+      imageTag="Probióticos Naturales"
+      description="Cremoso y lleno de probióticos. Una opción saludable y deliciosa para empezar el día con energía. Con proteínas que ayudan a reducir el apetito, controlar el peso y mantener los músculos sanos."
+      benefitsTitle="Beneficios del Yogurt Griego"
+      benefits={[
+        {
+          title: "Aporte de calcio y proteínas",
+          description: "Excelente para el desarrollo muscular y el fortalecimiento de la estructura ósea."
+        },
+        {
+          title: "Favorece la salud ósea",
+          description: "Alto contenido de calcio biodisponible de fácil asimilación."
+        },
+        {
+          title: "Contribuye a una alimentación equilibrada",
+          description: "Ayuda a mantener la saciedad por más tiempo de forma saludable."
+        },
+        {
+          title: "Sin azúcar añadida",
+          description: "Ideal para dietas bajas en carbohidratos, fitness o control de azúcar."
+        }
+      ]}
+      badges={["Probiótico natural", "Aporte de proteína", "Alto en calcio", "Sin azúcar"]}
+      reverse={true}
+    />
+
+    <!-- 3. YOGURT GRIEGO + JALEA GRID -->
+    <div class="py-16 border-b border-gray-100">
+      <div class="text-center mb-12">
+        <h3 class="text-primary font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider">
+          Yogurt Griego + Jalea
+        </h3>
+        <p class="text-gray-500 text-sm sm:text-base mt-2 font-semibold">
+          El balance perfecto de yogurt con jalea artesanal
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <ProductCard
+          imageSrc={yogurtJaleaImg}
+          title="Yogurt Griego + Jalea de arándano"
+          price="S/ 8.00"
+          description="Yogurt griego cremoso de cabra con una generosa y deliciosa base de jalea artesanal de arándanos frescos."
+          whatsAppPhone={whatsAppPhone}
+        />
+        <ProductCard
+          imageSrc={yogurtJaleaImg}
+          title="Yogurt Griego + Jalea de durazno"
+          price="S/ 8.00"
+          description="Exquisita fusión de yogurt griego cremoso de cabra y una suave jalea casera de duraznos seleccionados."
+          whatsAppPhone={whatsAppPhone}
+        />
+        <ProductCard
+          imageSrc={yogurtJaleaImg}
+          title="Yogurt Griego + Jalea de fresa"
+          price="S/ 8.00"
+          description="La clásica y favorita combinación de yogurt griego espeso de cabra con jalea de fresas silvestres."
+          whatsAppPhone={whatsAppPhone}
+        />
+      </div>
+    </div>
+
+    <!-- 4. YOGURT NATURAL SECTION -->
+    <ProductSection
+      title="Yogurt Natural"
+      imageSrc={yogurtGriegoImg}
+      imageAlt="Yogurt Natural D'Cabra"
+      imageTag="Probióticos Naturales"
+      description="El yogurt natural de cabra es cremoso, suave y digestivo. Excelente alternativa para quienes buscan un producto 100% natural libre de aditivos artificiales."
+      benefitsTitle="Beneficios"
+      benefits={[
+        {
+          title: "Favorece la flora intestinal y mejora la digestión",
+          description: "Los fermentos lácticos activos equilibran la microbiota intestinal reduciendo la pesadez."
+        },
+        {
+          title: "Fortalece el sistema inmunológico",
+          description: "Aporte de nutrientes esenciales y probióticos que refuerzan las defensas del cuerpo."
+        },
+        {
+          title: "Mejor absorción de nutrientes",
+          description: "Facilita la asimilación del calcio, hierro y vitaminas esenciales para una piel sana y huesos fuertes."
+        }
+      ]}
+      badges={["Vitamina A", "Vitamina B2", "Magnesio", "Calcio", "Zinc", "Fósforo"]}
+      reverse={false}
+    />
+
+    <!-- 5. YOGURT NATURAL + TU FRUTA FAVORITA GRID -->
+    <div class="py-16 border-b border-gray-100">
+      <div class="text-center mb-12">
+        <h3 class="text-primary font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider">
+          Yogurt Natural + Tu Fruta Favorita
+        </h3>
+        <p class="text-gray-500 text-sm sm:text-base mt-2 font-semibold">
+          Yogurt frutado bebible refrescante y nutritivo
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <ProductCard
+          imageSrc={yogurtFrutaImg}
+          title="Yogurt Natural + Fresa"
+          price="S/ 12.00"
+          description="Yogurt bebible natural de cabra mezclado con fresca pulpa de fresas licuadas 100% naturales."
+          whatsAppPhone={whatsAppPhone}
+        />
+        <ProductCard
+          imageSrc={yogurtFrutaImg}
+          title="Yogurt Natural + Guanábana"
+          price="S/ 12.00"
+          description="Nutritivo yogurt bebible de cabra fusionado con la exótica pulpa de guanábana seleccionada de la mejor calidad."
+          whatsAppPhone={whatsAppPhone}
+        />
+        <ProductCard
+          imageSrc={yogurtFrutaImg}
+          title="Yogurt Natural + Mango"
+          price="S/ 12.00"
+          description="Frescura tropical con yogurt bebible de cabra y pulpa natural de mangos jugosos de estación."
+          whatsAppPhone={whatsAppPhone}
+        />
+      </div>
+    </div>
+
+    <!-- 6. CONTACT FORM SECTION -->
+    <ContactForm />
+
+  </div>
+</section>
