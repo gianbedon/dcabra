@@ -5,7 +5,7 @@ import ProductCard from "./ProductCard.astro";
 import ContactForm from "./ContactForm.astro";
 
 // Import local assets
-import lecheCabraImg from "../assets/leche_cabra.png";
+import lecheCabraImg from "../assets/leche-con-vaso.jpg";
 import yogurtGriegoImg from "../assets/yogurt_griego.png";
 import yogurtJaleaImg from "../assets/yogurt_jalea.png";
 import yogurtFrutaImg from "../assets/yogurt_fruta.png";
@@ -16,7 +16,6 @@ const whatsAppPhone = "51900154196";
 
 <section id="productos" class="py-12 bg-gray-50/30 scroll-mt-20">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    
     <!-- 1. LECHE SECTION -->
     <ProductSection
       title="Leche"
@@ -28,18 +27,29 @@ const whatsAppPhone = "51900154196";
       benefits={[
         {
           title: "Fácil de Digerir",
-          description: "La leche de cabra contiene glóbulos de grasa más pequeños y una mayor cantidad de ácidos grasos de cadena corta de menor tamaño, lo que permite una mejor digestión y absorción intestinal."
+          description:
+            "La leche de cabra contiene glóbulos de grasa más pequeños y una mayor cantidad de ácidos grasos de cadena corta de menor tamaño, lo que permite una mejor digestión y absorción intestinal.",
         },
         {
           title: "Menos Alergénica",
-          description: "Una de sus principales ventajas es la menor cantidad de caseína alpha-S1, la proteína responsable de la mayor parte de alergias a la leche de vaca, haciéndola apta para personas con sensibilidad al tracto digestivo."
+          description:
+            "Una de sus principales ventajas es la menor cantidad de caseína alpha-S1, la proteína responsable de la mayor parte de alergias a la leche de vaca, haciéndola apta para personas con sensibilidad al tracto digestivo.",
         },
         {
           title: "Rica en Nutrientes",
-          description: "La leche de cabra es una fuente natural rica en vitaminas (principalmente A, B2 y C), además de tener niveles más altos de calcio y fósforo en comparación con la leche de vaca, fortaleciendo tu sistema digestivo."
-        }
+          description:
+            "La leche de cabra es una fuente natural rica en vitaminas (principalmente A, B2 y C), además de tener niveles más altos de calcio y fósforo en comparación con la leche de vaca, fortaleciendo tu sistema digestivo.",
+        },
       ]}
-      badges={["Vitamina A", "Vitamina B2", "Vitamina C", "Calcio", "Fósforo", "Zinc", "Magnesio"]}
+      badges={[
+        "Vitamina A",
+        "Vitamina B2",
+        "Vitamina C",
+        "Calcio",
+        "Fósforo",
+        "Zinc",
+        "Magnesio",
+      ]}
       reverse={false}
     />
 
@@ -54,29 +64,40 @@ const whatsAppPhone = "51900154196";
       benefits={[
         {
           title: "Aporte de calcio y proteínas",
-          description: "Excelente para el desarrollo muscular y el fortalecimiento de la estructura ósea."
+          description:
+            "Excelente para el desarrollo muscular y el fortalecimiento de la estructura ósea.",
         },
         {
           title: "Favorece la salud ósea",
-          description: "Alto contenido de calcio biodisponible de fácil asimilación."
+          description:
+            "Alto contenido de calcio biodisponible de fácil asimilación.",
         },
         {
           title: "Contribuye a una alimentación equilibrada",
-          description: "Ayuda a mantener la saciedad por más tiempo de forma saludable."
+          description:
+            "Ayuda a mantener la saciedad por más tiempo de forma saludable.",
         },
         {
           title: "Sin azúcar añadida",
-          description: "Ideal para dietas bajas en carbohidratos, fitness o control de azúcar."
-        }
+          description:
+            "Ideal para dietas bajas en carbohidratos, fitness o control de azúcar.",
+        },
       ]}
-      badges={["Probiótico natural", "Aporte de proteína", "Alto en calcio", "Sin azúcar"]}
+      badges={[
+        "Probiótico natural",
+        "Aporte de proteína",
+        "Alto en calcio",
+        "Sin azúcar",
+      ]}
       reverse={true}
     />
 
     <!-- 3. YOGURT GRIEGO + JALEA GRID -->
     <div class="py-16 border-b border-gray-100">
       <div class="text-center mb-12">
-        <h3 class="text-primary font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider">
+        <h3
+          class="text-primary text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider"
+        >
           Yogurt Griego + Jalea
         </h3>
         <p class="text-gray-500 text-sm sm:text-base mt-2 font-semibold">
@@ -120,25 +141,37 @@ const whatsAppPhone = "51900154196";
       benefits={[
         {
           title: "Favorece la flora intestinal y mejora la digestión",
-          description: "Los fermentos lácticos activos equilibran la microbiota intestinal reduciendo la pesadez."
+          description:
+            "Los fermentos lácticos activos equilibran la microbiota intestinal reduciendo la pesadez.",
         },
         {
           title: "Fortalece el sistema inmunológico",
-          description: "Aporte de nutrientes esenciales y probióticos que refuerzan las defensas del cuerpo."
+          description:
+            "Aporte de nutrientes esenciales y probióticos que refuerzan las defensas del cuerpo.",
         },
         {
           title: "Mejor absorción de nutrientes",
-          description: "Facilita la asimilación del calcio, hierro y vitaminas esenciales para una piel sana y huesos fuertes."
-        }
+          description:
+            "Facilita la asimilación del calcio, hierro y vitaminas esenciales para una piel sana y huesos fuertes.",
+        },
       ]}
-      badges={["Vitamina A", "Vitamina B2", "Magnesio", "Calcio", "Zinc", "Fósforo"]}
+      badges={[
+        "Vitamina A",
+        "Vitamina B2",
+        "Magnesio",
+        "Calcio",
+        "Zinc",
+        "Fósforo",
+      ]}
       reverse={false}
     />
 
     <!-- 5. YOGURT NATURAL + TU FRUTA FAVORITA GRID -->
     <div class="py-16 border-b border-gray-100">
       <div class="text-center mb-12">
-        <h3 class="text-primary font-black text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider">
+        <h3
+          class="text-primary text-2xl sm:text-3xl md:text-4xl uppercase tracking-wider"
+        >
           Yogurt Natural + Tu Fruta Favorita
         </h3>
         <p class="text-gray-500 text-sm sm:text-base mt-2 font-semibold">
@@ -173,6 +206,5 @@ const whatsAppPhone = "51900154196";
 
     <!-- 6. CONTACT FORM SECTION -->
     <ContactForm />
-
   </div>
 </section>

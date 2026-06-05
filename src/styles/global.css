@@ -1,7 +1,57 @@
 @import "tailwindcss";
 
+/* ── Fuente de títulos ── */
+@font-face {
+  font-family: 'LuckiestGuy';
+  src: url('/fuente-titulos/LuckiestGuy.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ── Fuente de texto (Poppins) ── */
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+}
+
 @theme {
-    --color-primary: #5b318d;
-    --color-secondary: #0037ff;
-    --color-accent: #7d7979;
+  --color-primary: #5b318d;
+  --color-secondary: #0037ff;
+  --color-accent: #7d7979;
+}
+
+/* ── Aplicar fuentes por etiqueta ── */
+body, p, h5, h4, span, li, a, button, input, label {
+  font-family: 'Poppins', sans-serif;
+}
+
+h1, h2, h3,   h6 {
+    
+  font-family: 'LuckiestGuy', cursive;
 }
