@@ -1,9 +1,174 @@
 ---
-import Layout from "../../layouts/Layout.astro"
 
+import { Image } from 'astro:assets';
+import Layout from '../../layouts/Layout.astro';
+import cabrasHistoria from '../../assets/cabra-campo-historia.jpg';
+import lecheSola from '../../assets/leche-sola.png';
+import fresaFrutado from '../../assets/fresa-frutado.png';
+import maracuyaGriego from '../../assets/maracuya-griego.png';
+import lecheBeneficios from '../../assets/leche-beneficios.jpg';
 
 ---
 
 <Layout>
-        <h1>esta es la pagina de la historia</h1>
+
+<h1>
+  <!-- ── COLLAGE DE IMÁGENES ── -->
+  <section class="bg-white py-12 px-6">
+    <div class="max-w-4xl mx-auto">
+      <div class="relative h-80 md:h-96">
+        <!-- Imagen principal izquierda -->
+        <div class="absolute top-0 left-0 w-56 md:w-72 h-48 md:h-60 rounded-3xl overflow-hidden border-4 border-white shadow-xl z-10">
+          <Image src={cabrasHistoria} alt="Cabras en el campo" class="w-full h-full object-cover" />
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <!-- ── BANNER ESTABLO ── -->
+  <section class="px-6 my-8">
+    <div class="max-w-4xl mx-auto relative bg-primary rounded-3xl overflow-hidden border-4 border-white shadow-md">
+      <div class="absolute inset-0 bg-[url('/cabra-campo-historia.jpg')] bg-cover bg-center opacity-30"></div>
+      <div class="relative z-10 text-white font-extrabold text-3xl md:text-5xl px-12 py-5 text-center tracking-widest uppercase">
+        Establo
+      </div>
+    </div>
+  </section>
+
+  <!-- ── TEXTO HISTORIA ── -->
+  <section class="bg-white px-6 py-4">
+    <div class="max-w-4xl mx-auto space-y-4 text-gray-700 text-center">
+      <p>
+        D'Cabra nació de un sueño simple: volver a lo básico y ofrecer a las familias una alternativa láctea que fuera a la vez
+        nutritiva y deliciosa. Fundada en los verdes campos de nuestra región de <strong>Huaura – Huacho</strong>, nuestro establo
+        fue fundado con el propósito de poder dar una alternativa sostenible de productos lácteos 100% naturales y generar la
+        confianza al cliente del producto que lleva a su mesa, ya que cada productos elaborado por D'Cabra está elaborado con
+        los mejores ingredientes.
+      </p>
+      <p>
+        Creemos que los mejores productos provienen de los ingredientes más puros y de un profundo respeto por la naturaleza.
+        Cada producto D'Cabra es un reflejo de nuestra dedicación a la calidad, la sostenibilidad y el bienestar de nuestras cabras.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── VIDEOS ── -->
+  <section class="bg-white py-12 px-6">
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+      {[1, 2, 3].map(() => (
+        <div class="relative rounded-2xl overflow-hidden aspect-video bg-primary/20 cursor-pointer group shadow-md">
+          <Image src={cabrasHistoria} alt="Video del establo" class="w-full h-full object-cover opacity-70 group-hover:opacity-60 transition-opacity" />
+          <!-- Overlay morado -->
+          <div class="absolute inset-0 bg-primary/40"></div>
+          <!-- Botón play -->
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="w-14 h-14 bg-white/90 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-primary ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+ <!-- ── CONSEJOS ── -->
+<section class="bg-white py-12 px-6">
+  <div class="max-w-4xl mx-auto border border-gray-200 rounded-3xl shadow-sm py-10 px-8">
+
+    <h2 class="text-primary text-center text-4xl md:text-5xl mb-2">Consejos</h2>
+    <p class="text-center text-gray-600 mb-10">Compromiso absoluto con la pureza y el bienestar desde el origen.</p>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+
+      <!-- Consejo Leche -->
+      <div class="flex flex-row items-center gap-0 relative">
+        <Image src={lecheSola} alt="Leche D'Cabra" class="w-28 object-contain z-10 relative -mr-4" />
+        <div class="bg-primary text-white rounded-2xl px-4 pt-4 pb-4 pl-8 flex-1">
+          <p class="text-sm font-bold mb-1">100% Leche de Cabra.</p>
+          <p class="text-xs mb-3">Mantener refrigerada y consumir antes de la fecha de vencimiento.</p>
+          <p class="text-xs">Una vez abierto consumir en un <strong>máximo de 5 días.</strong></p>
+        </div>
+      </div>
+
+      <!-- Consejo Yogurt Frutado -->
+      <div class="flex flex-row items-center gap-0 relative">
+        <Image src={fresaFrutado} alt="Yogurt Frutado D'Cabra" class="w-28 object-contain z-10 relative -mr-4" />
+        <div class="bg-primary text-white rounded-2xl px-4 pt-4 pb-4 pl-8 flex-1">
+          <p class="text-sm font-bold mb-1">Sin conservantes artificiales.</p>
+          <p class="text-xs mb-3">Mantener refrigerada y consumir antes de 30 días sellado.</p>
+          <p class="text-xs">Una vez abierto consumir en un <strong>máximo de 5 días.</strong></p>
+        </div>
+      </div>
+
+      <!-- Consejo Yogurt Griego -->
+      <div class="flex flex-row items-center gap-0 relative">
+        <Image src={maracuyaGriego} alt="Yogurt Griego D'Cabra" class="w-28 object-contain z-10 relative -mr-4" />
+        <div class="bg-primary text-white rounded-2xl px-4 pt-4 pb-4 pl-8 flex-1">
+          <p class="text-sm font-bold mb-1">Pureza y cremosidad natural.</p>
+          <p class="text-xs mb-3">Mantener refrigerada y consumir antes de 20 días sellado.</p>
+          <p class="text-xs">Una vez abierto consumir en un <strong>máximo de 5 días.</strong></p>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="text-center text-gray-700 text-sm">
+      Te recordamos que nuestros tiempos de entrega son de 3 a 5 días hábiles.<br/>
+      <strong>(De acuerdo a rutas establecidas)</strong>
+    </p>
+
+  </div>
+</section>
+
+  <!-- ── ALIMENTACIÓN ── -->
+  <section class="bg-white py-12 px-6">
+    <div class="max-w-4xl mx-auto text-center">
+
+      <h2 class="text-primary text-4xl md:text-5xl mb-3">Alimentación</h2>
+      <p class="text-gray-600 mb-10">
+        Creemos que un animal feliz y sin estrés produce una <strong>leche de mayor calidad</strong>,
+        y ese compromiso se siente en cada sorbo.
+      </p>
+
+      <!-- Imagen de beneficios con infografía -->
+      <div class="flex justify-center mb-12">
+        <Image
+          src={lecheBeneficios}
+          alt="Beneficios de la leche D'Cabra"
+          class="w-full max-w-2xl object-contain rounded-2xl"
+        />
+      </div>
+
+      <!-- 3 pilares -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-4">
+
+        <div class="flex flex-col items-center text-center gap-2">
+          <span class="text-primary font-bold text-lg">Bienestar Animal</span>
+          <p class="text-gray-600 text-sm">
+            Nuestras cabras son criadas en libertad, con acceso a pastos frescos y sin hormonas.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center gap-2">
+          <span class="text-primary font-bold text-lg">Sostenibilidad</span>
+          <p class="text-gray-600 text-sm">
+            Practicamos una agricultura responsable que cuida la tierra para las futuras generaciones.
+          </p>
+        </div>
+
+        <div class="flex flex-col items-center text-center gap-2">
+          <span class="text-primary font-bold text-lg">Frescura Garantizada</span>
+          <p class="text-gray-600 text-sm">
+            Nuestra leche va del campo a tu mesa en el menor tiempo posible, asegurando la máxima frescura y sabor.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</h1>
+
 </Layout>
