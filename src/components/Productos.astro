@@ -3,9 +3,12 @@
 import ProductSection from "./ProductSection.astro";
 import ProductCard from "./ProductCard.astro";
 
+// Importación global para el fondo de los titulos
+import portada1 from "../assets/portada1.jpg";
 
 // Import local assets
 import lecheCabraImg from "../assets/leche-con-vaso.jpg";
+
 import yogurtGriegoImg from "../assets/griego-foto.png";
 import yogurtNaturalImg from "../assets/yogurt-natural-foto.png";
 import yogurtJaleaImg from "../assets/griego-solo.png";
@@ -21,6 +24,7 @@ const whatsAppPhone = "51900154196";
     <ProductSection
       title="Leche"
       imageSrc={lecheCabraImg}
+      bannerImageSrc={portada1}
       imageAlt="Leche de Cabra Fresca D'Cabra"
       imageTag="Producto Fresco"
       description="Nuestra leche de cabra pasteurizada mantiene su frescura y propiedades nutricionales intactas. Producida bajo estrictos estándares de calidad."
@@ -57,6 +61,7 @@ const whatsAppPhone = "51900154196";
     <!-- 2. YOGURT GRIEGO SECTION -->
     <ProductSection
       title="Yogurt Griego"
+      bannerImageSrc={portada1}
       imageSrc={yogurtGriegoImg}
       imageAlt="Yogurt Griego D'Cabra"
       imageTag="Probióticos Naturales"
@@ -206,6 +211,5 @@ const whatsAppPhone = "51900154196";
     </div>
 
     <!-- 6. CONTACT FORM SECTION -->
-    
   </div>
 </section>

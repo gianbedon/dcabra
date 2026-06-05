@@ -1,8 +1,6 @@
 ---
 import { Image } from "astro:assets";
 
-import portada1 from "../assets/portada1.jpg";
-
 interface Benefit {
   title: string;
   description: string;
@@ -13,6 +11,7 @@ interface Props {
   imageSrc: ImageMetadata;
   imageAlt: string;
   imageTag: string;
+  bannerImageSrc?: ImageMetadata;
   description?: string;
   benefitsTitle?: string;
   benefits: Benefit[];
@@ -25,6 +24,7 @@ const {
   imageSrc,
   imageAlt,
   imageTag,
+  bannerImageSrc,
   description,
   benefitsTitle = "Beneficios",
   benefits,
@@ -42,7 +42,7 @@ const {
       <!-- Imagen de fondo -->
       <div
         class="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={`background-image: url('${portada1.src}')`}
+        style={`background-image: url('${bannerImageSrc?.src ?? imageSrc.src}')`}
       >
       </div>
 
