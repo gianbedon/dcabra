@@ -34,10 +34,21 @@ const {
 <div class="py-16 border-b border-gray-100 last:border-0 scroll-mt-24">
   <!-- Title Pill Banner -->
   <div class="flex justify-center mb-16">
-    <div class="bg-primary text-white font-extrabold text-xl sm:text-2xl md:text-3xl px-12 py-4 rounded-3xl shadow-md tracking-wider uppercase inline-block text-center border-4 border-white ring-4 ring-primary/20">
+  <div class="relative bg-primary w-full rounded-3xl shadow-md overflow-hidden border-4 border-white ring-4 ring-primary/20">
+    
+    <!-- Imagen de fondo -->
+    <div class="absolute inset-0 bg-[url('../assets/portada1.jpg')] bg-cover bg-center bg-no-repeat"></div>
+    
+    <!-- Overlay púrpura semitransparente (el efecto clave) -->
+    <div class="absolute inset-0 bg-primary/70"></div>
+    
+    <!-- Texto encima -->
+    <div class="relative z-10 text-white font-extrabold text-xl sm:text-2xl md:text-3xl px-12 py-4 tracking-wider uppercase text-center">
       {title}
     </div>
+
   </div>
+</div>
 
   <!-- Content Layout -->
   <div class={`grid grid-cols-1 md:grid-cols-12 gap-12 items-center ${reverse ? 'md:flex-row-reverse' : ''}`}>
