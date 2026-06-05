@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 
+import portada1 from "../assets/portada1.jpg";
+
 interface Benefit {
   title: string;
   description: string;
@@ -39,7 +41,8 @@ const {
     >
       <!-- Imagen de fondo -->
       <div
-        class="absolute inset-0 bg-[url('../assets/portada1.jpg')] bg-cover bg-center bg-no-repeat"
+        class="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={`background-image: url('${portada1.src}')`}
       >
       </div>
 
