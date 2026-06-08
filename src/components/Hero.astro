@@ -1,18 +1,55 @@
 ---
 import banner from "../assets/portada1.jpg";
-import logito from "../assets/logo.png";
+import calorias from "../assets/calorias.png";
+import proteinas from "../assets/proteinas.png";
+import calcio from "../assets/calcio.png";
+import potasio from "../assets/potasio.png";
+import vitamina from "../assets/vitamina.png";
 import { Image } from "astro:assets";
 ---
 
-<section
-    class="relative w-full h-[400px] md:h-[650px] overflow-hidden shadow-lg w-full mx-auto"
->
-    <div class="relative w-full h-full overflow-hidden group">
-        <Image
-            src={banner}
-            alt="Portada principal"
-            class="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
-            loading="eager"
-        />
+<section class="relative w-full h-[400px] md:h-[650px] overflow-hidden shadow-lg mx-auto">
+  <div class="relative w-full h-full overflow-hidden group">
+    <Image
+      src={banner}
+      alt="Portada principal"
+      class="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover:scale-105"
+      loading="eager"
+    />
+  </div>
+
+  <!-- Iconos superpuestos -->
+  <div class="absolute bottom-6 left-0 right-0 flex justify-center gap-3 px-4">
+
+    <div class="flex flex-col items-center bg-primary rounded-2xl p-3 w-[110px]">
+      <Image src={calorias} alt="Calorías" width={48} height={48} class="mb-1" />
+      <span class="text-white font-bold text-sm text-center leading-tight">Calorías</span>
+      <span class="text-white text-xs">168</span>
     </div>
+
+    <div class="flex flex-col items-center bg-primary rounded-2xl p-3 w-[110px]">
+      <Image src={proteinas} alt="Proteínas" width={48} height={48} class="mb-1" />
+      <span class="text-white font-bold text-sm text-center leading-tight">Proteínas</span>
+      <span class="text-white text-xs">34g</span>
+    </div>
+
+    <div class="flex flex-col items-center bg-primary rounded-2xl p-3 w-[110px]">
+      <Image src={calcio} alt="Calcio" width={48} height={48} class="mb-1" />
+      <span class="text-white font-bold text-sm text-center leading-tight">Calcio</span>
+      <span class="text-white text-xs">327 mg</span>
+    </div>
+
+    <div class="flex flex-col items-center bg-primary rounded-2xl p-3 w-[110px]">
+      <Image src={potasio} alt="Potasio" width={48} height={48} class="mb-1" />
+      <span class="text-white font-bold text-sm text-center leading-tight">Potasio</span>
+      <span class="text-white text-xs">498 mg</span>
+    </div>
+
+    <div class="flex flex-col items-center bg-primary rounded-2xl p-3 w-[110px]">
+      <Image src={vitamina} alt="Vitamina A" width={48} height={48} class="mb-1" />
+      <span class="text-white font-bold text-sm text-center leading-tight">Vitamina A</span>
+      <span class="text-white text-xs">483 IU</span>
+    </div>
+
+  </div>
 </section>
