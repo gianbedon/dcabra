@@ -1,0 +1,66 @@
+---
+// Marquee.astro
+---
+
+<div class="w-full bg-primary-light/35 py-4 overflow-hidden border-t border-b border-primary/10 select-none">
+  <div class="marquee-container flex whitespace-nowrap">
+    <div class="marquee-content flex gap-8 text-primary font-black uppercase text-base sm:text-lg tracking-widest font-sans">
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+    </div>
+    <div class="marquee-content flex gap-8 text-primary font-black uppercase text-base sm:text-lg tracking-widest font-sans" aria-hidden="true">
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+      <span>•</span>
+      <span>La Feria Del Queso</span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .marquee-container {
+    display: flex;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .marquee-content {
+    flex-shrink: 0;
+    min-width: 100%;
+    justify-content: space-around;
+    animation: scroll-marquee 25s linear infinite;
+  }
+
+  @keyframes scroll-marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+</style>

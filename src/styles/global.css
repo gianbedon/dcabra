@@ -1,108 +1,71 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@300;400;500;600&display=swap');
+@import "tailwindcss";
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fuente-texto/Poppins-ExtraBold.ttf') format('truetype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Luckiest Guy';
+  src: url('/fuente-titulos/LuckiestGuy.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
-:root {
-  --cream:        #F7F3EC;
-  --dark:         #1C1A14;
-  --gold:         #C8922A;
-  --green:        #3B6E45;
-  --green-light:  #EAF2EC;
-  --white:        #FFFFFF;
-  --gray:         #767676;
-  --border:       #E2DBD0;
-
-  --font-display: 'Playfair Display', Georgia, serif;
-  --font-body:    'Inter', system-ui, sans-serif;
+@theme {
+  --color-primary: #632D90;
+  --color-primary-light: #EBE5F2;
+  --color-primary-dark: #4B1A70;
+  --font-display: "Luckiest Guy", cursive;
+  --font-sans: "Poppins", sans-serif;
 }
 
-html { scroll-behavior: smooth; }
+/* Custom global rules */
+html {
+  scroll-behavior: smooth;
+}
 
 body {
-  font-family: var(--font-body);
-  background: var(--white);
-  color: var(--dark);
-  line-height: 1.6;
+  font-family: var(--font-sans);
+  background-color: #ffffff;
+  color: #1C1A14;
 }
 
-img { max-width: 100%; display: block; }
-
-a { color: inherit; }
-
-/* ── Utility ── */
-.eyebrow {
-  display: inline-block;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--green);
-  margin-bottom: 8px;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 40px;
-}
-.section-title h2 {
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
-  font-weight: 700;
-  color: var(--dark);
-}
-.section-title p {
-  color: var(--gray);
-  font-size: .93rem;
-  margin-top: 6px;
 }
 
-.btn-primary {
-  background: var(--gold);
-  color: var(--white);
-  border: none;
-  border-radius: 50px;
-  padding: 13px 28px;
-  font-size: .9rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: background .2s;
+.title-luckiest {
+  font-family: var(--font-display);
 }
-.btn-primary:hover { background: #a87520; }
-
-.btn-green {
-  background: var(--green);
-  color: var(--white);
-  border: none;
-  border-radius: 50px;
-  padding: 13px 28px;
-  font-size: .9rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  transition: background .2s;
-}
-.btn-green:hover { background: #2e5535; }
-
-.btn-wa {
-  width: 100%;
-  background: #25D366;
-  color: var(--white);
-  border: none;
-  border-radius: 50px;
-  padding: 9px 0;
-  font-size: .82rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-  transition: background .2s;
-}
-.btn-wa:hover { background: #1da851; }

@@ -1,202 +1,102 @@
 ---
-import logo from '../assets/logo.webp';
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
 
 const links = [
-  { label: 'Inicio',          href: '/' },
-  { label: 'Productos',       href: '/producto' },
-  { label: 'Nuestra Historia',href: '/historia' },
+  { label: 'Inicio',          href: '#' },
+  { label: 'Productos',       href: '#productos' },
+  { label: 'Nuestra historia',href: '#historia' },
+  { label: 'Recetas',         href: '#' },
 ];
 ---
 
-<header class="nav-wrapper">
-  <nav class="nav">
-    <a href="/" class="nav-logo">
-      <img src={logo.src} alt="D'Cabra Logo" width="40" height="40" />
-      <span>D'Cabra</span>
+<header class="sticky top-0 z-50 bg-white border-b border-gray-100 shadow-xs">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2">
+      <Image src={logo} alt="D'Cabra Logo" class="h-10 w-auto object-contain" />
     </a>
 
-    <ul class="nav-links">
-      {links.map(l => (
-        <li><a href={l.href}>{l.label}</a></li>
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-8">
+      {links.map(link => (
+        <a 
+          href={link.href} 
+          class="text-sm font-semibold text-gray-700 hover:text-primary transition-colors duration-200 uppercase tracking-wider"
+        >
+          {link.label}
+        </a>
       ))}
-    </ul>
+    </nav>
 
-    <div class="nav-actions">
-      <a href="#contacto" class="nav-cta">Contacto</a>
-      <a href="https://wa.me/51900154196" target="_blank" rel="noopener" class="nav-wa">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.855L.057 23.882l6.197-1.448A11.94 11.94 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.806 9.806 0 0 1-5.032-1.388l-.36-.214-3.732.872.938-3.638-.235-.374A9.789 9.789 0 0 1 2.182 12C2.182 6.57 6.57 2.182 12 2.182S21.818 6.57 21.818 12 17.43 21.818 12 21.818z"/></svg>
-        WhatsApp
+    <!-- Desktop CTA -->
+    <div class="hidden md:block">
+      <a 
+        href="https://wa.me/51900154196" 
+        target="_blank" 
+        rel="noopener noreferrer" 
+        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white text-xs font-bold transition-all duration-200 shadow-sm uppercase tracking-wider"
+      >
+        Pedir por WhatsApp
       </a>
     </div>
 
-    <!-- Mobile hamburger -->
-    <button class="nav-hamburger" id="hamburger" aria-label="Menú">
-      <span></span><span></span><span></span>
+    <!-- Mobile Hamburger Button -->
+    <button 
+      id="hamburger-btn" 
+      class="md:hidden p-2 text-primary focus:outline-hidden"
+      aria-label="Toggle menu"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path id="hamburger-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+      </svg>
     </button>
-  </nav>
+  </div>
 
-  <!-- Mobile drawer -->
-  <div class="nav-drawer" id="drawer">
-    {links.map(l => (
-      <a href={l.href}>{l.label}</a>
+  <!-- Mobile Drawer -->
+  <div 
+    id="mobile-drawer" 
+    class="hidden md:hidden bg-white border-t border-gray-100 px-6 py-4 space-y-3 shadow-md"
+  >
+    {links.map(link => (
+      <a 
+        href={link.href} 
+        class="block text-sm font-semibold text-gray-700 hover:text-primary transition-colors duration-200 uppercase py-2 border-b border-gray-50"
+      >
+        {link.label}
+      </a>
     ))}
-    <a href="#contacto">Contacto</a>
-    <a href="https://wa.me/51900154196" target="_blank" rel="noopener" class="drawer-wa">Pedir por WhatsApp</a>
+    <a 
+      href="https://wa.me/51900154196" 
+      target="_blank" 
+      rel="noopener noreferrer" 
+      class="block text-center mt-4 px-6 py-3 rounded-full bg-primary text-white text-sm font-bold uppercase tracking-wider"
+    >
+      Pedir por WhatsApp
+    </a>
   </div>
 </header>
 
 <script>
-  const btn = document.getElementById('hamburger')!;
-  const drawer = document.getElementById('drawer')!;
-  btn.addEventListener('click', () => {
-    drawer.classList.toggle('open');
-    btn.classList.toggle('active');
+  const btn = document.getElementById('hamburger-btn');
+  const drawer = document.getElementById('mobile-drawer');
+  const icon = document.getElementById('hamburger-icon');
+
+  btn?.addEventListener('click', () => {
+    drawer?.classList.toggle('hidden');
+    if (drawer?.classList.contains('hidden')) {
+      icon?.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+    } else {
+      icon?.setAttribute('d', 'M6 18L18 6M6 6l12 12');
+    }
+  });
+
+  // Close drawer on link click
+  const drawerLinks = drawer?.querySelectorAll('a');
+  drawerLinks?.forEach(link => {
+    link.addEventListener('click', () => {
+      drawer?.classList.add('hidden');
+      icon?.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
+    });
   });
 </script>
-
-<style>
-  .nav-wrapper {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .nav {
-    max-width: 1280px;
-    margin: 0 auto;
-    padding: 0 5%;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 32px;
-  }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-    flex-shrink: 0;
-  }
-  .nav-logo img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  .nav-logo span {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: var(--dark);
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 28px;
-    list-style: none;
-  }
-  .nav-links a {
-    text-decoration: none;
-    font-size: .88rem;
-    font-weight: 500;
-    color: var(--dark);
-    transition: color .2s;
-  }
-  .nav-links a:hover { color: var(--gold); }
-
-  .nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    flex-shrink: 0;
-  }
-
-  .nav-cta {
-    font-size: .85rem;
-    font-weight: 600;
-    color: var(--dark);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 50px;
-    border: 1px solid var(--border);
-    transition: border-color .2s;
-  }
-  .nav-cta:hover { border-color: var(--green); color: var(--green); }
-
-  .nav-wa {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background: var(--green);
-    color: var(--white);
-    text-decoration: none;
-    font-size: .82rem;
-    font-weight: 600;
-    padding: 9px 18px;
-    border-radius: 50px;
-    transition: background .2s;
-  }
-  .nav-wa:hover { background: #2e5535; }
-
-  /* Hamburger */
-  .nav-hamburger {
-    display: none;
-    flex-direction: column;
-    gap: 5px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 4px;
-  }
-  .nav-hamburger span {
-    display: block;
-    width: 22px;
-    height: 2px;
-    background: var(--dark);
-    border-radius: 2px;
-    transition: transform .25s, opacity .25s;
-  }
-  .nav-hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-  .nav-hamburger.active span:nth-child(2) { opacity: 0; }
-  .nav-hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-  /* Drawer */
-  .nav-drawer {
-    display: none;
-    flex-direction: column;
-    gap: 2px;
-    padding: 12px 5% 20px;
-    background: var(--white);
-    border-top: 1px solid var(--border);
-  }
-  .nav-drawer a {
-    text-decoration: none;
-    font-size: .95rem;
-    font-weight: 500;
-    color: var(--dark);
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-  }
-  .drawer-wa {
-    margin-top: 10px !important;
-    background: #25D366;
-    color: var(--white) !important;
-    text-align: center;
-    border-radius: 50px;
-    padding: 12px 0 !important;
-    border-bottom: none !important;
-    font-weight: 600 !important;
-  }
-  .nav-drawer.open { display: flex; }
-
-  @media (max-width: 860px) {
-    .nav-links, .nav-actions { display: none; }
-    .nav-hamburger { display: flex; }
-    .nav-drawer { display: none; }
-    .nav-drawer.open { display: flex; }
-  }
-</style>
