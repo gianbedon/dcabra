@@ -1,25 +1,26 @@
 ---
-import Header from "../components/Header.astro";
-import Footer from "../components/Footer.astro";
-import "../styles/global.css";
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "D'Cabra – Lácteos de Cabra 100% Naturales",
+  description = "Yogurt griego, leche de cabra y más. Productos artesanales sin azúcar añadida, con probióticos naturales. Directo desde nuestra granja hasta tu mesa.",
+} = Astro.props;
 ---
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>D'Cabra</title>
   </head>
-  <body class="bg-white font-sans antialiased text-gray-900">
-    <Header />
-    <main>
-      <slot />
-    </main>
-    <Footer />
+  <body>
+    <slot />
   </body>
 </html>
-
-<style is:global>
-  html, body { margin: 0; width: 100%; scroll-behavior: smooth; }
-</style>
