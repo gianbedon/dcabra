@@ -14,7 +14,7 @@ interface Props {
   bannerImageSrc?: ImageMetadata;
   description?: string;
   benefitsTitle?: string;
-  benefits: Benefit[];
+  benefits?: Benefit[];
   badges?: string[];
   reverse?: boolean;
 }
@@ -27,7 +27,7 @@ const {
   bannerImageSrc,
   description,
   benefitsTitle = "Beneficios",
-  benefits,
+  benefits = [],
   badges = [],
   reverse = false,
 } = Astro.props;
@@ -36,73 +36,42 @@ const {
 <div class="py-16 border-b border-gray-100 last:border-0 scroll-mt-24">
   <!-- Title Pill Banner -->
   <div class="flex justify-center mb-16">
-    <div
-      class="relative bg-primary w-full rounded-3xl shadow-md overflow-hidden border-4 border-white ring-4 ring-primary/20"
-    >
-      <!-- Imagen de fondo -->
+    <div class="relative bg-primary w-full rounded-3xl shadow-md overflow-hidden border-4 border-white ring-4 ring-primary/20">
       <div
         class="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={`background-image: url('${bannerImageSrc?.src}')`}
-      >
-      </div>
-
-      <!-- Overlay púrpura semitransparente (el efecto clave) -->
+      ></div>
       <div class="absolute inset-0 bg-primary/70"></div>
-
-      <!-- Texto encima -->
-      <h3
-        class="relative z-10 text-white text-2xl sm:text-2xl md:text-6xl px-12 py-4 tracking-wider uppercase text-center"
-      >
+      <h3 class="relative z-10 text-white text-2xl sm:text-2xl md:text-6xl px-12 py-4 tracking-wider uppercase text-center">
         {title}
       </h3>
     </div>
   </div>
 
   <!-- Content Layout -->
-  <div
-    class={`grid grid-cols-1 md:grid-cols-12 gap-12 items-center ${reverse ? "md:flex-row-reverse" : ""}`}
-  >
+  <div class={`grid grid-cols-1 md:grid-cols-12 gap-12 items-center ${reverse ? "md:flex-row-reverse" : ""}`}>
+    
     <!-- Image Column -->
-    <div
-      class={`col-span-1 md:col-span-5 flex flex-col items-center justify-center ${reverse ? "md:order-last" : ""}`}
-    >
+    <div class={`col-span-1 md:col-span-5 flex flex-col items-center justify-center ${reverse ? "md:order-last" : ""}`}>
       <div class="relative w-full max-w-sm group">
-        <!-- 100% Natural Stamp -->
-        <div
-          class="absolute -top-6 -left-6 z-10 w-20 h-20 bg-primary text-white text-[10px] uppercase rounded-full flex flex-col items-center justify-center border-4 border-white shadow-lg rotate-12 transition-transform duration-300 group-hover:rotate-0 select-none"
-        >
-          <svg
-            class="w-6 h-6 animate-pulse"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2.5"
-              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
-            ></path>
+        <div class="absolute -top-6 -left-6 z-10 w-20 h-20 bg-primary text-white text-[10px] uppercase rounded-full flex flex-col items-center justify-center border-4 border-white shadow-lg rotate-12 transition-transform duration-300 group-hover:rotate-0 select-none">
+          <svg class="w-6 h-6 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/>
           </svg>
           <span class="mt-0.5">100%</span>
           <span>Natural</span>
         </div>
 
-        <!-- Main Product Image -->
-        <div
-          class="bg-gray-100 rounded-3xl overflow-hidden border-4 border-white shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:scale-[1.01] flex items-center justify-center"
-        >
+        <div class="bg-gray-100 rounded-3xl overflow-hidden border-4 border-white shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:scale-[1.01] flex items-center justify-center">
           <Image
             src={imageSrc}
             alt={imageAlt}
             class="w-auto object-cover drop-shadow-xl transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <!-- Label tag below image -->
+
         <div class="flex justify-center -mt-4">
-          <span
-            class="bg-primary/90 backdrop-blur-xs text-white text-xs font-bold uppercase tracking-wider px-6 py-2 rounded-full shadow-md border-2 border-white"
-          >
+          <span class="bg-primary/90 backdrop-blur-xs text-white text-xs font-bold uppercase tracking-wider px-6 py-2 rounded-full shadow-md border-2 border-white">
             {imageTag}
           </span>
         </div>
@@ -111,66 +80,45 @@ const {
 
     <!-- Text & Details Column -->
     <div class="col-span-1 md:col-span-7 flex flex-col justify-center">
-      {
-        description && (
-          <p class="text-gray-700 text-base leading-relaxed mb-6 font-medium">
-            {description}
-          </p>
-        )
-      }
+      {description && (
+        <p class="text-gray-700 text-base leading-relaxed mb-6 font-medium">
+          {description}
+        </p>
+      )}
 
-      {
-        benefits.length > 0 && (
-          <div class="mb-8">
-            <h4 class="text-primary  text-lg sm:text-xl uppercase tracking-wider mb-5 flex items-center gap-2">
-              <span class="w-2.5 h-6 bg-primary rounded-full" />
-              {benefitsTitle}
-            </h4>
-            <div class="space-y-5">
-              {benefits.map((benefit) => (
-                <div class="flex gap-4 items-start bg-white/50 hover:bg-white p-4 rounded-2xl border border-transparent hover:border-gray-100 shadow-xs hover:shadow-md transition-all duration-300 group">
-                  <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
-                    <svg
-                      class="w-4 h-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2.5"
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                  </div>
-                  <div>
-                    <h5 class="text-gray-900 font-extrabold text-sm sm:text-base mb-1">
-                      {benefit.title}
-                    </h5>
-                    <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">
-                      {benefit.description}
-                    </p>
-                  </div>
+      {benefits.length > 0 && (
+        <div class="mb-8">
+          <h4 class="text-primary text-lg sm:text-xl uppercase tracking-wider mb-5 flex items-center gap-2">
+            <span class="w-2.5 h-6 bg-primary rounded-full" />
+            {benefitsTitle}
+          </h4>
+          <div class="space-y-5">
+            {benefits.map((benefit) => (
+              <div class="flex gap-4 items-start bg-white/50 hover:bg-white p-4 rounded-2xl border border-transparent hover:border-gray-100 shadow-xs hover:shadow-md transition-all duration-300 group">
+                <div class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                  <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                  </svg>
                 </div>
-              ))}
-            </div>
-          </div>
-        )
-      }
-
-      <!-- Badges -->
-      {
-        badges.length > 0 && (
-          <div class="flex flex-wrap gap-2.5 mt-2">
-            {badges.map((badge) => (
-              <span class="bg-primary/5 text-primary border border-primary/20 text-xs font-extrabold px-4 py-2 rounded-xl uppercase tracking-wider shadow-xs hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-default">
-                {badge}
-              </span>
+                <div>
+                  <h5 class="text-gray-900 font-extrabold text-sm sm:text-base mb-1">{benefit.title}</h5>
+                  <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">{benefit.description}</p>
+                </div>
+              </div>
             ))}
           </div>
-        )
-      }
+        </div>
+      )}
+
+      {badges.length > 0 && (
+        <div class="flex flex-wrap gap-2.5 mt-2">
+          {badges.map((badge) => (
+            <span class="bg-primary/5 text-primary border border-primary/20 text-xs font-extrabold px-4 py-2 rounded-xl uppercase tracking-wider shadow-xs hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 cursor-default">
+              {badge}
+            </span>
+          ))}
+        </div>
+      )}
     </div>
   </div>
 </div>

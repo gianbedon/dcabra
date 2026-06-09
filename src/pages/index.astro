@@ -1,10 +1,109 @@
 ---
-import Hero from "../components/Hero.astro";
-import Productos from "../components/Productos.astro";
 import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import ProductSection from "../components/ProductSection.astro";
+import { Image } from "astro:assets";
+import cabritasCampo from "../assets/cabritas-campo.png";
+import leches from "../assets/leches.png";
 ---
 
 <Layout>
-	
-	<Productos />
+  <Hero />
+
+  <!-- SECCIÓN NOSOTROS -->
+  <section class="py-24 px-6 bg-white">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div>
+        <p class="text-purple-600 font-semibold uppercase tracking-widest text-sm mb-3">Nuestra historia</p>
+        <h2 class="text-5xl font-black text-gray-900 leading-tight mb-6">De la granja<br/>a tu mesa.</h2>
+        <p class="text-gray-600 text-lg leading-relaxed mb-6">
+          D'Cabra nació con un sueño simple: ofrecer a las familias una alternativa láctea nutritiva y deliciosa. Fundada en <strong>Huaura – Huacho</strong>, elaboramos cada producto con leche 100% de cabra, sin conservantes ni aditivos.
+        </p>
+        <a href="/historia" class="inline-flex items-center gap-2 px-8 py-3 bg-purple-700 text-white font-bold rounded-full hover:bg-purple-800 transition-colors">
+          Conoce más
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+      <div class="relative">
+        <Image src={cabritasCampo} alt="Cabritas en el campo" class="rounded-3xl w-full object-cover shadow-2xl" />
+        <div class="absolute -bottom-5 -left-5 bg-purple-700 text-white rounded-2xl px-6 py-4 shadow-xl">
+          <p class="text-3xl font-black">100%</p>
+          <p class="text-sm font-semibold">Natural</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ¿POR QUÉ D'CABRA? -->
+  <section class="py-24 px-6 bg-gray-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16">
+        <p class="text-purple-600 font-semibold uppercase tracking-widest text-sm mb-3">Beneficios</p>
+        <h2 class="text-5xl font-black text-gray-900">¿Por qué D'Cabra?</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {[
+          { icon: "🐐", title: "Fácil Digestión", desc: "Partículas de grasa más pequeñas y menos lactosa que la leche de vaca." },
+          { icon: "🌿", title: "100% Natural", desc: "Sin conservantes ni aditivos. Directo de nuestras granjas a tu hogar." },
+          { icon: "💪", title: "Rico en Nutrientes", desc: "Alto contenido de calcio, proteínas y minerales esenciales." },
+          { icon: "🏔️", title: "Libre Pastoreo", desc: "Cabras criadas en libertad, alimentadas con pastos naturales." },
+        ].map(item => (
+          <div class="bg-white rounded-3xl p-8 shadow-sm hover:shadow-md transition-shadow text-center">
+            <div class="text-5xl mb-4">{item.icon}</div>
+            <h3 class="font-black text-gray-900 mb-2">{item.title}</h3>
+            <p class="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTOS DESTACADOS -->
+<!-- <ProductSection /> -->
+
+  <!-- LECHE -->
+  <section class="py-24 px-6 bg-white">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+      <div class="flex justify-center">
+        <Image src={leches} alt="Leche D'Cabra" class="w-full max-w-md object-contain drop-shadow-2xl" />
+      </div>
+      <div>
+        <p class="text-purple-600 font-semibold uppercase tracking-widest text-sm mb-3">Producto estrella</p>
+        <h2 class="text-5xl font-black text-gray-900 leading-tight mb-2">Leche Entera</h2>
+        <h3 class="text-2xl font-bold text-purple-700 mb-6">Pasteurizada</h3>
+        <p class="text-gray-600 text-lg leading-relaxed mb-8">
+          Naturalmente fácil de digerir. Partículas de grasa más pequeñas y menos lactosa. Ideal para estómagos sensibles y toda la familia.
+        </p>
+        <a href="/producto" class="inline-flex items-center gap-2 px-8 py-3 bg-purple-700 text-white font-bold rounded-full hover:bg-purple-800 transition-colors">
+          Ver productos
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto" class="py-24 px-6 bg-purple-700">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="text-purple-200 font-semibold uppercase tracking-widest text-sm mb-3">¿Quieres pedir?</p>
+      <h2 class="text-5xl font-black text-white mb-4">Contáctanos</h2>
+      <p class="text-purple-200 mb-10">Escríbenos y te ayudamos con tu pedido.</p>
+      <div class="bg-white rounded-3xl p-8 shadow-2xl text-left space-y-4">
+        <input type="text" placeholder="Tu nombre" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        <input type="tel" placeholder="Celular" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        <select class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-400">
+          <option>Selecciona un producto</option>
+          <option>Leche de Cabra</option>
+          <option>Yogurt Griego</option>
+          <option>Yogurt Griego + Jalea</option>
+          <option>Yogurt Natural</option>
+          <option>Yogurt Natural + Fruta</option>
+        </select>
+        <input type="number" placeholder="Cantidad" class="w-full border border-gray-200 rounded-xl px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-400" />
+        <button class="w-full py-4 bg-purple-700 text-white font-black rounded-xl hover:bg-purple-800 transition-colors text-lg">
+          Enviar Pedido
+        </button>
+      </div>
+    </div>
+  </section>
 </Layout>
