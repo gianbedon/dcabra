@@ -7,28 +7,33 @@
 import Layout from "../../layouts/Layout.astro";
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
-//hola
+import ContactForm from "../../components/ContactForm.astro";
+import Hero from "../../components/Hero.astro";
+
 // ── Imágenes (Astro las optimiza automáticamente) ────────────────────────────
 // Ajusta cada ruta según cómo tengas tus assets en src/assets/
-import logo         from "../../assets/logo.png";
-import fotoFresa    from "../../assets/fresa-griego.png";     // imagen principal del producto
+import logo from "../../assets/logo.png";
+import fotoFresa from "../../assets/fresa-griego.png"; // imagen principal del producto
 import fotoArandano from "../../assets/arandanos-frutado.png"; // tarjeta producto 1
-import fotoGriego   from "../../assets/fresa-griego.png";      // tarjeta producto 2
-import fotoLeche    from "../../assets/leche-sola.png";        // tarjeta producto 3
-import heroBg       from "../../assets/portada1.jpg";          // fondo del banner
+import fotoGriego from "../../assets/fresa-griego.png"; // tarjeta producto 2
+import fotoLeche from "../../assets/leche-sola.png"; // tarjeta producto 3
+import heroBg from "../../assets/portada1.jpg"; // fondo del banner
 // Recetas: reemplaza con tus fotos reales cuando las tengas
-import receta1      from "../../assets/portada1.jpg";
-import receta2      from "../../assets/portada1.jpg";
-import receta3      from "../../assets/portada1.jpg";
+import receta1 from "../../assets/portada1.jpg";
+import receta2 from "../../assets/portada1.jpg";
+import receta3 from "../../assets/portada1.jpg";
+
 
 // ── Datos del producto ───────────────────────────────────────────────────────
 const producto = {
   nombre: "Yogurt Griego con Jalea de Fresa",
   variedad: "Yogurt Griego · Jalea de Fresa",
   descripcion: "Textura cremosa de yogurt con jalea.",
-  detalle: "Pureza y cremosidad natural, con 100% Leche de Cabra. Consumir dentro de los 20 días sellado, 4 a 5 días una vez abierto.",
+  detalle:
+    "Pureza y cremosidad natural, con 100% Leche de Cabra. Consumir dentro de los 20 días sellado, 4 a 5 días una vez abierto.",
   precio: "S/19.00",
-  whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Griego%20con%20Jalea%20de%20Fresa",
+  whatsapp:
+    "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Griego%20con%20Jalea%20de%20Fresa",
   beneficios: [
     "Alto en proteína",
     "Probióticos naturales",
@@ -46,26 +51,36 @@ const otrosProductos = [
     descripcion: "Arándanos frescos con yogurt de cabra.",
     precio: "S/13.00",
     imagen: fotoArandano,
-    whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano",
+    whatsapp:
+      "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano",
   },
   {
     nombre: "Yogurt Frutado · Arándano",
     descripcion: "Arándanos frescos con yogurt de cabra.",
     precio: "S/13.00",
     imagen: fotoGriego,
-    whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano",
+    whatsapp:
+      "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano",
   },
   {
     nombre: "Leche de Cabra Natural",
     descripcion: "100% pura, pasteurizada y lista para consumir.",
     precio: "S/11.00",
     imagen: fotoLeche,
-    whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Leche%20de%20Cabra%20Natural",
+    whatsapp:
+      "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Leche%20de%20Cabra%20Natural",
   },
 ];
 
 // ── Sabores del banner hero ───────────────────────────────────────────────────
-const sabores = ["Maracumango", "Fresa", "Natural", "Maracuyá", "Arándano", "Mango"];
+const sabores = [
+  "Maracumango",
+  "Fresa",
+  "Natural",
+  "Maracuyá",
+  "Arándano",
+  "Mango",
+];
 
 // ── Recetas ───────────────────────────────────────────────────────────────────
 const recetas = [
@@ -79,45 +94,17 @@ const recetas = [
   title={`${producto.nombre} – D'Cabra`}
   description={`${producto.variedad}. 100% Leche de Cabra. ${producto.precio}. Pide por WhatsApp.`}
 >
-
   <!-- ── NAVBAR ── -->
-  <Navbar activeLink="productos" />
-
+  <Navbar />
 
   <!-- ── HERO BANNER ── -->
-  <section class="hero-banner">
-    <img class="hero-bg" src={heroBg.src} alt="Fondo yogurt griego D'Cabra" />
-
-    <div class="hero-badge">
-      100% LECHE<br />DE CABRA
-    </div>
-
-    <div class="hero-logo-corner">
-      <img src={logo.src} alt="D'Cabra" />
-    </div>
-
-    <div class="hero-content">
-      <span class="hero-sub">Disfruta tu</span>
-      <h1>YOGURT<br /><span>GRIEGO</span></h1>
-    </div>
-
-    <div class="hero-flavors">
-      {sabores.map((sabor) => (
-        <div class="flavor-item">
-          <span>{sabor}</span>
-          <img src={fotoFresa.src} alt={sabor} />
-        </div>
-      ))}
-    </div>
-  </section>
-
+ <Hero />
 
   <!-- ── DETALLE DEL PRODUCTO ── -->
   <section class="product-detail">
     <h2>{producto.nombre}</h2>
 
     <div class="product-detail-grid">
-
       <!-- Beneficios -->
       <div class="benefits">
         <h3>Beneficios:</h3>
@@ -132,7 +119,12 @@ const recetas = [
         <span class="product-name-label">{producto.variedad}</span>
         <span class="product-desc-label">{producto.descripcion}</span>
         <span class="price">{producto.precio}</span>
-        <a href={producto.whatsapp} class="btn-wp" target="_blank" rel="noopener">
+        <a
+          href={producto.whatsapp}
+          class="btn-wp"
+          target="_blank"
+          rel="noopener"
+        >
           Pedir por Whatsapp
         </a>
       </div>
@@ -142,95 +134,64 @@ const recetas = [
         <h3>Detalle:</h3>
         <p>{producto.detalle}</p>
       </div>
-
     </div>
   </section>
-
 
   <!-- ── NUESTROS PRODUCTOS ── -->
   <section class="products-section">
     <h2 class="section-title">Nuestros Productos</h2>
 
     <div class="products-grid">
-      {otrosProductos.map((p) => (
-        <div class="product-card">
-          <img src={p.imagen.src} alt={p.nombre} />
-          <span class="card-name">{p.nombre}</span>
-          <span class="card-desc">{p.descripcion}</span>
-          <span class="card-price">{p.precio}</span>
-          <a href={p.whatsapp} class="btn-wp" target="_blank" rel="noopener">
-            Pedir por WhatsApp
-          </a>
-        </div>
-      ))}
+      {
+        otrosProductos.map((p) => (
+          <div class="product-card">
+            <img src={p.imagen.src} alt={p.nombre} />
+            <span class="card-name">{p.nombre}</span>
+            <span class="card-desc">{p.descripcion}</span>
+            <span class="card-price">{p.precio}</span>
+            <a href={p.whatsapp} class="btn-wp" target="_blank" rel="noopener">
+              Pedir por WhatsApp
+            </a>
+          </div>
+        ))
+      }
     </div>
   </section>
-
 
   <!-- ── NUESTRAS RECETAS ── -->
   <section class="recipes-section">
     <h2 class="section-title">Nuestras Recetas</h2>
 
     <div class="recipes-grid">
-      {recetas.map((r) => (
-        <div class="recipe-card">
-          <img src={r.imagen.src} alt={r.titulo} />
-          <span>{r.titulo}</span>
-          <a href={r.href} class="btn-ver-mas">Ver más</a>
-        </div>
-      ))}
+      {
+        recetas.map((r) => (
+          <div class="recipe-card">
+            <img src={r.imagen.src} alt={r.titulo} />
+            <span>{r.titulo}</span>
+            <a href={r.href} class="btn-ver-mas">
+              Ver más
+            </a>
+          </div>
+        ))
+      }
     </div>
   </section>
-
 
   <!-- ── CONTÁCTANOS ── -->
-  <section class="contact-wrapper">
-    <div class="contact-section">
-      <h2>Contáctanos</h2>
-
-      <div class="contact-form">
-        <div class="form-group">
-          <label for="nombre">Nombre</label>
-          <input type="text" id="nombre" name="nombre" placeholder="" />
-        </div>
-        <div class="form-group">
-          <label for="distrito">Distrito</label>
-          <input type="text" id="distrito" name="distrito" placeholder="" />
-        </div>
-        <div class="form-group">
-          <label for="producto-select">Producto</label>
-          <select id="producto-select" name="producto">
-            <option value="yogurt-griego">Y. Griego</option>
-            <option value="leche">Leche de Cabra</option>
-            <option value="yogurt-frutado">Yogurt Frutado</option>
-            <option value="queso">Queso de Cabra</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-row-bottom">
-        <div class="form-group">
-          <label for="cantidad">Cantidad</label>
-          <input type="number" id="cantidad" name="cantidad" min="1" placeholder="" />
-        </div>
-        <div>
-          <button class="btn-submit" type="button" id="btnEnviar">Enviar</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
+  <ContactForm />
 
   <!-- ── FOOTER ── -->
   <Footer />
-
 </Layout>
-
 
 <!-- ── ESTILOS ── -->
 <style>
   /* ─ Reset mínimo ─ */
-  *, *::before, *::after { box-sizing: border-box; }
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
 
   /* ─ HERO BANNER ─ */
   .hero-banner {
@@ -274,7 +235,7 @@ const recetas = [
     font-weight: 900;
     line-height: 1;
     text-transform: uppercase;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
     margin: 0;
   }
 
@@ -287,8 +248,8 @@ const recetas = [
     position: absolute;
     top: 24px;
     left: 36px;
-    background: rgba(255,255,255,0.18);
-    border: 2px solid rgba(255,255,255,0.5);
+    background: rgba(255, 255, 255, 0.18);
+    border: 2px solid rgba(255, 255, 255, 0.5);
     color: #fff;
     font-weight: 700;
     font-size: 0.75rem;
@@ -330,7 +291,7 @@ const recetas = [
     display: block;
     font-size: 0.62rem;
     color: #fff;
-    background: rgba(255,255,255,0.2);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
     padding: 1px 6px;
     margin-bottom: 4px;
@@ -341,7 +302,7 @@ const recetas = [
     height: 110px;
     width: auto;
     object-fit: contain;
-    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
   }
 
   /* ─ DETALLE DEL PRODUCTO ─ */
@@ -415,7 +376,7 @@ const recetas = [
     width: 220px;
     height: 220px;
     object-fit: contain;
-    filter: drop-shadow(0 8px 20px rgba(74,14,143,0.2));
+    filter: drop-shadow(0 8px 20px rgba(74, 14, 143, 0.2));
   }
 
   .product-name-label {
@@ -457,7 +418,9 @@ const recetas = [
     font-size: 0.85rem;
     text-decoration: none;
     text-align: center;
-    transition: background 0.2s, transform 0.15s;
+    transition:
+      background 0.2s,
+      transform 0.15s;
     white-space: nowrap;
   }
 
@@ -504,7 +467,9 @@ const recetas = [
     transition: transform 0.3s;
   }
 
-  .product-card:hover img { transform: translateY(-6px); }
+  .product-card:hover img {
+    transform: translateY(-6px);
+  }
 
   .card-name {
     font-size: 0.8rem;
@@ -568,7 +533,9 @@ const recetas = [
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    transition: background 0.2s, color 0.2s;
+    transition:
+      background 0.2s,
+      color 0.2s;
   }
 
   .btn-ver-mas:hover {
@@ -659,7 +626,9 @@ const recetas = [
     width: fit-content;
   }
 
-  .btn-submit:hover { background: #3a0a70; }
+  .btn-submit:hover {
+    background: #3a0a70;
+  }
 
   /* ─ RESPONSIVE ─ */
   @media (max-width: 900px) {
@@ -668,43 +637,49 @@ const recetas = [
       justify-items: center;
     }
 
-    .benefits, .detail-info {
+    .benefits,
+    .detail-info {
       width: 100%;
       max-width: 500px;
     }
   }
 
   @media (max-width: 768px) {
-    .hero-content h1 { font-size: 2.2rem; }
-    .hero-content h1 span { font-size: 1.5rem; }
-    .hero-flavors { display: none; }
-    .hero-badge { font-size: 0.65rem; top: 14px; left: 14px; }
-    .hero-logo-corner { top: 12px; right: 14px; }
-    .hero-logo-corner img { height: 34px; }
+    .hero-content h1 {
+      font-size: 2.2rem;
+    }
+    .hero-content h1 span {
+      font-size: 1.5rem;
+    }
+    .hero-flavors {
+      display: none;
+    }
+    .hero-badge {
+      font-size: 0.65rem;
+      top: 14px;
+      left: 14px;
+    }
+    .hero-logo-corner {
+      top: 12px;
+      right: 14px;
+    }
+    .hero-logo-corner img {
+      height: 34px;
+    }
 
     .products-grid,
-    .recipes-grid { grid-template-columns: 1fr; }
+    .recipes-grid {
+      grid-template-columns: 1fr;
+    }
 
-    .contact-form { grid-template-columns: 1fr; }
-    .form-row-bottom { grid-template-columns: 1fr; }
+    .contact-form {
+      grid-template-columns: 1fr;
+    }
+    .form-row-bottom {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 
-
 <!-- ── SCRIPT: formulario de contacto vía WhatsApp ── -->
-<script>
-  document.getElementById("btnEnviar")?.addEventListener("click", () => {
-    const nombre   = (document.getElementById("nombre")   as HTMLInputElement).value.trim();
-    const distrito = (document.getElementById("distrito") as HTMLInputElement).value.trim();
-    const producto = (document.getElementById("producto-select") as HTMLSelectElement).value;
-    const cantidad = (document.getElementById("cantidad") as HTMLInputElement).value.trim();
 
-    if (!nombre || !distrito || !cantidad) {
-      alert("Por favor completa todos los campos.");
-      return;
-    }
-
-    const msg = `Hola, deseo pedir:\n• Producto: ${producto}\n• Cantidad: ${cantidad}\n• Nombre: ${nombre}\n• Distrito: ${distrito}`;
-    window.open(`https://wa.me/51900154196?text=${encodeURIComponent(msg)}`, "_blank");
-  });
-</script>
