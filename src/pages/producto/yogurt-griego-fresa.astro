@@ -1,0 +1,710 @@
+---
+// src/pages/productos/yogurt-griego-fresa.astro
+// URL final: https://dcabra.vercel.app/productos/yogurt-griego-fresa
+
+// ── Importa tu Layout y componentes existentes ──────────────────────────────
+// Si tus archivos se llaman distinto, ajusta los nombres aquí:
+import Layout from "../../layouts/Layout.astro";
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+
+// ── Imágenes (Astro las optimiza automáticamente) ────────────────────────────
+// Ajusta cada ruta según cómo tengas tus assets en src/assets/
+import logo         from "../../assets/logo.webp";
+import fotoFresa    from "../../assets/fresa-griego.png";     // imagen principal del producto
+import fotoArandano from "../../assets/arandanos-frutado.png"; // tarjeta producto 1
+import fotoGriego   from "../../assets/fresa-griego.png";      // tarjeta producto 2
+import fotoLeche    from "../../assets/leche-sola.png";        // tarjeta producto 3
+import heroBg       from "../../assets/portada1.webp";         // fondo del banner
+// Recetas: reemplaza con tus fotos reales cuando las tengas
+import receta1      from "../../assets/portada1.webp";
+import receta2      from "../../assets/portada1.webp";
+import receta3      from "../../assets/portada1.webp";
+
+// ── Datos del producto ───────────────────────────────────────────────────────
+const producto = {
+  nombre: "Yogurt Griego con Jalea de Fresa",
+  variedad: "Yogurt Griego · Jalea de Fresa",
+  descripcion: "Textura cremosa de yogurt con jalea.",
+  detalle: "Pureza y cremosidad natural, con 100% Leche de Cabra. Consumir dentro de los 20 días sellado, 4 a 5 días una vez abierto.",
+  precio: "S/19.00",
+  whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Griego%20con%20Jalea%20de%20Fresa",
+  beneficios: [
+    "Alto en proteína",
+    "Probióticos naturales",
+    "Fácil digestión",
+    "Fuente de calcio",
+    "Elaborado con fruta natural",
+    "Sabor cremoso y delicioso",
+  ],
+};
+
+// ── Otros productos relacionados ─────────────────────────────────────────────
+const otrosProductos = [
+  {
+    nombre: "Yogurt Frutado · Arándano",
+    descripcion: "Arándanos frescos con yogurt de cabra.",
+    precio: "S/13.00",
+    imagen: fotoArandano,
+    whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano",
+  },
+  {
+    nombre: "Yogurt Frutado · Arándano",
+    descripcion: "Arándanos frescos con yogurt de cabra.",
+    precio: "S/13.00",
+    imagen: fotoGriego,
+    whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano",
+  },
+  {
+    nombre: "Leche de Cabra Natural",
+    descripcion: "100% pura, pasteurizada y lista para consumir.",
+    precio: "S/11.00",
+    imagen: fotoLeche,
+    whatsapp: "https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Leche%20de%20Cabra%20Natural",
+  },
+];
+
+// ── Sabores del banner hero ───────────────────────────────────────────────────
+const sabores = ["Maracumango", "Fresa", "Natural", "Maracuyá", "Arándano", "Mango"];
+
+// ── Recetas ───────────────────────────────────────────────────────────────────
+const recetas = [
+  { titulo: "Postre de Mango y Granola", imagen: receta1, href: "#" },
+  { titulo: "Postre de Mango y Granola", imagen: receta2, href: "#" },
+  { titulo: "Postre de Mango y Granola", imagen: receta3, href: "#" },
+];
+---
+
+<Layout
+  title={`${producto.nombre} – D'Cabra`}
+  description={`${producto.variedad}. 100% Leche de Cabra. ${producto.precio}. Pide por WhatsApp.`}
+>
+
+  <!-- ── NAVBAR ── -->
+  <Navbar activeLink="productos" />
+
+
+  <!-- ── HERO BANNER ── -->
+  <section class="hero-banner">
+    <img class="hero-bg" src={heroBg.src} alt="Fondo yogurt griego D'Cabra" />
+
+    <div class="hero-badge">
+      100% LECHE<br />DE CABRA
+    </div>
+
+    <div class="hero-logo-corner">
+      <img src={logo.src} alt="D'Cabra" />
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-sub">Disfruta tu</span>
+      <h1>YOGURT<br /><span>GRIEGO</span></h1>
+    </div>
+
+    <div class="hero-flavors">
+      {sabores.map((sabor) => (
+        <div class="flavor-item">
+          <span>{sabor}</span>
+          <img src={fotoFresa.src} alt={sabor} />
+        </div>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- ── DETALLE DEL PRODUCTO ── -->
+  <section class="product-detail">
+    <h2>{producto.nombre}</h2>
+
+    <div class="product-detail-grid">
+
+      <!-- Beneficios -->
+      <div class="benefits">
+        <h3>Beneficios:</h3>
+        <ul>
+          {producto.beneficios.map((b) => <li>{b}</li>)}
+        </ul>
+      </div>
+
+      <!-- Imagen central -->
+      <div class="product-image-center">
+        <img src={fotoFresa.src} alt={producto.variedad} />
+        <span class="product-name-label">{producto.variedad}</span>
+        <span class="product-desc-label">{producto.descripcion}</span>
+        <span class="price">{producto.precio}</span>
+        <a href={producto.whatsapp} class="btn-wp" target="_blank" rel="noopener">
+          Pedir por Whatsapp
+        </a>
+      </div>
+
+      <!-- Detalle -->
+      <div class="detail-info">
+        <h3>Detalle:</h3>
+        <p>{producto.detalle}</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── NUESTROS PRODUCTOS ── -->
+  <section class="products-section">
+    <h2 class="section-title">Nuestros Productos</h2>
+
+    <div class="products-grid">
+      {otrosProductos.map((p) => (
+        <div class="product-card">
+          <img src={p.imagen.src} alt={p.nombre} />
+          <span class="card-name">{p.nombre}</span>
+          <span class="card-desc">{p.descripcion}</span>
+          <span class="card-price">{p.precio}</span>
+          <a href={p.whatsapp} class="btn-wp" target="_blank" rel="noopener">
+            Pedir por WhatsApp
+          </a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- ── NUESTRAS RECETAS ── -->
+  <section class="recipes-section">
+    <h2 class="section-title">Nuestras Recetas</h2>
+
+    <div class="recipes-grid">
+      {recetas.map((r) => (
+        <div class="recipe-card">
+          <img src={r.imagen.src} alt={r.titulo} />
+          <span>{r.titulo}</span>
+          <a href={r.href} class="btn-ver-mas">Ver más</a>
+        </div>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- ── CONTÁCTANOS ── -->
+  <section class="contact-wrapper">
+    <div class="contact-section">
+      <h2>Contáctanos</h2>
+
+      <div class="contact-form">
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" id="nombre" name="nombre" placeholder="" />
+        </div>
+        <div class="form-group">
+          <label for="distrito">Distrito</label>
+          <input type="text" id="distrito" name="distrito" placeholder="" />
+        </div>
+        <div class="form-group">
+          <label for="producto-select">Producto</label>
+          <select id="producto-select" name="producto">
+            <option value="yogurt-griego">Y. Griego</option>
+            <option value="leche">Leche de Cabra</option>
+            <option value="yogurt-frutado">Yogurt Frutado</option>
+            <option value="queso">Queso de Cabra</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row-bottom">
+        <div class="form-group">
+          <label for="cantidad">Cantidad</label>
+          <input type="number" id="cantidad" name="cantidad" min="1" placeholder="" />
+        </div>
+        <div>
+          <button class="btn-submit" type="button" id="btnEnviar">Enviar</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <Footer />
+
+</Layout>
+
+
+<!-- ── ESTILOS ── -->
+<style>
+  /* ─ Reset mínimo ─ */
+  *, *::before, *::after { box-sizing: border-box; }
+
+  /* ─ HERO BANNER ─ */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    background: linear-gradient(135deg, #4a0e8f 0%, #7c3aed 50%, #6d28d9 100%);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .hero-banner img.hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.5;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+  }
+
+  .hero-content .hero-sub {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 3.2rem;
+    font-weight: 900;
+    line-height: 1;
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    margin: 0;
+  }
+
+  .hero-content h1 span {
+    display: block;
+    font-size: 2rem;
+  }
+
+  .hero-badge {
+    position: absolute;
+    top: 24px;
+    left: 36px;
+    background: rgba(255,255,255,0.18);
+    border: 2px solid rgba(255,255,255,0.5);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-align: center;
+    padding: 0.5rem 0.8rem;
+    border-radius: 8px;
+    line-height: 1.4;
+    z-index: 3;
+  }
+
+  .hero-logo-corner {
+    position: absolute;
+    top: 20px;
+    right: 36px;
+    z-index: 3;
+  }
+
+  .hero-logo-corner img {
+    height: 44px;
+    filter: brightness(0) invert(1);
+  }
+
+  .hero-flavors {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+    z-index: 3;
+  }
+
+  .hero-flavors .flavor-item {
+    text-align: center;
+  }
+
+  .hero-flavors .flavor-item span {
+    display: block;
+    font-size: 0.62rem;
+    color: #fff;
+    background: rgba(255,255,255,0.2);
+    border-radius: 10px;
+    padding: 1px 6px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+  }
+
+  .hero-flavors .flavor-item img {
+    height: 110px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+  }
+
+  /* ─ DETALLE DEL PRODUCTO ─ */
+  .product-detail {
+    max-width: 1100px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+  }
+
+  .product-detail h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #4a0e8f;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2.5rem;
+  }
+
+  .product-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  /* Beneficios */
+  .benefits h3,
+  .detail-info h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #2c2c2c;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .benefits ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+  }
+
+  .benefits ul li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.92rem;
+    color: #2c2c2c;
+  }
+
+  .benefits ul li::before {
+    content: "✔";
+    color: #6a1bb3;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  /* Imagen central */
+  .product-image-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    min-width: 200px;
+  }
+
+  .product-image-center img {
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    filter: drop-shadow(0 8px 20px rgba(74,14,143,0.2));
+  }
+
+  .product-name-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #4a0e8f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+
+  .product-desc-label {
+    font-size: 0.82rem;
+    color: #666;
+    text-align: center;
+  }
+
+  .price {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #6a1bb3;
+  }
+
+  /* Detalle */
+  .detail-info p {
+    font-size: 0.92rem;
+    color: #444;
+    line-height: 1.7;
+  }
+
+  /* Botón WhatsApp compartido */
+  .btn-wp {
+    display: inline-block;
+    background: #6a1bb3;
+    color: #fff;
+    padding: 0.55rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap;
+  }
+
+  .btn-wp:hover {
+    background: #5a14a0;
+    transform: translateY(-1px);
+  }
+
+  /* ─ NUESTROS PRODUCTOS ─ */
+  .products-section {
+    max-width: 1100px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+  }
+
+  .section-title {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #4a0e8f;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2.5rem;
+  }
+
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .product-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .product-card img {
+    width: 160px;
+    height: 180px;
+    object-fit: contain;
+    transition: transform 0.3s;
+  }
+
+  .product-card:hover img { transform: translateY(-6px); }
+
+  .card-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #4a0e8f;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .card-desc {
+    font-size: 0.8rem;
+    color: #666;
+    max-width: 200px;
+  }
+
+  .card-price {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #6a1bb3;
+  }
+
+  /* ─ RECETAS ─ */
+  .recipes-section {
+    max-width: 1100px;
+    margin: 4rem auto;
+    padding: 0 2rem;
+  }
+
+  .recipes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .recipe-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+  }
+
+  .recipe-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+
+  .recipe-card span {
+    font-size: 0.9rem;
+    color: #2c2c2c;
+  }
+
+  .btn-ver-mas {
+    background: #fff;
+    color: #4a0e8f;
+    border: 2px solid #4a0e8f;
+    padding: 0.3rem 1.2rem;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+  }
+
+  .btn-ver-mas:hover {
+    background: #4a0e8f;
+    color: #fff;
+  }
+
+  /* ─ CONTACTO ─ */
+  .contact-wrapper {
+    max-width: 900px;
+    margin: 0 auto 4rem;
+    padding: 0 2rem;
+  }
+
+  .contact-section {
+    padding: 2rem 2.5rem;
+    background: #fafafa;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+
+  .contact-section h2 {
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #4a0e8f;
+    text-transform: uppercase;
+    margin-bottom: 1.8rem;
+  }
+
+  .contact-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .form-group label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #2c2c2c;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .form-group input,
+  .form-group select {
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    padding: 0.55rem 0.8rem;
+    font-size: 0.9rem;
+    outline: none;
+    background: #fff;
+    transition: border-color 0.2s;
+    font-family: inherit;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus {
+    border-color: #6a1bb3;
+  }
+
+  .form-row-bottom {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1rem;
+    align-items: end;
+  }
+
+  .btn-submit {
+    background: #4a0e8f;
+    color: #fff;
+    border: none;
+    padding: 0.6rem 2rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-transform: uppercase;
+    font-family: inherit;
+    width: fit-content;
+  }
+
+  .btn-submit:hover { background: #3a0a70; }
+
+  /* ─ RESPONSIVE ─ */
+  @media (max-width: 900px) {
+    .product-detail-grid {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .benefits, .detail-info {
+      width: 100%;
+      max-width: 500px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-content h1 span { font-size: 1.5rem; }
+    .hero-flavors { display: none; }
+    .hero-badge { font-size: 0.65rem; top: 14px; left: 14px; }
+    .hero-logo-corner { top: 12px; right: 14px; }
+    .hero-logo-corner img { height: 34px; }
+
+    .products-grid,
+    .recipes-grid { grid-template-columns: 1fr; }
+
+    .contact-form { grid-template-columns: 1fr; }
+    .form-row-bottom { grid-template-columns: 1fr; }
+  }
+</style>
+
+
+<!-- ── SCRIPT: formulario de contacto vía WhatsApp ── -->
+<script>
+  document.getElementById("btnEnviar")?.addEventListener("click", () => {
+    const nombre   = (document.getElementById("nombre")   as HTMLInputElement).value.trim();
+    const distrito = (document.getElementById("distrito") as HTMLInputElement).value.trim();
+    const producto = (document.getElementById("producto-select") as HTMLSelectElement).value;
+    const cantidad = (document.getElementById("cantidad") as HTMLInputElement).value.trim();
+
+    if (!nombre || !distrito || !cantidad) {
+      alert("Por favor completa todos los campos.");
+      return;
+    }
+
+    const msg = `Hola, deseo pedir:\n• Producto: ${producto}\n• Cantidad: ${cantidad}\n• Nombre: ${nombre}\n• Distrito: ${distrito}`;
+    window.open(`https://wa.me/51900154196?text=${encodeURIComponent(msg)}`, "_blank");
+  });
+</script>
