@@ -10,19 +10,15 @@ import Footer from "../../components/Footer.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import Hero from "../../components/Hero.astro";
 
-// ── Imágenes (Astro las optimiza automáticamente) ────────────────────────────
-// Ajusta cada ruta según cómo tengas tus assets en src/assets/
-import logo from "../../assets/logo.png";
+// ── Imágenes usadas en esta página ──────────────────────────────────────────
 import fotoFresa from "../../assets/fresa-griego.png"; // imagen principal del producto
 import fotoArandano from "../../assets/arandanos-frutado.png"; // tarjeta producto 1
 import fotoGriego from "../../assets/fresa-griego.png"; // tarjeta producto 2
 import fotoLeche from "../../assets/leche-sola.png"; // tarjeta producto 3
-import heroBg from "../../assets/portada1.jpg"; // fondo del banner
-// Recetas: reemplaza con tus fotos reales cuando las tengas
+// Recetas
 import receta1 from "../../assets/portada1.jpg";
 import receta2 from "../../assets/portada1.jpg";
 import receta3 from "../../assets/portada1.jpg";
-
 
 // ── Datos del producto ───────────────────────────────────────────────────────
 const producto = {
@@ -72,16 +68,6 @@ const otrosProductos = [
   },
 ];
 
-// ── Sabores del banner hero ───────────────────────────────────────────────────
-const sabores = [
-  "Maracumango",
-  "Fresa",
-  "Natural",
-  "Maracuyá",
-  "Arándano",
-  "Mango",
-];
-
 // ── Recetas ───────────────────────────────────────────────────────────────────
 const recetas = [
   { titulo: "Postre de Mango y Granola", imagen: receta1, href: "#" },
@@ -98,7 +84,7 @@ const recetas = [
   <Navbar />
 
   <!-- ── HERO BANNER ── -->
- <Hero />
+  <Hero />
 
   <!-- ── DETALLE DEL PRODUCTO ── -->
   <section class="product-detail">
@@ -682,4 +668,3 @@ const recetas = [
 </style>
 
 <!-- ── SCRIPT: formulario de contacto vía WhatsApp ── -->
-
