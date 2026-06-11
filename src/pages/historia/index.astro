@@ -7,11 +7,14 @@ import lecheSola from '../../assets/leche-sola.png';
 import fresaFrutado from '../../assets/fresa-frutado.png';
 import maracuyaGriego from '../../assets/maracuya-griego.png';
 import lecheBeneficios from '../../assets/leche-beneficios.jpg';
-
+import Navbar from "../../components/Navbar.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import Footer from "../../components/Footer.astro";
 ---
 
 <Layout>
-
+  <!-- ── NAVBAR ── -->
+  <Navbar />
 <h1>
   <!-- ── COLLAGE DE IMÁGENES ── -->
   <section class="bg-white py-12 px-6">
@@ -107,8 +110,9 @@ import lecheBeneficios from '../../assets/leche-beneficios.jpg';
       <div class="flex flex-row items-center gap-0 relative">
         <Image src={maracuyaGriego} alt="Yogurt Griego D'Cabra" class="w-28 object-contain z-10 relative -mr-4" />
         <div class="bg-primary text-white rounded-2xl px-4 pt-4 pb-4 pl-8 flex-1">
-          <p class="text-sm font-bold mb-1">Pureza y cremosidad natural.</p>
-          <p class="text-xs mb-3">Mantener refrigerada y consumir antes de 20 días sellado.</p>
+          <h3 class="text-sm  mb-1">Pureza y cremosidad natural.</h3>
+          <p class="producto-card__desc"data-astro-cid-46rb36xn>
+            Mantener refrigerada y consumir antes de 20 días sellado.</p>
           <p class="text-xs">Una vez abierto consumir en un <strong>máximo de 5 días.</strong></p>
         </div>
       </div>
@@ -170,5 +174,13 @@ import lecheBeneficios from '../../assets/leche-beneficios.jpg';
     </div>
   </section>
 </h1>
+<!-- ══════════════════════════════════════════
+       CONTACTO
+  ══════════════════════════════════════════ -->
+  <ContactForm />
 
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <Footer />
 </Layout>
