@@ -1,5 +1,10 @@
 ---
-import '../styles/global.css';
+import "../styles/global.css";
+
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+import ContactForm from "../components/ContactForm.astro";
 
 interface Props {
   title?: string;
@@ -11,7 +16,8 @@ const {
   description = "Yogurt griego, leche de cabra y más. Productos artesanales sin azúcar añadida, con probióticos naturales. Directo desde nuestra granja hasta tu mesa.",
 } = Astro.props;
 ---
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -21,6 +27,11 @@ const {
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <slot />
+    <Header />
+    <main class="mt-[73px]">
+      <slot />
+    </main>
+    <ContactForm />
+    <Footer />
   </body>
 </html>

@@ -1,165 +1,192 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Navbar from "../components/Navbar.astro";
 import Hero from "../components/Hero.astro";
 import Categories from "../components/Categories.astro";
-import ProductCarousel from "../components/ProductCarousel.astro";
 import VisitUs from "../components/VisitUs.astro";
 import Marquee from "../components/Marquee.astro";
 import VideoShowcase from "../components/VideoShowcase.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Footer from "../components/Footer.astro";
 
-// Import local assets for products
 import lecheSola from "../assets/leche-sola.png";
 import frutadoImg from "../assets/arandanos-frutado.png";
 import griegoImg from "../assets/fresa-griego.png";
-
-const mejoresProductos = [
-  {
-    name: "Leche de Cabra Entera",
-    price: "S/ 14.00",
-    description: "Nuestra leche de cabra pasteurizada mantiene su frescura y propiedades.",
-    image: lecheSola,
-  },
-  {
-    name: "Yogurt Frutado Arándano",
-    price: "S/ 19.00",
-    description: "Deliciosa combinación de yogurt de cabra y pulpa de fruta de estación.",
-    image: frutadoImg,
-  },
-  {
-    name: "Yogurt Griego + Jalea de Fresa",
-    price: "S/ 19.00",
-    description: "Cremoso yogurt griego de cabra acompañado de jalea artesanal de fresa.",
-    image: griegoImg,
-  }
-];
-
-const productosGriegos = [
-  {
-    price: "S/ 19.00",
-    description: "Cremoso yogurt griego de cabra...",
-    image: griegoImg,
-  }
-]; 
-
-const combosPromociones = [
-  {
-    name: "Leche de Cabra Entera x2",
-    price: "S/ 25.00",
-    description: "Lleva dos botellas de nuestra leche de cabra fresca pasteurizada a precio especial.",
-    image: lecheSola,
-    isCombo: true,
-  },
-  {
-    name: "Yogurt Frutado Arándano x2",
-    price: "S/ 32.00",
-    description: "Disfruta el doble de sabor con dos botellas de yogurt bebible frutado natural.",
-    image: frutadoImg,
-    isCombo: true,
-  },
-  {
-    name: "Yogurt Griego + Jalea de Fresa x2",
-    price: "S/ 37.00",
-    description: "Doble cremosidad con dos frascos de nuestro yogurt griego con jalea de fresa.",
-    image: griegoImg,
-    isCombo: true,
-  }
-];
 ---
 
 <Layout title="D'Cabra – Yogurt Griego y Lácteos de Cabra 100% Naturales">
-  <Navbar />
-
   <Hero />
 
   <Categories />
 
-<section class="product-carousel-section" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;">
-    <h2 style="color: #4A148C; text-align: center; font-family: sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 30px;">
+  <section
+    class="product-carousel-section"
+    style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;"
+  >
+    <h2
+      style="color: #4A148C; text-align: center; font-family: sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 30px;"
+    >
       Yogurt Griego
     </h2>
 
-    <div class="carousel-container" style="position: relative; display: flex; align-items: center;">
-      <div class="carousel-track" style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none;">
-        
-        <div class="product-card" style="min-width: 280px; flex: 1 0 calc(33.333% - 20px); background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; text-align: center; border: 1px solid #f0f0f0;">
-         <a
-  href="/producto/yogurt-griego-fresa"
-  style="display: block;"
->
-  <img
-    src={griegoImg.src}
-    alt="Yogurt Frutado Arándano"
-    style="height: 220px; object-fit: contain; margin-bottom: 15px; margin-left: auto; margin-right: auto; display: block; cursor: pointer;"
-  />
-</a>
-          <h3 style="font-size: 1rem; color: #333; margin: 10px 0 5px 0;">Yogurt Frutado • Arándano</h3>
-          <p style="color: #666; font-size: 0.85rem; height: 40px; margin-bottom: 10px;">Arándanos frescos con yogurt de cabra.</p>
-          <span style="display: block; font-weight: bold; color: #4A148C; font-size: 1.1rem; margin-bottom: 15px;">S/ 13.00</span>
-          <a href="https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano" target="_blank" style="background: #512DA8; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; display: inline-block; font-weight: bold;">Pedir por WhatsApp</a>
-          
+    <div
+      class="carousel-container"
+      style="position: relative; display: flex; align-items: center;"
+    >
+      <div
+        class="carousel-track"
+        style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none;"
+      >
+        <div
+          class="product-card"
+          style="min-width: 280px; flex: 1 0 calc(33.333% - 20px); background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; text-align: center; border: 1px solid #f0f0f0;"
+        >
+          <a href="/producto/yogurt-griego-fresa" style="display: block;">
+            <img
+              src={griegoImg.src}
+              alt="Yogurt Frutado Arándano"
+              style="height: 220px; object-fit: contain; margin-bottom: 15px; margin-left: auto; margin-right: auto; display: block; cursor: pointer;"
+            />
+          </a>
+          <h3 style="font-size: 1rem; color: #333; margin: 10px 0 5px 0;">
+            Yogurt Frutado • Arándano
+          </h3>
+          <p
+            style="color: #666; font-size: 0.85rem; height: 40px; margin-bottom: 10px;"
+          >
+            Arándanos frescos con yogurt de cabra.
+          </p>
+          <span
+            style="display: block; font-weight: bold; color: #4A148C; font-size: 1.1rem; margin-bottom: 15px;"
+            >S/ 13.00</span
+          >
+          <a
+            href="https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano"
+            target="_blank"
+            style="background: #512DA8; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; display: inline-block; font-weight: bold;"
+            >Pedir por WhatsApp</a
+          >
         </div>
-
       </div>
-      <button onclick="this.previousElementSibling.scrollBy(300, 0)" style="position: absolute; right: -15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; color: #4A148C; font-weight: bold; font-size: 1.2rem;">➔</button>
+      <button
+        onclick="this.previousElementSibling.scrollBy(300, 0)"
+        style="position: absolute; right: -15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; color: #4A148C; font-weight: bold; font-size: 1.2rem;"
+        >➔</button
+      >
     </div>
-    
   </section>
-  <section class="product-carousel-section" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;">
-    <h2 style="color: #4A148C; text-align: center; font-family: sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 30px;">
+  <section
+    class="product-carousel-section"
+    style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;"
+  >
+    <h2
+      style="color: #4A148C; text-align: center; font-family: sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 30px;"
+    >
       Yogurt Frutado
     </h2>
 
-    <div class="carousel-container" style="position: relative; display: flex; align-items: center;">
-      <div class="carousel-track" style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none;">
-        
-        <div class="product-card" style="min-width: 280px; flex: 1 0 calc(33.333% - 20px); background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; text-align: center; border: 1px solid #f0f0f0;">
-         <img src={frutadoImg.src} alt="Yogurt Frutado Arándano" style="height: 220px; object-fit: contain; margin-bottom: 15px; margin-left: auto; margin-right: auto; display: block;" />
-          <h3 style="font-size: 1rem; color: #333; margin: 10px 0 5px 0;">Yogurt Frutado • Arándano</h3>
-          <p style="color: #666; font-size: 0.85rem; height: 40px; margin-bottom: 10px;">Arándanos frescos con yogurt de cabra.</p>
-          <span style="display: block; font-weight: bold; color: #4A148C; font-size: 1.1rem; margin-bottom: 15px;">S/ 13.00</span>
-          <a href="https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano" target="_blank" style="background: #512DA8; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; display: inline-block; font-weight: bold;">Pedir por WhatsApp</a>
-          
+    <div
+      class="carousel-container"
+      style="position: relative; display: flex; align-items: center;"
+    >
+      <div
+        class="carousel-track"
+        style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none;"
+      >
+        <div
+          class="product-card"
+          style="min-width: 280px; flex: 1 0 calc(33.333% - 20px); background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; text-align: center; border: 1px solid #f0f0f0;"
+        >
+          <img
+            src={frutadoImg.src}
+            alt="Yogurt Frutado Arándano"
+            style="height: 220px; object-fit: contain; margin-bottom: 15px; margin-left: auto; margin-right: auto; display: block;"
+          />
+          <h3 style="font-size: 1rem; color: #333; margin: 10px 0 5px 0;">
+            Yogurt Frutado • Arándano
+          </h3>
+          <p
+            style="color: #666; font-size: 0.85rem; height: 40px; margin-bottom: 10px;"
+          >
+            Arándanos frescos con yogurt de cabra.
+          </p>
+          <span
+            style="display: block; font-weight: bold; color: #4A148C; font-size: 1.1rem; margin-bottom: 15px;"
+            >S/ 13.00</span
+          >
+          <a
+            href="https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Yogurt%20Frutado%20de%20Arándano"
+            target="_blank"
+            style="background: #512DA8; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; display: inline-block; font-weight: bold;"
+            >Pedir por WhatsApp</a
+          >
         </div>
-
       </div>
-      <button onclick="this.previousElementSibling.scrollBy(300, 0)" style="position: absolute; right: -15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; color: #4A148C; font-weight: bold; font-size: 1.2rem;">➔</button>
+      <button
+        onclick="this.previousElementSibling.scrollBy(300, 0)"
+        style="position: absolute; right: -15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; color: #4A148C; font-weight: bold; font-size: 1.2rem;"
+        >➔</button
+      >
     </div>
-    
   </section>
 
-  <section class="product-carousel-section" style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;">
-    <h2 style="color: #4A148C; text-align: center; font-family: sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 30px;">
+  <section
+    class="product-carousel-section"
+    style="padding: 40px 20px; max-width: 1200px; margin: 0 auto; position: relative;"
+  >
+    <h2
+      style="color: #4A148C; text-align: center; font-family: sans-serif; font-weight: 900; font-size: 2rem; text-transform: uppercase; margin-bottom: 30px;"
+    >
       Leche y Yogurt Natural
     </h2>
 
-    <div class="carousel-container" style="position: relative; display: flex; align-items: center;">
-      <div class="carousel-track" style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none;">
-        
-        <div class="product-card" style="min-width: 280px; flex: 1 0 calc(33.333% - 20px); background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; text-align: center; border: 1px solid #f0f0f0;">
-          <img src={lecheSola.src} alt="Leche de Cabra Natural" style="height: 220px; object-fit: contain; margin-bottom: 15px; margin-left: auto; margin-right: auto; display: block;" />
-          <h3 style="font-size: 1rem; color: #333; margin: 10px 0 5px 0;">Leche de Cabra Natural</h3>
-          <p style="color: #666; font-size: 0.85rem; height: 40px; margin-bottom: 10px;">100% pura, pasteurizada y lista para consumir.</p>
-          <span style="display: block; font-weight: bold; color: #4A148C; font-size: 1.1rem; margin-bottom: 15px;">S/ 11.00</span>
-          <a href="https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Leche%20de%20Cabra%20Natural" target="_blank" style="background: #512DA8; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; display: inline-block; font-weight: bold;">Pedir por WhatsApp</a>
+    <div
+      class="carousel-container"
+      style="position: relative; display: flex; align-items: center;"
+    >
+      <div
+        class="carousel-track"
+        style="display: flex; gap: 20px; overflow-x: auto; scroll-behavior: smooth; width: 100%; padding: 10px 5px; scrollbar-width: none;"
+      >
+        <div
+          class="product-card"
+          style="min-width: 280px; flex: 1 0 calc(33.333% - 20px); background: #fff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); padding: 20px; text-align: center; border: 1px solid #f0f0f0;"
+        >
+          <img
+            src={lecheSola.src}
+            alt="Leche de Cabra Natural"
+            style="height: 220px; object-fit: contain; margin-bottom: 15px; margin-left: auto; margin-right: auto; display: block;"
+          />
+          <h3 style="font-size: 1rem; color: #333; margin: 10px 0 5px 0;">
+            Leche de Cabra Natural
+          </h3>
+          <p
+            style="color: #666; font-size: 0.85rem; height: 40px; margin-bottom: 10px;"
+          >
+            100% pura, pasteurizada y lista para consumir.
+          </p>
+          <span
+            style="display: block; font-weight: bold; color: #4A148C; font-size: 1.1rem; margin-bottom: 15px;"
+            >S/ 11.00</span
+          >
+          <a
+            href="https://wa.me/51900154196?text=Hola,%20deseo%20pedir%20Leche%20de%20Cabra%20Natural"
+            target="_blank"
+            style="background: #512DA8; color: #fff; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem; display: inline-block; font-weight: bold;"
+            >Pedir por WhatsApp</a
+          >
         </div>
-
       </div>
-      <button onclick="this.previousElementSibling.scrollBy(300, 0)" style="position: absolute; right: -15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; color: #4A148C; font-weight: bold; font-size: 1.2rem;">➔</button>
+      <button
+        onclick="this.previousElementSibling.scrollBy(300, 0)"
+        style="position: absolute; right: -15px; background: #fff; border: 1px solid #e0e0e0; border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.15); z-index: 10; color: #4A148C; font-weight: bold; font-size: 1.2rem;"
+        >➔</button
+      >
     </div>
   </section>
-
- 
 
   <VisitUs />
 
   <Marquee />
 
   <VideoShowcase />
-
-  <ContactForm />
-
-  <Footer />
 </Layout>

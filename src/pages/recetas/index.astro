@@ -1,13 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import Navbar from "../../components/Navbar.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import Footer from "../../components/Footer.astro";
-
-
-// ── Hero ─────────────────────────────────────────────────────────
-import fondoGriego from "../../assets/fondo-griego.jpg";
 
 // ── Recetas (fotos) ───────────────────────────────────────────────
 import receta1 from "../../assets/yogurt-griego-con-cuchara.jpg";
@@ -18,21 +13,24 @@ import receta5 from "../../assets/cabra-campo-historia.jpg";
 import receta6 from "../../assets/feria_stand.png";
 
 // ── Productos carousel ────────────────────────────────────────────
-import lecheSola       from "../../assets/leche-sola.png";
-import fresaGriego     from "../../assets/fresa-griego.png";
-import mangoGriego     from "../../assets/mango-griego.png";
+import lecheSola from "../../assets/leche-sola.png";
+import fresaGriego from "../../assets/fresa-griego.png";
+import mangoGriego from "../../assets/mango-griego.png";
 import maracumangoGriego from "../../assets/maracumango-griego.png";
-import arandanoGriego  from "../../assets/arandano-griego.png";
-import fresaFrutado    from "../../assets/fresa-frutado.png";
-import mangoFrutado    from "../../assets/mango-frutado.png";
+import arandanoGriego from "../../assets/arandano-griego.png";
+import fresaFrutado from "../../assets/fresa-frutado.png";
+import mangoFrutado from "../../assets/mango-frutado.png";
 import arandanosFrutado from "../../assets/arandanos-frutado.png";
-import quesoCabra      from "../../assets/queso_cabra.png";
+import quesoCabra from "../../assets/queso_cabra.png";
+import HeroNavegacion from "../../components/HeroNavegacion.astro";
+
+import fondoGriego from "../../assets/fondo-griego.jpg";
 
 const whatsAppPhone = "51900154196";
 
 function makeWAUrl(product: string, price: string) {
   const text = encodeURIComponent(
-    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`
+    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`,
   );
   return `https://wa.me/${whatsAppPhone}?text=${text}`;
 }
@@ -133,25 +131,13 @@ const productos = [
   title="Recetas D'Cabra – Alimentación Saludable con Lácteos de Cabra"
   description="Descubre nuestras deliciosas recetas preparadas con yogurt griego, leche de cabra y más productos D'Cabra. Alimentación saludable y natural."
 >
-  <Navbar />
+  <HeroNavegacion
+    imageBackground={fondoGriego}
+    eyebrow="Disfruta tu"
+    title="Yogurt Griego"
+    badge="100% leche de cabra"
+  />
 
-  <!-- ═══════════════════════════════════════
-       HERO BANNER
-  ═══════════════════════════════════════ -->
-  <section class="hero">
-    <Image src={fondoGriego} alt="Fondo yogurt griego" class="hero__bg" />
-    <div class="hero__overlay"></div>
-    <div class="hero__content">
-      <p class="hero__pre">Disfruta tu</p>
-      <h1 class="hero__title">YOGURT<br />GRIEGO</h1>
-      <span class="hero__badge">100% LECHE DE CABRA</span>
-    </div>
-    
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       NUESTRAS RECETAS
-  ═══════════════════════════════════════ -->
   <section class="section recetas-section">
     <div class="section__header">
       <p class="section__pre">Alimentación saludable con</p>
@@ -170,7 +156,9 @@ const productos = [
             <div class="recipe-card__body">
               <h3 class="recipe-card__title">{r.title}</h3>
               <p class="recipe-card__desc">{r.desc}</p>
-              <a href="#" class="recipe-card__btn">Ver más</a>
+              <a href="#" class="recipe-card__btn">
+                Ver más
+              </a>
             </div>
           </article>
         ))
@@ -178,9 +166,6 @@ const productos = [
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       NUESTROS PRODUCTOS – CAROUSEL
-  ═══════════════════════════════════════ -->
   <section class="section productos-section">
     <div class="section__header">
       <h2 class="section__title">NUESTROS PRODUCTOS</h2>
@@ -211,11 +196,7 @@ const productos = [
             productos.map((p) => (
               <div class="prod-card">
                 <div class="prod-card__img-wrap">
-                  <Image
-                    src={p.img}
-                    alt={p.title}
-                    class="prod-card__img"
-                  />
+                  <Image src={p.img} alt={p.title} class="prod-card__img" />
                   <div class="prod-card__img-overlay" />
                 </div>
                 <div class="prod-card__body">
@@ -262,19 +243,9 @@ const productos = [
       </button>
     </div>
 
-    <!-- Dots -->
     <div id="carousel-dots" class="carousel-dots"></div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       CONTACTO
-  ═══════════════════════════════════════ -->
-  <ContactForm />
-
-  <!-- ═══════════════════════════════════════
-       FOOTER
-  ═══════════════════════════════════════ -->
-  <Footer />
 </Layout>
 
 <!-- ═══════════════════════════════════════
@@ -310,7 +281,8 @@ const productos = [
       const pages = maxIndex() + 1;
       for (let i = 0; i < pages; i++) {
         const dot = document.createElement("button");
-        dot.className = "carousel-dot" + (i === 0 ? " carousel-dot--active" : "");
+        dot.className =
+          "carousel-dot" + (i === 0 ? " carousel-dot--active" : "");
         dot.setAttribute("aria-label", `Ir a página ${i + 1}`);
         dot.addEventListener("click", () => goTo(i));
         dotsContainer.appendChild(dot);
@@ -345,13 +317,21 @@ const productos = [
 
     // Touch / swipe support
     let touchStartX = 0;
-    track.addEventListener("touchstart", (e) => {
-      touchStartX = e.touches[0].clientX;
-    }, { passive: true });
-    track.addEventListener("touchend", (e) => {
-      const diff = touchStartX - e.changedTouches[0].clientX;
-      if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
-    }, { passive: true });
+    track.addEventListener(
+      "touchstart",
+      (e) => {
+        touchStartX = e.touches[0].clientX;
+      },
+      { passive: true },
+    );
+    track.addEventListener(
+      "touchend",
+      (e) => {
+        const diff = touchStartX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+      },
+      { passive: true },
+    );
 
     // Re-calc on resize
     let resizeTimer: ReturnType<typeof setTimeout>;
@@ -411,7 +391,7 @@ const productos = [
     font-family: "Luckiest Guy", cursive;
     font-size: clamp(1rem, 2.5vw, 1.5rem);
     letter-spacing: 0.05em;
-    color: rgba(255,255,255,0.88);
+    color: rgba(255, 255, 255, 0.88);
     margin-bottom: 0.2rem;
   }
   .hero__title {
@@ -419,14 +399,14 @@ const productos = [
     font-size: clamp(3rem, 8vw, 6rem);
     line-height: 1;
     letter-spacing: 0.04em;
-    text-shadow: 0 4px 24px rgba(0,0,0,0.35);
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
     margin: 0;
   }
   .hero__badge {
     display: inline-block;
-    background: rgba(255,255,255,0.17);
+    background: rgba(255, 255, 255, 0.17);
     backdrop-filter: blur(6px);
-    border: 1px solid rgba(255,255,255,0.34);
+    border: 1px solid rgba(255, 255, 255, 0.34);
     color: #fff;
     font-family: "Poppins", sans-serif;
     font-weight: 700;
@@ -444,7 +424,7 @@ const productos = [
     z-index: 3;
     font-family: "Luckiest Guy", cursive;
     font-size: 1.6rem;
-    color: rgba(255,255,255,0.92);
+    color: rgba(255, 255, 255, 0.92);
     letter-spacing: 0.04em;
     pointer-events: none;
   }
@@ -507,15 +487,17 @@ const productos = [
     background: #fff;
     border-radius: 1.4rem;
     border: 1px solid #ede7f6;
-    box-shadow: 0 2px 12px rgba(99,45,144,0.07);
+    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
   .recipe-card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(99,45,144,0.16);
+    box-shadow: 0 16px 40px rgba(99, 45, 144, 0.16);
   }
   .recipe-card__img-wrap {
     position: relative;
@@ -534,7 +516,11 @@ const productos = [
   .recipe-card__img-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(99,45,144,0.45) 0%, transparent 55%);
+    background: linear-gradient(
+      to top,
+      rgba(99, 45, 144, 0.45) 0%,
+      transparent 55%
+    );
   }
   .recipe-card__body {
     padding: 1.1rem 1.2rem 1.4rem;
@@ -570,7 +556,9 @@ const productos = [
     border-radius: 999px;
     text-decoration: none;
     margin-top: 0.25rem;
-    transition: background 0.22s ease, transform 0.2s ease;
+    transition:
+      background 0.22s ease,
+      transform 0.2s ease;
   }
   .recipe-card__btn:hover {
     background: #4b1a70;
@@ -603,16 +591,18 @@ const productos = [
     background: #fff;
     border-radius: 1.4rem;
     border: 1px solid #ede7f6;
-    box-shadow: 0 2px 12px rgba(99,45,144,0.07);
+    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
     overflow: hidden;
     display: flex;
     flex-direction: column;
     flex: 0 0 calc((100% - 56px) / 3); /* 3 visible */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
   .prod-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 14px 36px rgba(99,45,144,0.15);
+    box-shadow: 0 14px 36px rgba(99, 45, 144, 0.15);
   }
   .prod-card__img-wrap {
     position: relative;
@@ -636,7 +626,7 @@ const productos = [
   .prod-card__img-overlay {
     position: absolute;
     inset: 0;
-    background: rgba(99,45,144,0.03);
+    background: rgba(99, 45, 144, 0.03);
     opacity: 0;
     transition: opacity 0.3s;
   }
@@ -689,13 +679,16 @@ const productos = [
     border-radius: 0.9rem;
     text-decoration: none;
     margin-top: auto;
-    transition: background 0.22s, transform 0.2s, box-shadow 0.22s;
-    box-shadow: 0 4px 14px rgba(99,45,144,0.2);
+    transition:
+      background 0.22s,
+      transform 0.2s,
+      box-shadow 0.22s;
+    box-shadow: 0 4px 14px rgba(99, 45, 144, 0.2);
   }
   .prod-card__btn:hover {
     background: #4b1a70;
     transform: translateY(-1px);
-    box-shadow: 0 8px 22px rgba(99,45,144,0.3);
+    box-shadow: 0 8px 22px rgba(99, 45, 144, 0.3);
   }
   .prod-card__btn-icon {
     width: 1rem;
@@ -716,8 +709,12 @@ const productos = [
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    box-shadow: 0 2px 10px rgba(99,45,144,0.15);
-    transition: background 0.22s, color 0.22s, transform 0.18s, opacity 0.22s;
+    box-shadow: 0 2px 10px rgba(99, 45, 144, 0.15);
+    transition:
+      background 0.22s,
+      color 0.22s,
+      transform 0.18s,
+      opacity 0.22s;
     z-index: 2;
   }
   .carousel-btn svg {
@@ -748,7 +745,9 @@ const productos = [
     background: #d1c4e9;
     border: none;
     cursor: pointer;
-    transition: background 0.25s, transform 0.2s;
+    transition:
+      background 0.25s,
+      transform 0.2s;
     padding: 0;
   }
   :global(.carousel-dot--active) {
@@ -766,7 +765,9 @@ const productos = [
     }
   }
   @media (max-width: 639px) {
-    .hero { height: 300px; }
+    .hero {
+      height: 300px;
+    }
     .prod-card {
       flex: 0 0 100%; /* 1 visible */
     }

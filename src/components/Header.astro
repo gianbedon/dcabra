@@ -1,52 +1,139 @@
 ---
 import { Image } from "astro:assets";
 import logo from "../assets/logo.png";
+
+import {
+  Menu,
+  X,
+  House,
+  ShoppingBasket,
+  BookOpen,
+  ChefHat,
+} from "@lucide/astro";
+
+const currentPath = Astro.url.pathname;
+
 const navLinks = [
-  { href: "/", label: "Inicio" },
-  { href: "/producto", label: "Productos" },
-  { href: "/historia", label: "Nuestra historia" },
-  { href: "/recetas", label: "Recetas" },
+  { href: "/", label: "Inicio", icon: House },
+  { href: "/producto", label: "Productos", icon: ShoppingBasket },
+  { href: "/historia", label: "Nuestra historia", icon: BookOpen },
+  { href: "/recetas", label: "Recetas", icon: ChefHat },
 ];
 ---
 
-<header class="fixed top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
-  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
+<header
+  class="fixed top-0 left-0 right-0 z-50 bg-white backdrop-blur-md border-b border-gray-100"
+>
+  <div class="container mx-auto px-5">
+    <div class="flex items-center justify-between h-18">
+      <!-- Logo -->
+      <a href="/" class="flex items-center">
+        <Image
+          src={logo}
+          alt="D'Cabra Logo"
+          width={120}
+          height={50}
+          class="h-10 w-auto"
+        />
+      </a>
 
-    <a
-          href="/"
-          class="flex items-center gap-2 bg-white/10 p-3 rounded-2xl border border-white/20 hover:bg-white/20 transition-all duration-300"
-        >
-          <Image
-            src={logo}
-            alt="D'Cabra Logo"
-            width={120}
-            height={50}
-            class="h-10 w-auto object-contain"
-          />
-        </a>
+      <!-- Desktop Menu -->
+      <nav class="hidden md:flex items-center gap-8">
+        <nav class="hidden md:flex items-center gap-8">
+          {
+            navLinks.map((link) => {
+              const Icon = link.icon;
 
-    <nav class="hidden md:flex items-center gap-10">
-      {navLinks.map(link => (
-        <a href={link.href} class="text-sm font-semibold text-gray-700 hover:text-purple-700 transition-colors duration-200 tracking-wide uppercase">
-          {link.label}
-        </a>
-      ))}
-    </nav>
+              return (
+                <a
+                  href={link.href}
+                  class={`group relative flex items-center gap-2 px-3 py-2 rounded-full text-md font-medium transition-all duration-300 ${
+                    currentPath === link.href
+                      ? "bg-primary/10 text-primary"
+                      : "text-gray-700 hover:bg-gray-100 hover:text-primary"
+                  }`}
+                >
+                  <Icon size={18} />
 
-    <div class="hidden md:block">
-      <a 
-        href="https://wa.me/51900154196" 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-primary hover:bg-primary-dark text-white text-xs font-bold transition-all duration-200 shadow-sm uppercase tracking-wider"
+                  <span>{link.label}</span>
+
+                  <div
+                    class={`absolute bottom-0 left-1/2 h-0.5 bg-primary transition-all duration-300 -translate-x-1/2 ${
+                      currentPath === link.href ? "w-8" : "w-0 group-hover:w-8"
+                    }`}
+                  />
+                </a>
+              );
+            })
+          }
+        </nav>
+      </nav>
+
+      <!-- Desktop WhatsApp -->
+      <a
+        href="https://wa.me/51900154196"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-md font-semibold text-white hover:opacity-90 transition"
       >
         Pedir por WhatsApp
       </a>
-    </div>
-</header>
 
-<script>
-  document.getElementById("menu-btn")?.addEventListener("click", () => {
-    document.getElementById("mobile-menu")?.classList.toggle("hidden");
-  });
-</script>
+      <!-- Mobile Button -->
+      <button
+        id="menu-btn"
+        class="md:hidden p-2 text-gray-700"
+        aria-label="Abrir menú"
+      >
+        <Menu id="menu-open" size={24} />
+        <X id="menu-close" size={24} class="hidden" />
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div
+    id="mobile-menu"
+    class="hidden md:hidden border-t border-gray-100 bg-white"
+  >
+    <nav class="flex flex-col px-5 py-4">
+      {
+        navLinks.map((link) => {
+          const Icon = link.icon;
+
+          return (
+            <a
+              href={link.href}
+              class="flex items-center gap-3 py-3 text-gray-700 font-medium border-b border-gray-100 last:border-none"
+            >
+              <Icon size={18} />
+              {link.label}
+            </a>
+          );
+        })
+      }
+
+      <a
+        href="https://wa.me/51900154196"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="mt-4 rounded-full bg-primary text-white text-center py-3 font-semibold"
+      >
+        Pedir por WhatsApp
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById("menu-btn");
+    const mobileMenu = document.getElementById("mobile-menu");
+    const menuOpen = document.getElementById("menu-open");
+    const menuClose = document.getElementById("menu-close");
+
+    menuBtn?.addEventListener("click", () => {
+      mobileMenu?.classList.toggle("hidden");
+      menuOpen?.classList.toggle("hidden");
+      menuClose?.classList.toggle("hidden");
+    });
+  </script>
+</header>

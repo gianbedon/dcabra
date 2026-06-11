@@ -1,11 +1,5 @@
 ---
-// src/pages/productos/yogurt-griego-fresa.astro
-// URL final: https://dcabra.vercel.app/productos/yogurt-griego-fresa
-
-// ── Importa tu Layout y componentes existentes ──────────────────────────────
-// Si tus archivos se llaman distinto, ajusta los nombres aquí:
 import Layout from "../../layouts/Layout.astro";
-import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import Hero from "../../components/Hero.astro";
@@ -80,8 +74,6 @@ const recetas = [
   title={`${producto.nombre} – D'Cabra`}
   description={`${producto.variedad}. 100% Leche de Cabra. ${producto.precio}. Pide por WhatsApp.`}
 >
-  <!-- ── NAVBAR ── -->
-  <Navbar />
 
   <!-- ── HERO BANNER ── -->
   <Hero />

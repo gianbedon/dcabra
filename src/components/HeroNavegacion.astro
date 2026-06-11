@@ -1,0 +1,53 @@
+---
+import Image from "astro/components/Image.astro";
+
+const {
+    imageBackground,
+    title,
+    eyebrow,
+    badge,
+    showOverlay = true,
+} = Astro.props;
+
+const hasTitle = typeof title === "string" && title.trim().length > 0;
+const hasEyebrow = typeof eyebrow === "string" && eyebrow.trim().length > 0;
+const hasBadge = typeof badge === "string" && badge.trim().length > 0;
+
+const hasContent = hasTitle || hasEyebrow || hasBadge;
+---
+
+<section class="relative h-[350px] md:h-[500px] overflow-hidden">
+    <Image
+        src={imageBackground}
+        alt={hasTitle ? `Fondo ${title}` : "Fondo principal"}
+        class="absolute inset-0 w-full h-full object-cover object-center"
+    />
+
+    {showOverlay && <div class="absolute inset-0 bg-primary/70" />}
+
+    {
+        hasContent && (
+            <div class="relative z-10 flex h-full items-center justify-center px-6 md:px-12 max-w-7xl mx-auto">
+                <div class="text-white text-center">
+                    {hasEyebrow && (
+                        <p class="text-lg md:text-2xl font-light tracking-wide mb-2">
+                            {eyebrow}
+                        </p>
+                    )}
+
+                    {hasTitle && (
+                        <h1 class="text-5xl md:text-7xl lg:text-8xl font-black leading-none uppercase">
+                            {title}
+                        </h1>
+                    )}
+
+                    {hasBadge && (
+                        <p class="inline-block mt-4 rounded-full bg-white/20 backdrop-blur-sm px-5 py-2 text-sm md:text-base font-semibold tracking-wider">
+                            {badge}
+                        </p>
+                    )}
+                </div>
+            </div>
+        )
+    }
+</section>

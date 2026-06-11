@@ -1,12 +1,8 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import Navbar from "../../components/Navbar.astro";
 import ContactForm from "../../components/ContactForm.astro";
 import Footer from "../../components/Footer.astro";
-
-// Hero assets
-import fondoGreigo from "../../assets/fondo-griego.jpg";
 
 // Leche y Queso assets
 import lecheSola from "../../assets/leche-sola.png";
@@ -30,12 +26,15 @@ import maracumangoFrutado from "../../assets/maracumango-frutado.png";
 import yogurtConCuchara from "../../assets/yogurt-griego-con-cuchara.jpg";
 import lecheBeneficios from "../../assets/leche-beneficios.jpg";
 import fondoLeche from "../../assets/fondo-leche.jpeg";
+import HeroNavegacion from "../../components/HeroNavegacion.astro";
+
+import fondoGriego from "../../assets/fondo-griego.jpg";
 
 const whatsAppPhone = "51900154196";
 
 function makeWAUrl(product: string, price: string) {
   const text = encodeURIComponent(
-    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`
+    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`,
   );
   return `https://wa.me/${whatsAppPhone}?text=${text}`;
 }
@@ -144,24 +143,13 @@ const recetas = [
   title="Productos D'Cabra – Lácteos de Cabra 100% Naturales"
   description="Descubre todos los productos D'Cabra: yogurt griego, yogurt frutado, leche de cabra y queso artesanal. 100% naturales, sin conservantes."
 >
-  <Navbar />
+  <HeroNavegacion
+    imageBackground={fondoGriego}
+    eyebrow="Disfruta tu"
+    title="Yogurt Griego"
+    badge="100% leche de cabra"
+  />
 
-  <!-- ══════════════════════════════════════════
-       HERO BANNER
-  ══════════════════════════════════════════ -->
-  <section class="hero-banner">
-    <Image src={fondoGreigo} alt="Fondo yogurt griego" class="hero-bg" />
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-      <p class="hero-sub">Disfruta tu</p>
-      <h1 class="hero-title">YOGURT<br />GRIEGO</h1>
-      <p class="hero-badge">100% LECHE DE CABRA</p>
-    </div>
-  </section>
-
-  <!-- ══════════════════════════════════════════
-       LECHE Y QUESO
-  ══════════════════════════════════════════ -->
   <section class="products-section">
     <div class="section-header">
       <h2 class="section-title">LECHE Y QUESO</h2>
@@ -310,23 +298,15 @@ const recetas = [
             </div>
             <div class="recipe-card__body">
               <h3 class="recipe-card__title">{r.title}</h3>
-              <a href="#" class="recipe-card__btn">Ver más</a>
+              <a href="#" class="recipe-card__btn">
+                Ver más
+              </a>
             </div>
           </div>
         ))
       }
     </div>
   </section>
-
-  <!-- ══════════════════════════════════════════
-       CONTACTO
-  ══════════════════════════════════════════ -->
-  <ContactForm />
-
-  <!-- ══════════════════════════════════════════
-       FOOTER
-  ══════════════════════════════════════════ -->
-  <Footer />
 </Layout>
 
 <style>
@@ -358,7 +338,7 @@ const recetas = [
     background: linear-gradient(
       135deg,
       rgba(99, 45, 144, 0.82) 0%,
-      rgba(75, 26, 112, 0.70) 100%
+      rgba(75, 26, 112, 0.7) 100%
     );
     z-index: 1;
   }
@@ -512,7 +492,9 @@ const recetas = [
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .product-card:hover {
@@ -618,7 +600,9 @@ const recetas = [
     border-radius: 1rem;
     text-decoration: none;
     letter-spacing: 0.02em;
-    transition: background 0.25s ease, transform 0.2s ease,
+    transition:
+      background 0.25s ease,
+      transform 0.2s ease,
       box-shadow 0.25s ease;
     box-shadow: 0 4px 16px rgba(99, 45, 144, 0.2);
     margin-top: auto;
@@ -643,7 +627,9 @@ const recetas = [
     background: #fff;
     box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
     border: 1px solid #ede7f6;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      transform 0.3s ease,
+      box-shadow 0.3s ease;
   }
 
   .recipe-card:hover {
