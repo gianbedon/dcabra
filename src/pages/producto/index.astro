@@ -1,219 +1,760 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import cabritasCampo from '../../assets/cabritas-campo.png';
-import Image from "astro/components/Image.astro";
-import leches from '../../assets/leches.png';
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
+import Header from "../../components/Header.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import Footer from "../../components/Footer.astro";
 
+// Hero assets
+import fondoGreigo from "../../assets/fondo-griego.jpg";
+
+// Leche y Queso assets
+import lecheSola from "../../assets/leche-sola.png";
+import quesoCabra from "../../assets/queso_cabra.png";
+
+// Yogures assets – Griego con Jalea
+import griegoSolo from "../../assets/griego-solo.png";
+import fresaGriego from "../../assets/fresa-griego.png";
+import mangoGriego from "../../assets/mango-griego.png";
+import maracumangoGriego from "../../assets/maracumango-griego.png";
+import maracuyaGriego from "../../assets/maracuya-griego.png";
+import arandanoGriego from "../../assets/arandano-griego.png";
+
+// Yogures assets – Frutado bebible
+import fresaFrutado from "../../assets/fresa-frutado.png";
+import mangoFrutado from "../../assets/mango-frutado.png";
+import arandanosFrutado from "../../assets/arandanos-frutado.png";
+import maracumangoFrutado from "../../assets/maracumango-frutado.png";
+
+// Recetas assets
+import yogurtConCuchara from "../../assets/yogurt-griego-con-cuchara.jpg";
+import lecheBeneficios from "../../assets/leche-beneficios.jpg";
+import fondoLeche from "../../assets/fondo-leche.jpeg";
+
+const whatsAppPhone = "51900154196";
+
+function makeWAUrl(product: string, price: string) {
+  const text = encodeURIComponent(
+    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`
+  );
+  return `https://wa.me/${whatsAppPhone}?text=${text}`;
+}
+
+const lecheQueso = [
+  {
+    img: lecheSola,
+    title: "Leche de Cabra Entera Pasteurizada",
+    price: "S/ 14.00",
+    desc: "Leche 100% de cabra, pasteurizada y lista para consumir. Fuente de calcio, vitaminas y fácil digestión.",
+  },
+  {
+    img: quesoCabra,
+    title: "Queso de Cabra Natural",
+    price: "S/ 24.00",
+    desc: "Queso artesanal elaborado con leche de cabra fresca. Textura suave y sabor inconfundible.",
+  },
+];
+
+const yoguresGriego = [
+  {
+    img: fresaGriego,
+    title: "Yogurt Griego + Jalea de Fresa",
+    price: "S/ 8.00",
+    desc: "El clásico y favorito: yogurt griego espeso con jalea artesanal de fresas silvestres.",
+  },
+  {
+    img: mangoGriego,
+    title: "Yogurt Griego + Jalea de Mango",
+    price: "S/ 8.00",
+    desc: "Tropical y cremoso, con una generosa base de jalea de mangos seleccionados.",
+  },
+  {
+    img: maracumangoGriego,
+    title: "Yogurt Griego + Maracumango",
+    price: "S/ 8.00",
+    desc: "La exótica fusión de maracuyá y mango en un cremoso yogurt griego de cabra.",
+  },
+  {
+    img: arandanoGriego,
+    title: "Yogurt Griego + Jalea de Arándano",
+    price: "S/ 8.00",
+    desc: "Yogurt griego cremoso de cabra con generosa base de jalea artesanal de arándanos frescos.",
+  },
+  {
+    img: maracuyaGriego,
+    title: "Yogurt Griego + Jalea de Maracuyá",
+    price: "S/ 8.00",
+    desc: "Intenso sabor tropical: maracuyá en jalea artesanal sobre esponjoso yogurt griego de cabra.",
+  },
+  {
+    img: griegoSolo,
+    title: "Yogurt Griego Natural",
+    price: "S/ 8.00",
+    desc: "Puro, sin agregados: yogurt griego de cabra con su sabor natural y cremoso inigualable.",
+  },
+];
+
+const yoguresFrutado = [
+  {
+    img: fresaFrutado,
+    title: "Yogurt Frutado • Fresa",
+    price: "S/ 12.00",
+    desc: "Yogurt bebible natural de cabra mezclado con fresca pulpa de fresas licuadas 100% naturales.",
+  },
+  {
+    img: mangoFrutado,
+    title: "Yogurt Frutado • Mango",
+    price: "S/ 12.00",
+    desc: "Frescura tropical: yogurt bebible de cabra con pulpa natural de mangos jugosos de estación.",
+  },
+  {
+    img: arandanosFrutado,
+    title: "Yogurt Frutado • Arándano",
+    price: "S/ 12.00",
+    desc: "Deliciosa combinación de yogurt de cabra bebible con fresca pulpa de arándanos selectos.",
+  },
+  {
+    img: maracumangoFrutado,
+    title: "Yogurt Frutado • Maracumango",
+    price: "S/ 12.00",
+    desc: "La combinación tropical de maracuyá y mango en un refrescante yogurt bebible de cabra.",
+  },
+];
+
+const recetas = [
+  {
+    img: yogurtConCuchara,
+    title: "Bowl de Yogurt Griego",
+    tag: "Desayuno saludable",
+  },
+  {
+    img: lecheBeneficios,
+    title: "Batido de Leche de Cabra",
+    tag: "Bebida nutritiva",
+  },
+  {
+    img: fondoLeche,
+    title: "Smoothie de Yogurt Frutado",
+    tag: "Refrescante y natural",
+  },
+];
 ---
 
-<Layout>
-<h1>
+<Layout
+  title="Productos D'Cabra – Lácteos de Cabra 100% Naturales"
+  description="Descubre todos los productos D'Cabra: yogurt griego, yogurt frutado, leche de cabra y queso artesanal. 100% naturales, sin conservantes."
+>
+  <Header />
 
-<!-- ── SECCIÓN NOSOTROS ── -->
-<section class="bg-white py-16 px-6">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
+  <!-- ══════════════════════════════════════════
+       HERO BANNER
+  ══════════════════════════════════════════ -->
+  <section class="hero-banner">
+    <Image src={fondoGreigo} alt="Fondo yogurt griego" class="hero-bg" />
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-sub">Disfruta tu</p>
+      <h1 class="hero-title">YOGURT<br />GRIEGO</h1>
+      <p class="hero-badge">100% LECHE DE CABRA</p>
+    </div>
+  </section>
 
-    <!-- Texto izquierda -->
-    <div class="flex-1">
-      <h2 class="text-primary text-4xl md:text-5xl mb-1">Nosotros</h2>
-      <div class="bg-primary text-white text-lg  px-3 py-1 inline-block mb-6 rounded-sm">
-        Pasión por lo Natural
-      </div>
-
-      <p class="text-gray-800 mb-4">
-        <strong>D'Cabra nació de un sueño simple:</strong><br/>
-        Volver a lo básico y ofrecer a las familias una alternativa láctea que fuera a la vez nutritiva y deliciosa. 
-        Fundada en los verdes campos de nuestra región de <strong>Huaura – Huacho,</strong> nuestro establo fue fundado 
-        con el propósito de poder dar una alternativa sostenible de <strong>productos lácteos 100% naturales</strong> y 
-        generar la confianza al cliente del producto que lleva a su mesa, ya que cada producto elaborado por D'Cabra 
-        está elaborado con los mejores ingredientes.
-      </p>
-
-      <a href="https://dcabra.vercel.app/nuestra-historia"
-   class="inline-block bg-primary text-white font-semibold px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors">
-  Ver más
-</a>
+  <!-- ══════════════════════════════════════════
+       LECHE Y QUESO
+  ══════════════════════════════════════════ -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2 class="section-title">LECHE Y QUESO</h2>
+      <div class="section-title-line"></div>
     </div>
 
-    <!-- Imagen derecha -->
-    <div class="flex-1 flex justify-center">
-      <Image
-        src={cabritasCampo}
-        alt="Cabritas en el campo D'Cabra"
-        class="rounded-3xl w-full max-w-lg object-cover shadow-lg"
-      />
+    <div class="products-grid products-grid--2col">
+      {
+        lecheQueso.map((p) => (
+          <div class="product-card">
+            <div class="product-card__img-wrap">
+              <Image src={p.img} alt={p.title} class="product-card__img" />
+              <div class="product-card__img-overlay" />
+            </div>
+            <div class="product-card__body">
+              <div class="product-card__top">
+                <h3 class="product-card__title">{p.title}</h3>
+                <span class="product-card__price">{p.price}</span>
+              </div>
+              <p class="product-card__desc">{p.desc}</p>
+              <a
+                href={makeWAUrl(p.title, p.price)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="product-card__btn"
+              >
+                <svg
+                  class="product-card__btn-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
+                </svg>
+                Pedir por WhatsApp
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       NUESTROS YOGURES – GRIEGO
+  ══════════════════════════════════════════ -->
+  <section class="products-section products-section--alt">
+    <div class="section-header">
+      <h2 class="section-title">NUESTROS YOGURES</h2>
+      <div class="section-title-line"></div>
+      <p class="section-sub">Yogurt Griego con Jalea Artesanal</p>
     </div>
 
-  </div>
-</section>
-
-
-<!-- ── ¿POR QUÉ D'CABRA? ── -->
-<section class="bg-white py-16 px-6">
-  <div class="max-w-5xl mx-auto border border-gray-200 rounded-3xl shadow-sm py-12 px-8">
-
-    <h2 class="text-primary text-center text-4xl md:text-5xl mb-3">¿Por qué D'Cabra?</h2>
-    <p class="text-center font-bold text-gray-700 mb-12">
-      Compromiso absoluto con la pureza y el bienestar desde el origen.
-    </p>
-
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
-
-      <!-- Fácil Digestión -->
-      <div class="flex flex-col items-center text-center gap-3">
-        <div class="w-24 h-24 rounded-full border-2 border-primary flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/>
-          </svg>
-        </div>
-        <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Fácil Digestión</span>
-        <p class="text-gray-600 text-xs leading-relaxed">
-          Naturalmente menos ligera gracias a partículas de grasa más pequeñas y menos lactosa.
-        </p>
-      </div>
-
-      <!-- Origen 100% Natural -->
-      <div class="flex flex-col items-center text-center gap-3">
-        <div class="w-24 h-24 rounded-full border-2 border-primary flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v.01M12 10v.01M12 14v.01"/>
-          </svg>
-        </div>
-        <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Origen 100% Natural</span>
-        <p class="text-gray-600 text-xs leading-relaxed">
-          Sin conservantes ni añadidos. Directo de nuestras granjas familiares a tu hogar.
-        </p>
-      </div>
-
-      <!-- Rica en Nutrientes -->
-      <div class="flex flex-col items-center text-center gap-3">
-        <div class="w-24 h-24 rounded-full border-2 border-primary flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21 11.25v8.25a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-8.25M12 4.875A2.625 2.625 0 109.375 7.5H12m0-2.625V7.5m0-2.625A2.625 2.625 0 1114.625 7.5H12m0 0V21m-8.625-9.75h18c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125h-18c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z"/>
-          </svg>
-        </div>
-        <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Rica en Nutrientes</span>
-        <p class="text-gray-600 text-xs leading-relaxed">
-          Alto contenido de calcio, proteínas y minerales esenciales para el crecimiento.
-        </p>
-      </div>
-
-      <!-- Libre Pastoreo -->
-      <div class="flex flex-col items-center text-center gap-3">
-        <div class="w-24 h-24 rounded-full border-2 border-primary flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5M9 11.25v1.5M12 9v3.75m3-6v6"/>
-          </svg>
-        </div>
-        <span class="bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Libre Pastoreo</span>
-        <p class="text-gray-600 text-xs leading-relaxed">
-          Viven libremente por extensiones de terreno abierto para alimentarse de verduras, pastos, arbustos y hojas.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── LECHE ENTERA PASTEURIZADA ── -->
-<section class="bg-white py-16 px-6">
-  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12">
-
-    <!-- Texto izquierda -->
-    <div class="flex-1">
-      <p class="italic text-gray-500 text-xl mb-1" style="font-family: cursive;">Disfruta tu</p>
-      <h2 class="text-primary text-4xl md:text-5xl uppercase leading-tight mb-2">
-        Leche Entera
-      </h2>
-      <h5 class="bg-primary text-white uppercase px-3 py-1 inline-block rounded-sm text-lg mb-6">
-        Pasteurizada
-      </h5>
-
-      <p class="text-gray-800 mb-4">
-        <strong>La leche de cabra</strong> es naturalmente fácil de digerir porque tiene partículas de grasa más pequeñas y
-        menos lactosa que la leche de vaca. Es una gran opción para muchas personas, incluidas aquellas con estómagos sensibles.
-      </p>
-      <p class="text-gray-800 mb-8">
-        Nuestras cabras felices son criadas en granjas familiares, asegurando una leche nutritiva y de alta calidad.
-      </p>
-
-      <!-- Valor Nutricional -->
-      <p class="italic text-primary text-2xl mb-1" style="font-family: cursive;">Valor Nutricional</p>
-      <p class="text-gray-500 text-sm mb-6">Valores aproximados por envase (900ml).</p>
-
-      <div class="flex gap-6 flex-wrap">
-
-        <!-- Calorías -->
-        <div class="flex flex-col items-center gap-1">
-          <div class="bg-primary rounded-xl p-2 w-12 h-12 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.047 8.287 8.287 0 009 9.608a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.473z"/>
-            </svg>
+    <div class="products-grid products-grid--3col">
+      {
+        yoguresGriego.map((p) => (
+          <div class="product-card">
+            <div class="product-card__img-wrap">
+              <Image src={p.img} alt={p.title} class="product-card__img" />
+              <div class="product-card__img-overlay" />
+            </div>
+            <div class="product-card__body">
+              <div class="product-card__top">
+                <h3 class="product-card__title">{p.title}</h3>
+                <span class="product-card__price">{p.price}</span>
+              </div>
+              <p class="product-card__desc">{p.desc}</p>
+              <a
+                href={makeWAUrl(p.title, p.price)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="product-card__btn"
+              >
+                <svg
+                  class="product-card__btn-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
+                </svg>
+                Pedir por WhatsApp
+              </a>
+            </div>
           </div>
-          <span class="font-bold text-gray-800 text-xs">Calorías</span>
-          <span class="text-gray-500 text-xs">168</span>
-        </div>
-
-        <!-- Proteínas -->
-        <div class="flex flex-col items-center gap-1">
-          <div class="bg-primary rounded-xl p-2 w-12 h-12 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5"/>
-            </svg>
-          </div>
-          <span class="font-bold text-gray-800 text-xs">Proteínas</span>
-          <span class="text-gray-500 text-xs">34g</span>
-        </div>
-
-        <!-- Calcio -->
-        <div class="flex flex-col items-center gap-1">
-          <div class="bg-primary rounded-xl p-2 w-12 h-12 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-          </div>
-          <span class="font-bold text-gray-800 text-xs">Calcio</span>
-          <span class="text-gray-500 text-xs">327 mg</span>
-        </div>
-
-        <!-- Potasio -->
-        <div class="flex flex-col items-center gap-1">
-          <div class="bg-primary rounded-xl p-2 w-12 h-12 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z"/>
-            </svg>
-          </div>
-          <span class="font-bold text-gray-800 text-xs">Potasio</span>
-          <span class="text-gray-500 text-xs">498 mg</span>
-        </div>
-
-        <!-- Vitamina A -->
-        <div class="flex flex-col items-center gap-1">
-          <div class="bg-primary rounded-xl p-2 w-12 h-12 flex items-center justify-center">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"/>
-            </svg>
-          </div>
-          <span class="font-bold text-gray-800 text-xs">Vitamina A</span>
-          <span class="text-gray-500 text-xs">483 IU</span>
-        </div>
-
-      </div>
+        ))
+      }
     </div>
 
-    <!-- Imagen derecha -->
-    <div class="flex-1 flex justify-center">
-      <Image
-        src={leches}
-        alt="Leche Entera Pasteurizada D'Cabra"
-        class="w-full max-w-lg object-contain"
-      />
+    <!-- ── YOGURT FRUTADO sub-section ── -->
+    <div class="subsection-header">
+      <p class="subsection-sub">Yogurt Frutado Bebible</p>
     </div>
 
-  </div>
-</section>
-</h1>
+    <div class="products-grid products-grid--4col">
+      {
+        yoguresFrutado.map((p) => (
+          <div class="product-card">
+            <div class="product-card__img-wrap">
+              <Image src={p.img} alt={p.title} class="product-card__img" />
+              <div class="product-card__img-overlay" />
+            </div>
+            <div class="product-card__body">
+              <div class="product-card__top">
+                <h3 class="product-card__title">{p.title}</h3>
+                <span class="product-card__price">{p.price}</span>
+              </div>
+              <p class="product-card__desc">{p.desc}</p>
+              <a
+                href={makeWAUrl(p.title, p.price)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="product-card__btn"
+              >
+                <svg
+                  class="product-card__btn-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
+                </svg>
+                Pedir por WhatsApp
+              </a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
 
+  <!-- ══════════════════════════════════════════
+       NUESTRAS RECETAS
+  ══════════════════════════════════════════ -->
+  <section class="products-section">
+    <div class="section-header">
+      <h2 class="section-title">NUESTRAS RECETAS</h2>
+      <div class="section-title-line"></div>
+    </div>
+
+    <div class="products-grid products-grid--3col">
+      {
+        recetas.map((r) => (
+          <div class="recipe-card">
+            <div class="recipe-card__img-wrap">
+              <Image src={r.img} alt={r.title} class="recipe-card__img" />
+              <div class="recipe-card__overlay" />
+              <span class="recipe-card__tag">{r.tag}</span>
+            </div>
+            <div class="recipe-card__body">
+              <h3 class="recipe-card__title">{r.title}</h3>
+              <a href="#" class="recipe-card__btn">Ver más</a>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════
+       CONTACTO
+  ══════════════════════════════════════════ -->
+  <ContactForm />
+
+  <!-- ══════════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════════ -->
+  <Footer />
 </Layout>
+
+<style>
+  /* ─── HERO ─────────────────────────────── */
+  .hero-banner {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 80px; /* account for fixed header */
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(99, 45, 144, 0.82) 0%,
+      rgba(75, 26, 112, 0.70) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    padding: 0 1rem;
+  }
+
+  .hero-sub {
+    font-family: "Luckiest Guy", cursive;
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.25rem;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .hero-title {
+    font-family: "Luckiest Guy", cursive;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    margin: 0;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.45rem 1.2rem;
+    border-radius: 999px;
+    margin-top: 1.2rem;
+  }
+
+  /* ─── SECTIONS ──────────────────────────── */
+  .products-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .products-section--alt {
+    background: #faf8fc;
+    max-width: 100%;
+    padding: 4rem 0;
+  }
+
+  .products-section--alt > * {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  .section-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .section-title {
+    font-family: "Luckiest Guy", cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: #632d90;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+
+  .section-title-line {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, #632d90, #a855f7);
+    border-radius: 2px;
+    margin: 0.5rem auto 0;
+  }
+
+  .section-sub {
+    margin-top: 0.75rem;
+    font-size: 1rem;
+    color: #6b7280;
+    font-weight: 600;
+  }
+
+  .subsection-header {
+    text-align: center;
+    margin-top: 3.5rem;
+    margin-bottom: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1.5rem;
+  }
+
+  .subsection-sub {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #632d90;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+  }
+
+  .subsection-sub::after {
+    content: "";
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: #a855f7;
+    border-radius: 2px;
+    margin: 0.4rem auto 0;
+  }
+
+  /* ─── GRIDS ─────────────────────────────── */
+  .products-grid {
+    display: grid;
+    gap: 1.75rem;
+  }
+
+  .products-grid--2col {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .products-grid--3col {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  }
+
+  .products-grid--4col {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  /* ─── PRODUCT CARD ──────────────────────── */
+  .product-card {
+    background: #fff;
+    border-radius: 1.5rem;
+    border: 1px solid #ede7f6;
+    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .product-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 16px 40px rgba(99, 45, 144, 0.16);
+  }
+
+  .product-card__img-wrap {
+    position: relative;
+    background: #f5f0fc;
+    height: 220px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .product-card__img {
+    height: 200px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.5s ease;
+    drop-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  }
+
+  .product-card:hover .product-card__img {
+    transform: scale(1.07);
+  }
+
+  .product-card__img-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(99, 45, 144, 0.04);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .product-card:hover .product-card__img-overlay {
+    opacity: 1;
+  }
+
+  .product-card__body {
+    padding: 1.25rem 1.25rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 0.75rem;
+  }
+
+  .product-card__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .product-card__title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 800;
+    font-size: 0.9rem;
+    color: #1c1a14;
+    line-height: 1.35;
+    transition: color 0.25s;
+  }
+
+  .product-card:hover .product-card__title {
+    color: #632d90;
+  }
+
+  .product-card__price {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #632d90;
+    background: #f0e7fc;
+    padding: 0.2rem 0.65rem;
+    border-radius: 0.75rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .product-card__desc {
+    font-size: 0.8rem;
+    color: #6b7280;
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .product-card__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: #632d90;
+    color: #fff;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 0.82rem;
+    border-radius: 1rem;
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: background 0.25s ease, transform 0.2s ease,
+      box-shadow 0.25s ease;
+    box-shadow: 0 4px 16px rgba(99, 45, 144, 0.2);
+    margin-top: auto;
+  }
+
+  .product-card__btn:hover {
+    background: #4b1a70;
+    transform: translateY(-1px);
+    box-shadow: 0 8px 24px rgba(99, 45, 144, 0.3);
+  }
+
+  .product-card__btn-icon {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  /* ─── RECIPE CARDS ──────────────────────── */
+  .recipe-card {
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
+    border: 1px solid #ede7f6;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 36px rgba(99, 45, 144, 0.15);
+  }
+
+  .recipe-card__img-wrap {
+    position: relative;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .recipe-card__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+
+  .recipe-card:hover .recipe-card__img {
+    transform: scale(1.06);
+  }
+
+  .recipe-card__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(99, 45, 144, 0.55) 0%,
+      transparent 60%
+    );
+  }
+
+  .recipe-card__tag {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: #632d90;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+  }
+
+  .recipe-card__body {
+    padding: 1rem 1.25rem 1.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .recipe-card__title {
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1c1a14;
+    line-height: 1.3;
+  }
+
+  .recipe-card__btn {
+    background: #632d90;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .recipe-card__btn:hover {
+    background: #4b1a70;
+  }
+
+  /* ─── RESPONSIVE ────────────────────────── */
+  @media (max-width: 640px) {
+    .hero-banner {
+      height: 320px;
+    }
+
+    .products-grid--2col {
+      grid-template-columns: 1fr;
+      max-width: 400px;
+    }
+
+    .products-grid--3col,
+    .products-grid--4col {
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .product-card__img-wrap {
+      height: 180px;
+    }
+
+    .product-card__img {
+      height: 160px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    .products-grid--3col,
+    .products-grid--4col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
