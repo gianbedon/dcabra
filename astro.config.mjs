@@ -4,6 +4,8 @@ import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs';
 import path from 'node:path';
 
+import react from "@astrojs/react";
+
 // Automate image copying from brain cache to project assets
 const filesToCopy = [
   { src: "C:\\Users\\GIAN\\.gemini\\antigravity-ide\\brain\\b3c222bf-a544-4fa8-a258-10a9375c6fbe\\leche_cabra_1780628184098.png", dest: "src/assets/leche_cabra.png" },
@@ -32,5 +34,7 @@ for (const file of filesToCopy) {
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
-  }
+  },
+
+  integrations: [react()]
 });

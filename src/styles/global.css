@@ -1,71 +1,251 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================
+   FUENTES
+========================= */
 
 @font-face {
-  font-family: 'Poppins';
-  src: url('/fuente-texto/Poppins-Regular.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/fuente-texto/Poppins-Regular.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Poppins';
-  src: url('/fuente-texto/Poppins-Medium.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/fuente-texto/Poppins-Medium.ttf") format("truetype");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Poppins';
-  src: url('/fuente-texto/Poppins-SemiBold.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/fuente-texto/Poppins-SemiBold.ttf") format("truetype");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Poppins';
-  src: url('/fuente-texto/Poppins-Bold.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/fuente-texto/Poppins-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Poppins';
-  src: url('/fuente-texto/Poppins-ExtraBold.ttf') format('truetype');
+  font-family: "Poppins";
+  src: url("/fuente-texto/Poppins-ExtraBold.ttf") format("truetype");
   font-weight: 800;
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
-  font-family: 'Luckiest Guy';
-  src: url('/fuente-titulos/LuckiestGuy.ttf') format('truetype');
+  font-family: "Luckiest Guy";
+  src: url("/fuente-titulos/LuckiestGuy.ttf") format("truetype");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
+/* =========================
+   TAILWIND v4 TOKENS
+========================= */
+
 @theme {
-  --color-primary: #632D90;
-  --color-primary-light: #EBE5F2;
-  --color-primary-dark: #4B1A70;
-  --font-display: "Luckiest Guy", cursive;
+  --color-primary: #632d90;
+  --color-secondary: #ebe5f2;
+  --color-tertiary: #4b1a70;
+
   --font-sans: "Poppins", sans-serif;
+  --font-display: "Luckiest Guy", cursive;
 }
 
-/* Custom global rules */
+/* =========================
+   SHADCN TOKENS
+========================= */
+
+:root {
+  /* Base */
+  --background: #ffffff;
+  --foreground: #1c1a14;
+
+  --card: #ffffff;
+  --card-foreground: #1c1a14;
+
+  --popover: #ffffff;
+  --popover-foreground: #1c1a14;
+
+  /* Conectados a tu branding */
+  --primary: #632d90;
+  --primary-foreground: #ffffff;
+
+  --secondary: #ebe5f2;
+  --secondary-foreground: #4b1a70;
+
+  /* tertiary => accent */
+  --accent: #4b1a70;
+  --accent-foreground: #ffffff;
+
+  --muted: #f5f3f8;
+  --muted-foreground: #6b7280;
+
+  --destructive: #dc2626;
+
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --ring: #632d90;
+
+  --radius: 0.625rem;
+
+  --chart-1: #632d90;
+  --chart-2: #ebe5f2;
+  --chart-3: #4b1a70;
+  --chart-4: #8b5fb2;
+  --chart-5: #cbb9dc;
+
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1c1a14;
+
+  --sidebar-primary: #632d90;
+  --sidebar-primary-foreground: #ffffff;
+
+  --sidebar-accent: #ebe5f2;
+  --sidebar-accent-foreground: #4b1a70;
+
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: #632d90;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+
+.dark {
+  --background: #1c1a14;
+  --foreground: #ffffff;
+
+  --card: #2b2730;
+  --card-foreground: #ffffff;
+
+  --popover: #2b2730;
+  --popover-foreground: #ffffff;
+
+  --primary: #632d90;
+  --primary-foreground: #ffffff;
+
+  --secondary: #4b1a70;
+  --secondary-foreground: #ffffff;
+
+  --accent: #ebe5f2;
+  --accent-foreground: #4b1a70;
+
+  --muted: #322d38;
+  --muted-foreground: #d1d5db;
+
+  --destructive: #ef4444;
+
+  --border: #444;
+  --input: #444;
+  --ring: #632d90;
+
+  --sidebar: #2b2730;
+  --sidebar-foreground: #ffffff;
+
+  --sidebar-primary: #632d90;
+  --sidebar-primary-foreground: #ffffff;
+
+  --sidebar-accent: #4b1a70;
+  --sidebar-accent-foreground: #ffffff;
+
+  --sidebar-border: #444;
+  --sidebar-ring: #632d90;
+}
+
+/* =========================
+   SHADCN ↔ TAILWIND
+========================= */
+
+@theme inline {
+  --font-heading: var(--font-display);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-tertiary: var(--accent);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-destructive: var(--destructive);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+}
+
+/* =========================
+   GLOBALES
+========================= */
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  font-family: var(--font-sans);
-  background-color: #ffffff;
-  color: #1C1A14;
+  font-family: "Poppins", sans-serif;
+  background: #ffffff;
+  color: #1c1a14;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-}
-
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
 .title-luckiest {
-  font-family: var(--font-display);
+  font-family: "Luckiest Guy", cursive;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+
+  html {
+    @apply font-sans;
+  }
 }

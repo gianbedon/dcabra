@@ -1,12 +1,9 @@
----
-// Productos.astro
+<!-- ---
 import ProductSection from "./ProductSection.astro";
-import ProductCard from "./ProductCard.astro";
+import ProductCard from "./ProductCard";
 
-// Importación global para el fondo de los titulos
 import portada1 from "../assets/fondo-griego.jpg";
 
-// Import local assets
 import lecheCabraImg from "../assets/leche-con-vaso.jpg";
 
 import yogurtGriegoImg from "../assets/griego-foto.png";
@@ -14,13 +11,11 @@ import yogurtNaturalImg from "../assets/yogurt-natural-foto.png";
 import yogurtJaleaImg from "../assets/griego-solo.png";
 import yogurtFrutaImg from "../assets/maracumango-frutado.png";
 
-// Configurable phone number for WhatsApp buttons
 const whatsAppPhone = "51900154196";
 ---
 
 <section id="productos" class="py-12 bg-gray-50/30">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- 1. LECHE SECTIONn -->
     <ProductSection
       title="Leche"
       imageSrc={lecheCabraImg}
@@ -58,7 +53,6 @@ const whatsAppPhone = "51900154196";
       reverse={false}
     />
 
-    <!-- 2. YOGURT GRIEGO SECTION -->
     <ProductSection
       title="Yogurt Griego"
       bannerImageSrc={portada1}
@@ -98,7 +92,6 @@ const whatsAppPhone = "51900154196";
       reverse={true}
     />
 
-    <!-- 3. YOGURT GRIEGO + JALEA GRID -->
     <div class="py-16 border-b border-gray-100">
       <div class="text-center mb-12">
         <h3
@@ -136,7 +129,6 @@ const whatsAppPhone = "51900154196";
       </div>
     </div>
 
-    <!-- 4. YOGURT NATURAL SECTION -->
     <ProductSection
       title="Yogurt Natural"
       imageSrc={yogurtNaturalImg}
@@ -173,7 +165,6 @@ const whatsAppPhone = "51900154196";
       reverse={false}
     />
 
-    <!-- 5. YOGURT NATURAL + TU FRUTA FAVORITA GRID -->
     <div class="py-16 border-b border-gray-100">
       <div class="text-center mb-12">
         <h3
@@ -188,6 +179,7 @@ const whatsAppPhone = "51900154196";
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         <ProductCard
+          client:visible
           imageSrc={yogurtFrutaImg}
           title="Yogurt Natural + Fresa"
           price="S/ 12.00"
@@ -195,6 +187,7 @@ const whatsAppPhone = "51900154196";
           whatsAppPhone={whatsAppPhone}
         />
         <ProductCard
+          client:visible
           imageSrc={yogurtFrutaImg}
           title="Yogurt Natural + Guanábana"
           price="S/ 12.00"
@@ -202,6 +195,7 @@ const whatsAppPhone = "51900154196";
           whatsAppPhone={whatsAppPhone}
         />
         <ProductCard
+          client:visible
           imageSrc={yogurtFrutaImg}
           title="Yogurt Natural + Mango"
           price="S/ 12.00"
@@ -210,6 +204,5 @@ const whatsAppPhone = "51900154196";
         />
       </div>
     </div>
-
   </div>
-</section>
+</section> -->

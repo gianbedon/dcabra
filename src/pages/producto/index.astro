@@ -1,142 +1,45 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { Image } from "astro:assets";
-import ContactForm from "../../components/ContactForm.astro";
-import Footer from "../../components/Footer.astro";
-
-// Leche y Queso assets
-import lecheSola from "../../assets/leche-sola.png";
-import quesoCabra from "../../assets/queso_cabra.png";
-
-// Yogures assets – Griego con Jalea
-import griegoSolo from "../../assets/griego-solo.png";
-import fresaGriego from "../../assets/fresa-griego.png";
-import mangoGriego from "../../assets/mango-griego.png";
-import maracumangoGriego from "../../assets/maracumango-griego.png";
-import maracuyaGriego from "../../assets/maracuya-griego.png";
-import arandanoGriego from "../../assets/arandano-griego.png";
-
-// Yogures assets – Frutado bebible
-import fresaFrutado from "../../assets/fresa-frutado.png";
-import mangoFrutado from "../../assets/mango-frutado.png";
-import arandanosFrutado from "../../assets/arandanos-frutado.png";
-import maracumangoFrutado from "../../assets/maracumango-frutado.png";
-
-// Recetas assets
-import yogurtConCuchara from "../../assets/yogurt-griego-con-cuchara.jpg";
-import lecheBeneficios from "../../assets/leche-beneficios.jpg";
-import fondoLeche from "../../assets/fondo-leche.jpeg";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
+import RecipeCard from "../../components/RecipeCard.astro"; // Nuevo Componente
 
+import { fetchGraphQL } from "@/lib/wordpress";
+import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries"; // Nueva query añadida
+
+import ProductCard from "../../components/ProductCard.tsx";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-const whatsAppPhone = "51900154196";
+// Ejecutar llamadas en paralelo
+const [productsResponse, recipesResponse] = await Promise.all([
+  fetchGraphQL(GET_PRODUCTS),
+  fetchGraphQL(GET_RECIPES, { first: 3 }), // Traemos solo las 3 últimas recetas
+]);
 
-function makeWAUrl(product: string, price: string) {
-  const text = encodeURIComponent(
-    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`,
-  );
-  return `https://wa.me/${whatsAppPhone}?text=${text}`;
-}
+const allProducts = productsResponse?.data?.productos?.nodes || [];
+const recetasWP = recipesResponse?.data?.posts?.nodes || [];
 
-const lecheQueso = [
-  {
-    img: lecheSola,
-    title: "Leche de Cabra Entera Pasteurizada",
-    price: "S/ 14.00",
-    desc: "Leche 100% de cabra, pasteurizada y lista para consumir. Fuente de calcio, vitaminas y fácil digestión.",
-  },
-  {
-    img: quesoCabra,
-    title: "Queso de Cabra Natural",
-    price: "S/ 24.00",
-    desc: "Queso artesanal elaborado con leche de cabra fresca. Textura suave y sabor inconfundible.",
-  },
+// ── Filtrados de Productos conocidos ───────────────────────────────
+const slugsLecheQueso = [
+  "leche-de-cabra-entera-pasteurizada",
+  "queso-de-cabra-natural",
 ];
 
-const yoguresGriego = [
-  {
-    img: fresaGriego,
-    title: "Yogurt Griego + pulpa de fresa",
-    price: "S/ 19.00",
-    desc: "El clásico y favorito: yogurt griego Extra cremoso con pulpa artesanal de fresas silvestres.",
-  },
-  {
-    img: mangoGriego,
-    title: "Yogurt Griego + pulpa de Mango",
-    price: "S/ 19.00",
-    desc: "Tropical y cremoso, con una generosa base de pulpa de mangos seleccionados.",
-  },
-  {
-    img: maracumangoGriego,
-    title: "Yogurt Griego + pulpa de Maracumango",
-    price: "S/ 19.00",
-    desc: "La exótica fusión de maracuyá y mango en un cremoso yogurt griego de cabra.",
-  },
-  {
-    img: arandanoGriego,
-    title: "Yogurt Griego + pulpa de Arándano",
-    price: "S/ 19.00",
-    desc: "Yogurt griego cremoso de cabra con generosa base de pulpa artesanal de arándanos frescos.",
-  },
-  {
-    img: maracuyaGriego,
-    title: "Yogurt Griego + pulpa de Maracuyá",
-    price: "S/ 19.00",
-    desc: "Intenso sabor tropical: maracuyá en pulpa artesanal sobre esponjoso yogurt griego de cabra.",
-  },
-  {
-    img: griegoSolo,
-    title: "Yogurt Griego Natural",
-    price: "S/ 18.00",
-    desc: "Puro, sin agregados: yogurt griego de cabra con su sabor natural y cremoso inigualable.",
-  },
-];
+const lecheQueso = allProducts.filter((p: any) =>
+  slugsLecheQueso.includes(p.slug),
+);
 
-const yoguresFrutado = [
-  {
-    img: fresaFrutado,
-    title: "Yogurt Frutado • Fresa",
-    price: "S/ 19.00",
-    desc: "Yogurt bebible natural de cabra mezclado con fresca pulpa de fresas licuadas 100% naturales.",
-  },
-  {
-    img: mangoFrutado,
-    title: "Yogurt Frutado • Mango",
-    price: "S/ 19.00",
-    desc: "Frescura tropical: yogurt bebible de cabra con pulpa natural de mangos jugosos de estación.",
-  },
-  {
-    img: arandanosFrutado,
-    title: "Yogurt Frutado • Arándano",
-    price: "S/ 19.00",
-    desc: "Deliciosa combinación de yogurt de cabra bebible con fresca pulpa de arándanos selectos.",
-  },
-  {
-    img: maracumangoFrutado,
-    title: "Yogurt Frutado • Maracumango",
-    price: "S/ 19.00",
-    desc: "La combinación tropical de maracuyá y mango en un refrescante yogurt bebible de cabra.",
-  },
-];
+const yoguresGriego = allProducts.filter((p: any) =>
+  p.categoriasDeProducto?.nodes?.some(
+    (cat: any) => cat.slug === "yogurt-griego",
+  ),
+);
 
-const recetas = [
-  {
-    img: yogurtConCuchara,
-    title: "Bowl de Yogurt Griego",
-    tag: "Desayuno saludable",
-  },
-  {
-    img: lecheBeneficios,
-    title: "Batido de Leche de Cabra",
-    tag: "Bebida nutritiva",
-  },
-  {
-    img: fondoLeche,
-    title: "Smoothie de Yogurt Frutado",
-    tag: "Refrescante y natural",
-  },
-];
+const yoguresFrutado = allProducts.filter((p: any) =>
+  p.categoriasDeProducto?.nodes?.some(
+    (cat: any) => cat.slug === "yogurt-futado" || cat.slug === "yogurt-frutado",
+  ),
+);
 ---
 
 <Layout
@@ -150,597 +53,104 @@ const recetas = [
     badge="100% leche de cabra"
   />
 
-  <section class="products-section">
-    <div class="section-header">
-      <h2 class="section-title">LECHE Y QUESO</h2>
-      <div class="section-title-line"></div>
+  {/* SECCIÓN LECHE Y QUESO */}
+  <section class="mx-auto max-w-[1200px] px-6 py-16">
+    <div class="mb-12 text-center">
+      <h2
+        class="font-['Luckiest_Guy'] text-[clamp(2rem,5vw,3.5rem)] tracking-[0.04em] text-[#632d90] mb-2"
+      >
+        LECHE Y QUESO
+      </h2>
+      <div
+        class="mx-auto h-1 w-[60px] rounded-sm bg-gradient-to-r from-[#632d90] to-[#a855f7] mt-2"
+      >
+      </div>
     </div>
 
-    <div class="products-grid products-grid--2col">
+    <div class="mx-auto grid max-w-[700px] grid-cols-1 gap-7 sm:grid-cols-2">
       {
-        lecheQueso.map((p) => (
-          <div class="product-card">
-            <div class="product-card__img-wrap">
-              <Image src={p.img} alt={p.title} class="product-card__img" />
-              <div class="product-card__img-overlay" />
-            </div>
-            <div class="product-card__body">
-              <div class="product-card__top">
-                <h3 class="product-card__title">{p.title}</h3>
-                <span class="product-card__price">{p.price}</span>
-              </div>
-              <p class="product-card__desc">{p.desc}</p>
-              <a
-                href={makeWAUrl(p.title, p.price)}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="product-card__btn"
-              >
-                <svg
-                  class="product-card__btn-icon"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
-                </svg>
-                Pedir por WhatsApp
-              </a>
-            </div>
-          </div>
+        lecheQueso.map((producto: any) => (
+          <ProductCard client:load product={producto} />
         ))
       }
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       NUESTROS YOGURES – GRIEGO
-  ══════════════════════════════════════════ -->
-  <section class="products-section products-section--alt">
-    <div class="section-header">
-      <h2 class="section-title">NUESTROS YOGURES</h2>
-      <div class="section-title-line"></div>
-      <p class="section-sub">Yogurt Griego con pulpa de fruta</p>
-    </div>
+  {/* SECCIÓN YOGURES */}
+  <section class="bg-[#faf8fc] py-16 w-full">
+    <div class="mx-auto max-w-[1200px] px-6">
+      <div class="mb-12 text-center">
+        <h2
+          class="font-['Luckiest_Guy'] text-[clamp(2rem,5vw,3.5rem)] tracking-[0.04em] text-[#632d90] mb-2"
+        >
+          NUESTROS YOGURES
+        </h2>
+        <div
+          class="mx-auto h-1 w-[60px] rounded-sm bg-gradient-to-r from-[#632d90] to-[#a855f7] mt-2"
+        >
+        </div>
+        <p class="mt-3 text-[1rem] font-semibold text-[#6b7280]">
+          Yogurt Griego con pulpa de fruta
+        </p>
+      </div>
 
-    <div class="products-grid products-grid--3col">
-      {
-        yoguresGriego.map((p) => (
-          <div class="product-card">
-            <div class="product-card__img-wrap">
-              <Image src={p.img} alt={p.title} class="product-card__img" />
-              <div class="product-card__img-overlay" />
-            </div>
-            <div class="product-card__body">
-              <div class="product-card__top">
-                <h3 class="product-card__title">{p.title}</h3>
-                <span class="product-card__price">{p.price}</span>
-              </div>
-              <p class="product-card__desc">{p.desc}</p>
-              <a
-                href={makeWAUrl(p.title, p.price)}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="product-card__btn"
-              >
-                <svg
-                  class="product-card__btn-icon"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
-                </svg>
-                Pedir por WhatsApp
-              </a>
-            </div>
-          </div>
-        ))
-      }
-    </div>
+      <div
+        class="grid grid-cols-1 gap-7 max-[400px]:grid-cols-1 max-sm:grid-cols-2 md:grid-cols-4"
+      >
+        {
+          yoguresGriego.map((producto: any) => (
+            <ProductCard client:load product={producto} />
+          ))
+        }
+      </div>
 
-    <!-- ── YOGURT FRUTADO sub-section ── -->
-    <div class="subsection-header">
-      <p class="subsection-sub">Yogurt Frutado Bebible</p>
-    </div>
+      <div class="mx-auto mt-20 mb-12 text-center">
+        <p
+          class="relative inline-block text-[1.15rem] font-bold uppercase tracking-[0.05em] text-[#632d90] after:mt-[0.4rem] after:mx-auto after:block after:h-[3px] after:w-[40px] after:rounded-sm after:bg-[#a855f7]"
+        >
+          Yogurt Frutado Bebible
+        </p>
+      </div>
 
-    <div class="products-grid products-grid--4col">
-      {
-        yoguresFrutado.map((p) => (
-          <div class="product-card">
-            <div class="product-card__img-wrap">
-              <Image src={p.img} alt={p.title} class="product-card__img" />
-              <div class="product-card__img-overlay" />
-            </div>
-            <div class="product-card__body">
-              <div class="product-card__top">
-                <h3 class="product-card__title">{p.title}</h3>
-                <span class="product-card__price">{p.price}</span>
-              </div>
-              <p class="product-card__desc">{p.desc}</p>
-              <a
-                href={makeWAUrl(p.title, p.price)}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="product-card__btn"
-              >
-                <svg
-                  class="product-card__btn-icon"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
-                </svg>
-                Pedir por WhatsApp
-              </a>
-            </div>
-          </div>
-        ))
-      }
+      <div
+        class="grid grid-cols-1 gap-7 max-[400px]:grid-cols-1 max-sm:grid-cols-2 md:grid-cols-4"
+      >
+        {
+          yoguresFrutado.map((producto: any) => (
+            <ProductCard client:load product={producto} />
+          ))
+        }
+      </div>
     </div>
   </section>
 
-  <!-- ══════════════════════════════════════════
-       NUESTRAS RECETAS
-  ══════════════════════════════════════════ -->
-  <section class="products-section">
-    <div class="section-header">
-      <h2 class="section-title">NUESTRAS RECETAS</h2>
-      <div class="section-title-line"></div>
+  {/* SECCIÓN DE RECETAS DINÁMICAS */}
+  <section class="mx-auto max-w-[1200px] px-6 py-16">
+    <div class="mb-12 text-center">
+      <h2
+        class="font-['Luckiest_Guy'] text-[clamp(2rem,5vw,3.5rem)] tracking-[0.04em] text-[#632d90] mb-2"
+      >
+        NUESTRAS RECETAS
+      </h2>
+      <div
+        class="mx-auto h-1 w-[60px] rounded-sm bg-gradient-to-r from-[#632d90] to-[#a855f7] mt-2"
+      >
+      </div>
     </div>
 
-    <div class="products-grid products-grid--3col">
-      {
-        recetas.map((r) => (
-          <div class="recipe-card">
-            <div class="recipe-card__img-wrap">
-              <Image src={r.img} alt={r.title} class="recipe-card__img" />
-              <div class="recipe-card__overlay" />
-              <span class="recipe-card__tag">{r.tag}</span>
-            </div>
-            <div class="recipe-card__body">
-              <h3 class="recipe-card__title">{r.title}</h3>
-              <a href="#" class="recipe-card__btn">
-                Ver más
-              </a>
-            </div>
-          </div>
-        ))
-      }
+    {/* Grilla de Recetas Dinámicas (3 items) */}
+    <div class="grid grid-cols-1 gap-7 min-[400px]:grid-cols-2 lg:grid-cols-3">
+      {recetasWP.map((receta: any) => <RecipeCard recipe={receta} />)}
+    </div>
+
+    {/* Botón Global para ir al archivo completo de Recetas */}
+    <div class="text-center mt-12">
+      <a
+        href="/recetas"
+        class="inline-block border-2 border-[#632d90] bg-white text-[#632d90] font-sans font-extrabold text-[0.9rem] px-8 py-3 rounded-full no-underline tracking-wide transition-all duration-250 hover:bg-[#632d90] hover:text-white hover:scale-105 shadow-[0_4px_12px_rgba(99,45,144,0.08)]"
+      >
+        Ver más recetas
+      </a>
     </div>
   </section>
 </Layout>
-
-<style>
-  /* ─── HERO ─────────────────────────────── */
-  .hero-banner {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-top: 80px; /* account for fixed header */
-  }
-
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: 0;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(99, 45, 144, 0.82) 0%,
-      rgba(75, 26, 112, 0.7) 100%
-    );
-    z-index: 1;
-  }
-
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    color: #fff;
-    padding: 0 1rem;
-  }
-
-  .hero-sub {
-    font-family: "Luckiest Guy", cursive;
-    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .hero-title {
-    font-family: "Luckiest Guy", cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-    margin: 0;
-  }
-
-  .hero-badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.18);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.75rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.45rem 1.2rem;
-    border-radius: 999px;
-    margin-top: 1.2rem;
-  }
-
-  /* ─── SECTIONS ──────────────────────────── */
-  .products-section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4rem 1.5rem;
-  }
-
-  .products-section--alt {
-    background: #faf8fc;
-    max-width: 100%;
-    padding: 4rem 0;
-  }
-
-  .products-section--alt > * {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-
-  .section-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .section-title {
-    font-family: "Luckiest Guy", cursive;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    color: #632d90;
-    letter-spacing: 0.04em;
-    margin-bottom: 0.5rem;
-  }
-
-  .section-title-line {
-    width: 60px;
-    height: 4px;
-    background: linear-gradient(90deg, #632d90, #a855f7);
-    border-radius: 2px;
-    margin: 0.5rem auto 0;
-  }
-
-  .section-sub {
-    margin-top: 0.75rem;
-    font-size: 1rem;
-    color: #6b7280;
-    font-weight: 600;
-  }
-
-  .subsection-header {
-    text-align: center;
-    margin-top: 3.5rem;
-    margin-bottom: 2rem;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 0 1.5rem;
-  }
-
-  .subsection-sub {
-    font-size: 1.15rem;
-    font-weight: 700;
-    color: #632d90;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    position: relative;
-    display: inline-block;
-  }
-
-  .subsection-sub::after {
-    content: "";
-    display: block;
-    width: 40px;
-    height: 3px;
-    background: #a855f7;
-    border-radius: 2px;
-    margin: 0.4rem auto 0;
-  }
-
-  /* ─── GRIDS ─────────────────────────────── */
-  .products-grid {
-    display: grid;
-    gap: 1.75rem;
-  }
-
-  .products-grid--2col {
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    max-width: 700px;
-    margin: 0 auto;
-  }
-
-  .products-grid--3col {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  }
-
-  .products-grid--4col {
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  }
-
-  /* ─── PRODUCT CARD ──────────────────────── */
-  .product-card {
-    background: #fff;
-    border-radius: 1.5rem;
-    border: 1px solid #ede7f6;
-    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .product-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(99, 45, 144, 0.16);
-  }
-
-  .product-card__img-wrap {
-    position: relative;
-    background: #f5f0fc;
-    height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
-  }
-
-  .product-card__img {
-    height: 200px;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    transition: transform 0.5s ease;
-    drop-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-  }
-
-  .product-card:hover .product-card__img {
-    transform: scale(1.07);
-  }
-
-  .product-card__img-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(99, 45, 144, 0.04);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-
-  .product-card:hover .product-card__img-overlay {
-    opacity: 1;
-  }
-
-  .product-card__body {
-    padding: 1.25rem 1.25rem 1.5rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 0.75rem;
-  }
-
-  .product-card__top {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 0.5rem;
-  }
-
-  .product-card__title {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-size: 0.9rem;
-    color: #1c1a14;
-    line-height: 1.35;
-    transition: color 0.25s;
-  }
-
-  .product-card:hover .product-card__title {
-    color: #632d90;
-  }
-
-  .product-card__price {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #632d90;
-    background: #f0e7fc;
-    padding: 0.2rem 0.65rem;
-    border-radius: 0.75rem;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-
-  .product-card__desc {
-    font-size: 0.8rem;
-    color: #6b7280;
-    line-height: 1.6;
-    flex: 1;
-  }
-
-  .product-card__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: #632d90;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.82rem;
-    border-radius: 1rem;
-    text-decoration: none;
-    letter-spacing: 0.02em;
-    transition:
-      background 0.25s ease,
-      transform 0.2s ease,
-      box-shadow 0.25s ease;
-    box-shadow: 0 4px 16px rgba(99, 45, 144, 0.2);
-    margin-top: auto;
-  }
-
-  .product-card__btn:hover {
-    background: #4b1a70;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px rgba(99, 45, 144, 0.3);
-  }
-
-  .product-card__btn-icon {
-    width: 1.1rem;
-    height: 1.1rem;
-    flex-shrink: 0;
-  }
-
-  /* ─── RECIPE CARDS ──────────────────────── */
-  .recipe-card {
-    border-radius: 1.25rem;
-    overflow: hidden;
-    background: #fff;
-    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
-    border: 1px solid #ede7f6;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-
-  .recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 14px 36px rgba(99, 45, 144, 0.15);
-  }
-
-  .recipe-card__img-wrap {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-  }
-
-  .recipe-card__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-
-  .recipe-card:hover .recipe-card__img {
-    transform: scale(1.06);
-  }
-
-  .recipe-card__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(99, 45, 144, 0.55) 0%,
-      transparent 60%
-    );
-  }
-
-  .recipe-card__tag {
-    position: absolute;
-    top: 0.75rem;
-    left: 0.75rem;
-    background: #632d90;
-    color: #fff;
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-  }
-
-  .recipe-card__body {
-    padding: 1rem 1.25rem 1.25rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .recipe-card__title {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #1c1a14;
-    line-height: 1.3;
-  }
-
-  .recipe-card__btn {
-    background: #632d90;
-    color: #fff;
-    font-size: 0.75rem;
-    font-weight: 700;
-    padding: 0.4rem 1rem;
-    border-radius: 999px;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background 0.2s;
-    flex-shrink: 0;
-  }
-
-  .recipe-card__btn:hover {
-    background: #4b1a70;
-  }
-
-  /* ─── RESPONSIVE ────────────────────────── */
-  @media (max-width: 640px) {
-    .hero-banner {
-      height: 320px;
-    }
-
-    .products-grid--2col {
-      grid-template-columns: 1fr;
-      max-width: 400px;
-    }
-
-    .products-grid--3col,
-    .products-grid--4col {
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    .product-card__img-wrap {
-      height: 180px;
-    }
-
-    .product-card__img {
-      height: 160px;
-    }
-  }
-
-  @media (max-width: 400px) {
-    .products-grid--3col,
-    .products-grid--4col {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

@@ -1,130 +1,35 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { Image } from "astro:assets";
-import ContactForm from "../../components/ContactForm.astro";
-import Footer from "../../components/Footer.astro";
-
-// ── Recetas (fotos) ───────────────────────────────────────────────
-import receta1 from "../../assets/yogurt-griego-con-cuchara.jpg";
-import receta2 from "../../assets/leche-beneficios.jpg";
-import receta3 from "../../assets/fondo-leche.jpeg";
-import receta4 from "../../assets/portada-chacrita.jpg";
-import receta5 from "../../assets/cabra-campo-historia.jpg";
-import receta6 from "../../assets/feria-chacra.jpg";
-
-// ── Productos carousel ────────────────────────────────────────────
-import lecheSola from "../../assets/leche-sola.png";
-import fresaGriego from "../../assets/fresa-griego.png";
-import mangoGriego from "../../assets/mango-griego.png";
-import maracumangoGriego from "../../assets/maracumango-griego.png";
-import arandanoGriego from "../../assets/arandano-griego.png";
-import fresaFrutado from "../../assets/fresa-frutado.png";
-import mangoFrutado from "../../assets/mango-frutado.png";
-import arandanosFrutado from "../../assets/arandanos-frutado.png";
-import quesoCabra from "../../assets/queso_cabra.png";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
+import RecipeCard from "../../components/RecipeCard.astro";
+
+import ProductCarousel from "../../components/ProductCarousel.tsx";
+
+import { fetchGraphQL } from "@/lib/wordpress";
+import { GET_PRODUCTS, GET_RECIPES_PAGINATED } from "@/lib/queries";
+
+const url = new URL(Astro.request.url);
+const currentPage = parseInt(url.searchParams.get("page") || "1", 10);
+const recipesPerPage = 6;
+
+const [productsResponse, recipesResponse] = await Promise.all([
+  fetchGraphQL(GET_PRODUCTS),
+  fetchGraphQL(GET_RECIPES_PAGINATED),
+]);
+
+const allProducts = productsResponse?.data?.productos?.nodes || [];
+const allRecipes = recipesResponse?.data?.posts?.nodes || [];
+
+const totalRecipes = allRecipes.length;
+const totalPages = Math.ceil(totalRecipes / recipesPerPage);
+
+const startIndex = (currentPage - 1) * recipesPerPage;
+const endIndex = startIndex + recipesPerPage;
+const recetasPaginadas = allRecipes.slice(startIndex, endIndex);
+
+const productosCarrusel = allProducts.slice(0, 9);
 
 import fondoGriego from "../../assets/fondo-griego.jpg";
-
-const whatsAppPhone = "51900154196";
-
-function makeWAUrl(product: string, price: string) {
-  const text = encodeURIComponent(
-    `Hola D'Cabra! 🐐 Deseo comprar:\n📦 *${product}*\n💰 Precio: *${price}*\n\n¿Podrían brindarme información para concretar el pedido? ¡Gracias!`,
-  );
-  return `https://wa.me/${whatsAppPhone}?text=${text}`;
-}
-
-// ── Data ──────────────────────────────────────────────────────────
-const recetas = [
-  {
-    img: receta1,
-    title: "Bowl de Yogurt Griego con Granola",
-    desc: "Un desayuno cremoso y nutritivo con yogurt griego de cabra, granola crujiente, frutas frescas y miel.",
-  },
-  {
-    img: receta2,
-    title: "Batido Energético de Leche de Cabra",
-    desc: "Batido proteico con leche de cabra fresca, plátano, cacao puro y avena. Ideal post-entrenamiento.",
-  },
-  {
-    img: receta3,
-    title: "Smoothie Tropical con Yogurt Frutado",
-    desc: "Refrescante smoothie de yogurt frutado de cabra con mango, maracuyá y leche de coco.",
-  },
-  {
-    img: receta4,
-    title: "Postre de Yogurt Griego con Miel",
-    desc: "Sencillo y delicioso: yogurt griego de cabra con chorro de miel artesanal y nueces tostadas.",
-  },
-  {
-    img: receta5,
-    title: "Parfait de Arándanos y Queso Crema",
-    desc: "Capas de yogurt griego, arándanos frescos y queso crema de cabra suave. Un postre elegante y saludable.",
-  },
-  {
-    img: receta6,
-    title: "Helado Cremoso de Yogurt",
-    desc: "Helado artesanal preparado con yogurt griego de cabra, fresas y un toque de vainilla natural.",
-  },
-];
-
-const productos = [
-  {
-    img: arandanosFrutado,
-    title: "Yogurt Frutado · Arándano",
-    price: "S/ 19.00",
-    desc: "Arándanos frescos con yogurt de cabra.",
-  },
-  {
-    img: fresaGriego,
-    title: "Yogurt Griego con pulpa de Fresa",
-    price: "S/ 19.00",
-    desc: "Cremoso yogurt griego con pulpa artesanal de fresa.",
-  },
-  {
-    img: lecheSola,
-    title: "Leche de Cabra Natural",
-    price: "S/ 14.00",
-    desc: "100% pura, pasteurizada y lista para consumir.",
-  },
-  {
-    img: mangoGriego,
-    title: "Yogurt Griego con pulpa de Mango",
-    price: "S/ 19.00",
-    desc: "Tropical y cremoso, con pulpa de mango seleccionado.",
-  },
-  {
-    img: fresaFrutado,
-    title: "Yogurt Frutado · Fresa",
-    price: "S/ 19.00",
-    desc: "Pulpa de fresas naturales en yogurt bebible de cabra.",
-  },
-  {
-    img: maracumangoGriego,
-    title: "Yogurt Griego con pulpa de Maracumango",
-    price: "S/ 19.00",
-    desc: "La exótica fusión de maracuyá y mango en yogurt griego.",
-  },
-  {
-    img: mangoFrutado,
-    title: "Yogurt Frutado · Mango",
-    price: "S/ 19.00",
-    desc: "Frescura tropical: mango natural en yogurt bebible de cabra.",
-  },
-  {
-    img: arandanoGriego,
-    title: "Yogurt Griego con pulpa de Arándano",
-    price: "S/ 19.00",
-    desc: "Yogurt griego con generosa pulpa de arándanos frescos.",
-  },
-  {
-    img: quesoCabra,
-    title: "Queso de Cabra Natural",
-    price: "S/ 24.00",
-    desc: "Queso artesanal suave, elaborado con leche de cabra fresca.",
-  },
-];
 ---
 
 <Layout
@@ -138,651 +43,101 @@ const productos = [
     badge="100% leche de cabra"
   />
 
-  <section class="section recetas-section">
-    <div class="section__header">
-      <p class="section__pre">Alimentación saludable con</p>
-      <h2 class="section__title">NUESTRAS RECETAS</h2>
-      <div class="section__line"></div>
-    </div>
-
-    <div class="recetas-grid">
-      {
-        recetas.map((r) => (
-          <article class="recipe-card">
-            <div class="recipe-card__img-wrap">
-              <Image src={r.img} alt={r.title} class="recipe-card__img" />
-              <div class="recipe-card__img-overlay" />
-            </div>
-            <div class="recipe-card__body">
-              <h3 class="recipe-card__title">{r.title}</h3>
-              <p class="recipe-card__desc">{r.desc}</p>
-              <a href="#" class="recipe-card__btn">
-                Ver más
-              </a>
-            </div>
-          </article>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="section productos-section">
-    <div class="section__header">
-      <h2 class="section__title">NUESTROS PRODUCTOS</h2>
-      <div class="section__line"></div>
-    </div>
-
-    <div class="carousel-wrapper">
-      <button
-        id="carousel-prev"
-        class="carousel-btn carousel-btn--prev"
-        aria-label="Anterior"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+  <section class="bg-[#faf8fc] py-16">
+    <div class="max-w-[1200px] mx-auto px-6">
+      <div class="text-center mb-12">
+        <p class="font-sans text-base text-gray-500 font-medium mb-1">
+          Alimentación saludable con
+        </p>
+        <h2
+          class="font-['Luckiest_Guy'] text-3xl sm:text-4xl md:text-5xl text-[#632d90] tracking-wide m-0"
         >
-          <path d="M15 18l-6-6 6-6"></path>
-        </svg>
-      </button>
-
-      <div class="carousel-track-outer">
-        <div id="carousel-track" class="carousel-track">
-          {
-            productos.map((p) => (
-              <div class="prod-card">
-                <div class="prod-card__img-wrap">
-                  <Image src={p.img} alt={p.title} class="prod-card__img" />
-                  <div class="prod-card__img-overlay" />
-                </div>
-                <div class="prod-card__body">
-                  <h3 class="prod-card__title">{p.title}</h3>
-                  <p class="prod-card__desc">{p.desc}</p>
-                  <span class="prod-card__price">{p.price}</span>
-                  <a
-                    href={makeWAUrl(p.title, p.price)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="prod-card__btn"
-                  >
-                    <svg
-                      class="prod-card__btn-icon"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.625 1.451 5.403.002 9.803-4.392 9.806-9.799.002-2.62-1.011-5.086-2.855-6.931C16.378 2.03 13.919 1.017 11.3 1.017c-5.41 0-9.813 4.397-9.815 9.801-.001 1.87.487 3.697 1.414 5.3l-.993 3.628 3.715-.975zM17.487 14.39c-.3-.15-1.774-.875-2.029-.968-.255-.093-.441-.139-.626.139-.186.278-.718.968-.88 1.153-.162.186-.324.208-.624.059-.3-.15-1.267-.467-2.414-1.492-.893-.797-1.495-1.782-1.67-2.081-.176-.3-.018-.462.131-.61.135-.133.3-.349.45-.523.15-.174.2-.291.3-.487.1-.197.05-.369-.025-.518-.075-.15-.626-1.508-.857-2.063-.224-.54-.471-.467-.626-.467-.162-.005-.347-.006-.532-.006-.185 0-.485.07-.74.348-.255.278-1.018.995-1.018 2.427 0 1.432 1.04 2.818 1.185 3.011.145.193 2.049 3.13 4.964 4.386.694.299 1.236.478 1.658.613.699.222 1.336.19 1.84.115.56-.083 1.774-.725 2.029-1.425.255-.7.255-1.297.179-1.425-.076-.127-.27-.208-.57-.358z" />
-                    </svg>
-                    Pedir por WhatsApp
-                  </a>
-                </div>
-              </div>
-            ))
-          }
+          NUESTRAS RECETAS
+        </h2>
+        <div
+          class="w-14 h-1 bg-gradient-to-r from-[#632d90] to-[#a855f7] rounded-sm mx-auto mt-2"
+        >
         </div>
       </div>
 
-      <button
-        id="carousel-next"
-        class="carousel-btn carousel-btn--next"
-        aria-label="Siguiente"
+      <div
+        class="grid grid-cols-1 min-[400px]:grid-cols-2 lg:grid-cols-3 gap-7"
       >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2.5"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        >
-          <path d="M9 18l6-6-6-6"></path>
-        </svg>
-      </button>
-    </div>
+        {recetasPaginadas.map((receta: any) => <RecipeCard recipe={receta} />)}
+      </div>
 
-    <div id="carousel-dots" class="carousel-dots"></div>
+      {
+        totalPages > 1 && (
+          <nav
+            class="flex justify-center items-center gap-2 mt-12"
+            aria-label="Paginación de recetas"
+          >
+            <a
+              href={currentPage > 1 ? `?page=${currentPage - 1}` : "#"}
+              class={`px-4 py-2 rounded-lg border font-sans text-sm font-bold transition-all ${
+                currentPage === 1
+                  ? "opacity-40 pointer-events-none border-gray-200 text-gray-400"
+                  : "border-[#632d90] text-[#632d90] bg-white hover:bg-[#632d90] hover:text-white"
+              }`}
+            >
+              Anterior
+            </a>
+
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <a
+                href={`?page=${page}`}
+                class={`w-10 h-10 flex items-center justify-center rounded-lg border font-sans text-sm font-bold transition-all ${
+                  page === currentPage
+                    ? "bg-[#632d90] text-white border-[#632d90] shadow-md"
+                    : "bg-white text-gray-600 border-gray-200 hover:border-[#632d90] hover:text-[#632d90]"
+                }`}
+              >
+                {page}
+              </a>
+            ))}
+
+            <a
+              href={currentPage < totalPages ? `?page=${currentPage + 1}` : "#"}
+              class={`px-4 py-2 rounded-lg border font-sans text-sm font-bold transition-all ${
+                currentPage === totalPages
+                  ? "opacity-40 pointer-events-none border-gray-200 text-gray-400"
+                  : "border-[#632d90] text-[#632d90] bg-white hover:bg-[#632d90] hover:text-white"
+              }`}
+            >
+              Siguiente
+            </a>
+          </nav>
+        )
+      }
+    </div>
   </section>
 
+  <section class="max-w-[1200px] mx-auto pt-12 relative">
+    <div class="absolute right-4 md:right-12 top-14 z-10 hidden sm:block">
+      <a
+        href="/productos"
+        class="font-sans font-bold text-sm text-[#a855f7] hover:text-[#632d90] transition-colors flex items-center gap-1 no-underline group"
+      >
+        Ver todos los productos
+        <span class="transform transition-transform group-hover:translate-x-1"
+          >→</span
+        >
+      </a>
+    </div>
+
+    <ProductCarousel
+      client:load
+      title="Nuestros Productos"
+      products={productosCarrusel}
+    />
+
+    <div class="text-center sm:hidden pb-12">
+      <a
+        href="/productos"
+        class="font-sans font-bold text-sm text-[#a855f7] hover:text-[#632d90] transition-colors no-underline"
+      >
+        Ver todos los productos →
+      </a>
+    </div>
+  </section>
 </Layout>
-
-<!-- ═══════════════════════════════════════
-     CAROUSEL SCRIPT
-═══════════════════════════════════════ -->
-<script>
-  const track = document.getElementById("carousel-track") as HTMLElement;
-  const prevBtn = document.getElementById("carousel-prev") as HTMLButtonElement;
-  const nextBtn = document.getElementById("carousel-next") as HTMLButtonElement;
-  const dotsContainer = document.getElementById("carousel-dots") as HTMLElement;
-
-  if (track && prevBtn && nextBtn) {
-    const cards = Array.from(track.children) as HTMLElement[];
-    const total = cards.length;
-
-    // How many cards visible depends on viewport
-    function visibleCount(): number {
-      const w = window.innerWidth;
-      if (w >= 1024) return 3;
-      if (w >= 640) return 2;
-      return 1;
-    }
-
-    let current = 0;
-
-    function maxIndex() {
-      return Math.max(0, total - visibleCount());
-    }
-
-    // Build dots
-    function buildDots() {
-      dotsContainer.innerHTML = "";
-      const pages = maxIndex() + 1;
-      for (let i = 0; i < pages; i++) {
-        const dot = document.createElement("button");
-        dot.className =
-          "carousel-dot" + (i === 0 ? " carousel-dot--active" : "");
-        dot.setAttribute("aria-label", `Ir a página ${i + 1}`);
-        dot.addEventListener("click", () => goTo(i));
-        dotsContainer.appendChild(dot);
-      }
-    }
-
-    function updateDots() {
-      const dots = dotsContainer.querySelectorAll(".carousel-dot");
-      dots.forEach((d, i) => {
-        d.classList.toggle("carousel-dot--active", i === current);
-      });
-    }
-
-    function goTo(index: number) {
-      current = Math.max(0, Math.min(index, maxIndex()));
-      const cardWidth = cards[0].getBoundingClientRect().width;
-      const gap = 28; // matches CSS gap
-      track.style.transform = `translateX(-${current * (cardWidth + gap)}px)`;
-      prevBtn.disabled = current === 0;
-      nextBtn.disabled = current >= maxIndex();
-      updateDots();
-    }
-
-    prevBtn.addEventListener("click", () => goTo(current - 1));
-    nextBtn.addEventListener("click", () => goTo(current + 1));
-
-    // Keyboard navigation
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "ArrowLeft") goTo(current - 1);
-      if (e.key === "ArrowRight") goTo(current + 1);
-    });
-
-    // Touch / swipe support
-    let touchStartX = 0;
-    track.addEventListener(
-      "touchstart",
-      (e) => {
-        touchStartX = e.touches[0].clientX;
-      },
-      { passive: true },
-    );
-    track.addEventListener(
-      "touchend",
-      (e) => {
-        const diff = touchStartX - e.changedTouches[0].clientX;
-        if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
-      },
-      { passive: true },
-    );
-
-    // Re-calc on resize
-    let resizeTimer: ReturnType<typeof setTimeout>;
-    window.addEventListener("resize", () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        buildDots();
-        goTo(Math.min(current, maxIndex()));
-      }, 150);
-    });
-
-    // Init
-    buildDots();
-    goTo(0);
-  }
-</script>
-
-<style>
-  /* ── HERO ──────────────────────────────────── */
-  .hero {
-    position: relative;
-    width: 100%;
-    height: 420px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    margin-top: 80px;
-  }
-  .hero__bg {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    z-index: 0;
-  }
-  .hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      135deg,
-      rgba(99, 45, 144, 0.83) 0%,
-      rgba(75, 26, 112, 0.72) 100%
-    );
-    z-index: 1;
-  }
-  .hero__content {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    color: #fff;
-    padding: 0 1rem;
-  }
-  .hero__pre {
-    font-family: "Luckiest Guy", cursive;
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    letter-spacing: 0.05em;
-    color: rgba(255, 255, 255, 0.88);
-    margin-bottom: 0.2rem;
-  }
-  .hero__title {
-    font-family: "Luckiest Guy", cursive;
-    font-size: clamp(3rem, 8vw, 6rem);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-    margin: 0;
-  }
-  .hero__badge {
-    display: inline-block;
-    background: rgba(255, 255, 255, 0.17);
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.34);
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.72rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 0.4rem 1.2rem;
-    border-radius: 999px;
-    margin-top: 1.1rem;
-  }
-  .hero__logo-corner {
-    position: absolute;
-    top: 1.25rem;
-    right: 1.5rem;
-    z-index: 3;
-    font-family: "Luckiest Guy", cursive;
-    font-size: 1.6rem;
-    color: rgba(255, 255, 255, 0.92);
-    letter-spacing: 0.04em;
-    pointer-events: none;
-  }
-
-  /* ── SHARED SECTION ─────────────────────────── */
-  .section {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 4.5rem 1.5rem;
-  }
-  .section__header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  .section__pre {
-    font-family: "Poppins", sans-serif;
-    font-size: 1rem;
-    color: #6b7280;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
-  }
-  .section__title {
-    font-family: "Luckiest Guy", cursive;
-    font-size: clamp(2rem, 5vw, 3.4rem);
-    color: #632d90;
-    letter-spacing: 0.04em;
-    margin: 0;
-  }
-  .section__line {
-    width: 56px;
-    height: 4px;
-    background: linear-gradient(90deg, #632d90, #a855f7);
-    border-radius: 2px;
-    margin: 0.6rem auto 0;
-  }
-
-  /* ── RECETAS GRID ───────────────────────────── */
-  .recetas-section {
-    background: #faf8fc;
-    max-width: 100%;
-    padding: 4.5rem 0;
-  }
-  .recetas-section > * {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-  }
-  .recetas-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.75rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1.5rem;
-  }
-
-  .recipe-card {
-    background: #fff;
-    border-radius: 1.4rem;
-    border: 1px solid #ede7f6;
-    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-  .recipe-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 40px rgba(99, 45, 144, 0.16);
-  }
-  .recipe-card__img-wrap {
-    position: relative;
-    height: 200px;
-    overflow: hidden;
-  }
-  .recipe-card__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-  }
-  .recipe-card:hover .recipe-card__img {
-    transform: scale(1.06);
-  }
-  .recipe-card__img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      to top,
-      rgba(99, 45, 144, 0.45) 0%,
-      transparent 55%
-    );
-  }
-  .recipe-card__body {
-    padding: 1.1rem 1.2rem 1.4rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 0.6rem;
-  }
-  .recipe-card__title {
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: #1c1a14;
-    line-height: 1.35;
-    margin: 0;
-  }
-  .recipe-card__desc {
-    font-size: 0.78rem;
-    color: #6b7280;
-    line-height: 1.55;
-    flex: 1;
-    margin: 0;
-  }
-  .recipe-card__btn {
-    display: inline-block;
-    align-self: flex-start;
-    background: #632d90;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.75rem;
-    padding: 0.4rem 1.1rem;
-    border-radius: 999px;
-    text-decoration: none;
-    margin-top: 0.25rem;
-    transition:
-      background 0.22s ease,
-      transform 0.2s ease;
-  }
-  .recipe-card__btn:hover {
-    background: #4b1a70;
-    transform: translateY(-1px);
-  }
-
-  /* ── PRODUCTOS / CAROUSEL ───────────────────── */
-  .productos-section {
-    padding-bottom: 3rem;
-  }
-  .carousel-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .carousel-track-outer {
-    flex: 1;
-    overflow: hidden;
-  }
-  .carousel-track {
-    display: flex;
-    gap: 28px;
-    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-
-  /* individual product card */
-  .prod-card {
-    background: #fff;
-    border-radius: 1.4rem;
-    border: 1px solid #ede7f6;
-    box-shadow: 0 2px 12px rgba(99, 45, 144, 0.07);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    flex: 0 0 calc((100% - 56px) / 3); /* 3 visible */
-    transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
-  }
-  .prod-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 14px 36px rgba(99, 45, 144, 0.15);
-  }
-  .prod-card__img-wrap {
-    position: relative;
-    height: 200px;
-    background: #f5f0fc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  .prod-card__img {
-    height: 180px;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    transition: transform 0.45s ease;
-  }
-  .prod-card:hover .prod-card__img {
-    transform: scale(1.08);
-  }
-  .prod-card__img-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(99, 45, 144, 0.03);
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .prod-card:hover .prod-card__img-overlay {
-    opacity: 1;
-  }
-  .prod-card__body {
-    padding: 1rem 1.1rem 1.3rem;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    gap: 0.45rem;
-  }
-  .prod-card__title {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-size: 0.82rem;
-    color: #1c1a14;
-    line-height: 1.3;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    margin: 0;
-  }
-  .prod-card__desc {
-    font-size: 0.76rem;
-    color: #6b7280;
-    line-height: 1.5;
-    flex: 1;
-    margin: 0;
-  }
-  .prod-card__price {
-    font-family: "Poppins", sans-serif;
-    font-weight: 800;
-    font-size: 1.05rem;
-    color: #632d90;
-    margin-top: 0.1rem;
-  }
-  .prod-card__btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    width: 100%;
-    padding: 0.65rem 0.75rem;
-    background: #632d90;
-    color: #fff;
-    font-family: "Poppins", sans-serif;
-    font-weight: 700;
-    font-size: 0.78rem;
-    border-radius: 0.9rem;
-    text-decoration: none;
-    margin-top: auto;
-    transition:
-      background 0.22s,
-      transform 0.2s,
-      box-shadow 0.22s;
-    box-shadow: 0 4px 14px rgba(99, 45, 144, 0.2);
-  }
-  .prod-card__btn:hover {
-    background: #4b1a70;
-    transform: translateY(-1px);
-    box-shadow: 0 8px 22px rgba(99, 45, 144, 0.3);
-  }
-  .prod-card__btn-icon {
-    width: 1rem;
-    height: 1rem;
-    flex-shrink: 0;
-  }
-
-  /* ── CAROUSEL BUTTONS ───────────────────────── */
-  .carousel-btn {
-    flex-shrink: 0;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    border: 2px solid #632d90;
-    background: #fff;
-    color: #632d90;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 10px rgba(99, 45, 144, 0.15);
-    transition:
-      background 0.22s,
-      color 0.22s,
-      transform 0.18s,
-      opacity 0.22s;
-    z-index: 2;
-  }
-  .carousel-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-  .carousel-btn:hover:not(:disabled) {
-    background: #632d90;
-    color: #fff;
-    transform: scale(1.08);
-  }
-  .carousel-btn:disabled {
-    opacity: 0.3;
-    cursor: default;
-  }
-
-  /* ── DOTS ───────────────────────────────────── */
-  .carousel-dots {
-    display: flex;
-    justify-content: center;
-    gap: 0.5rem;
-    margin-top: 1.75rem;
-  }
-  :global(.carousel-dot) {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #d1c4e9;
-    border: none;
-    cursor: pointer;
-    transition:
-      background 0.25s,
-      transform 0.2s;
-    padding: 0;
-  }
-  :global(.carousel-dot--active) {
-    background: #632d90;
-    transform: scale(1.25);
-  }
-  :global(.carousel-dot:hover) {
-    background: #9c27b0;
-  }
-
-  /* ── RESPONSIVE ─────────────────────────────── */
-  @media (max-width: 1023px) {
-    .prod-card {
-      flex: 0 0 calc((100% - 28px) / 2); /* 2 visible */
-    }
-  }
-  @media (max-width: 639px) {
-    .hero {
-      height: 300px;
-    }
-    .prod-card {
-      flex: 0 0 100%; /* 1 visible */
-    }
-    .carousel-btn {
-      width: 36px;
-      height: 36px;
-    }
-    .recetas-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-  }
-  @media (max-width: 400px) {
-    .recetas-grid {
-      grid-template-columns: 1fr;
-    }
-  }
-</style>

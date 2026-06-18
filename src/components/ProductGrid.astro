@@ -1,0 +1,9 @@
+---
+import ProductCard from "./ProductCard";
+
+const { products } = Astro.props;
+---
+
+<div class="grid md:grid-cols-3 lg:grid-cols-4 gap-6">
+    {products.map((product: any) => <ProductCard product={product} />)}
+</div>

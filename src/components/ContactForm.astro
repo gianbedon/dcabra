@@ -15,7 +15,6 @@ const whatsAppPhone = "51900154196";
     <div
       class="absolute right-0 bottom-0 top-0 w-2/5 opacity-[0.05] pointer-events-none hidden md:flex items-center justify-end pr-8"
     >
-      
     </div>
 
     <!-- Content -->
@@ -130,7 +129,7 @@ const whatsAppPhone = "51900154196";
             <button
               id="btn-whatsapp-submit"
               type="button"
-              class="w-full py-3.5 bg-primary text-white font-bold rounded-full hover:bg-primary-dark transition-colors text-sm uppercase tracking-wider shadow-sm flex items-center justify-center cursor-pointer"
+              class="w-full py-3.5 bg-primary text-white font-bold rounded-full hover:bg-tertiary transition-colors text-sm uppercase tracking-wider shadow-sm flex items-center justify-center cursor-pointer"
             >
               Enviar
             </button>
@@ -142,19 +141,29 @@ const whatsAppPhone = "51900154196";
 </section>
 
 <script>
-  document.getElementById("btn-whatsapp-submit")?.addEventListener("click", () => {
-    const nombre = (document.getElementById("form-nombre") as HTMLInputElement).value.trim();
-    const distrito = (document.getElementById("form-distrito") as HTMLInputElement).value.trim();
-    const producto = (document.getElementById("form-producto") as HTMLSelectElement).value;
-    const cantidad = (document.getElementById("form-cantidad") as HTMLInputElement).value;
+  document
+    .getElementById("btn-whatsapp-submit")
+    ?.addEventListener("click", () => {
+      const nombre = (
+        document.getElementById("form-nombre") as HTMLInputElement
+      ).value.trim();
+      const distrito = (
+        document.getElementById("form-distrito") as HTMLInputElement
+      ).value.trim();
+      const producto = (
+        document.getElementById("form-producto") as HTMLSelectElement
+      ).value;
+      const cantidad = (
+        document.getElementById("form-cantidad") as HTMLInputElement
+      ).value;
 
-    if (!nombre || !distrito) {
-      alert("Por favor completa tu nombre y distrito.");
-      return;
-    }
+      if (!nombre || !distrito) {
+        alert("Por favor completa tu nombre y distrito.");
+        return;
+      }
 
-    const mensaje = `Hola D'Cabra! 🐐\n\n*Nombre:* ${nombre}\n*Distrito:* ${distrito}\n*Producto:* ${producto}\n*Cantidad:* ${cantidad}\n\n¿Me pueden confirmar el pedido? ¡Gracias!`;
-    const url = `https://wa.me/51900154196?text=${encodeURIComponent(mensaje)}`;
-    window.open(url, "_blank");
-  });
+      const mensaje = `Hola D'Cabra! 🐐\n\n*Nombre:* ${nombre}\n*Distrito:* ${distrito}\n*Producto:* ${producto}\n*Cantidad:* ${cantidad}\n\n¿Me pueden confirmar el pedido? ¡Gracias!`;
+      const url = `https://wa.me/51900154196?text=${encodeURIComponent(mensaje)}`;
+      window.open(url, "_blank");
+    });
 </script>

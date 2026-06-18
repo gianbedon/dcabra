@@ -1,0 +1,68 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+    recipe: {
+        title: string;
+        slug: string;
+        content: string;
+        featuredImage?: {
+            node: {
+                sourceUrl: string;
+                altText: string;
+            };
+        };
+    };
+}
+
+const { recipe } = Astro.props;
+
+const cleanDesc = recipe.content
+    ? recipe.content.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 120) + "..."
+    : "Descubre cómo preparar esta deliciosa alternativa natural.";
+
+const imageSrc = recipe.featuredImage?.node?.sourceUrl;
+const imageAlt = recipe.featuredImage?.node?.altText || recipe.title;
+---
+
+<article
+    class="group bg-white rounded-[1.5rem] border border-[#ede7f6] shadow-[0_4px_20px_rgba(99,45,144,0.05)] overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(99,45,144,0.12)]"
+>
+    <div class="relative h-[220px] overflow-hidden bg-gray-100">
+        {
+            imageSrc ? (
+                <img
+                    src={imageSrc}
+                    alt={imageAlt}
+                    loading="lazy"
+                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-106"
+                />
+            ) : (
+                <div class="w-full h-full flex items-center justify-center bg-[#f5f0fc] text-[#632d90]/40 font-sans text-sm">
+                    D'Cabra Recetas
+                </div>
+            )
+        }
+    </div>
+
+    <div class="p-6 flex flex-col flex-1 items-center text-center gap-3">
+        <h3
+            class="font-sans text-[1.1rem] text-[#1c1a14] leading-[1.35] m-0 min-h-[46px] line-clamp-2"
+        >
+            {recipe.title}
+        </h3>
+
+        <p
+            class="text-[0.82rem] text-gray-500 leading-[1.6] flex-1 m-0 line-clamp-3"
+        >
+            {cleanDesc}
+        </p>
+
+        <a
+            href={`/recetas/${recipe.slug}`}
+            class="inline-block bg-[#632d90] font-sans font-bold text-[0.8rem] px-6 py-2 rounded-full text-white no-underline mt-2 transition-all duration-200 hover:bg-[#4b1a70] hover:-translate-y-0.5 shadow-[0_4px_10px_rgba(99,45,144,0.15)]"
+        >
+            Ver más
+        </a>
+    </div>
+</article>
