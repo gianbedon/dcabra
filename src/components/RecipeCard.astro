@@ -6,6 +6,21 @@ interface Props {
         title: string;
         slug: string;
         content: string;
+
+        categories?: {
+            nodes: {
+                name: string;
+                slug: string;
+            }[];
+        };
+
+        tags?: {
+            nodes: {
+                name: string;
+                slug: string;
+            }[];
+        };
+
         featuredImage?: {
             node: {
                 sourceUrl: string;
@@ -23,44 +38,71 @@ const cleanDesc = recipe.content
 
 const imageSrc = recipe.featuredImage?.node?.sourceUrl;
 const imageAlt = recipe.featuredImage?.node?.altText || recipe.title;
+
+const recipeLabel =
+    recipe.tags?.nodes?.[0]?.name ||
+    recipe.categories?.nodes?.[0]?.name ||
+    "Receta";
 ---
 
 <article
-    class="group bg-white rounded-[1.5rem] border border-[#ede7f6] shadow-[0_4px_20px_rgba(99,45,144,0.05)] overflow-hidden flex flex-col transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_36px_rgba(99,45,144,0.12)]"
+    class="group overflow-hidden rounded-[1.75rem] border border-[#ede7f6] bg-white shadow-[0_8px_30px_rgba(99,45,144,0.06)] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_18px_45px_rgba(99,45,144,0.14)]"
 >
-    <div class="relative h-[220px] overflow-hidden bg-gray-100">
+    <div class="relative h-[240px] overflow-hidden">
+        <span
+            class="absolute left-4 top-4 z-20 rounded-full bg-primary px-4 py-1 text-[11px] font-bold uppercase tracking-wide text-white"
+        >
+            {recipeLabel}
+        </span>
+
         {
             imageSrc ? (
-                <img
-                    src={imageSrc}
-                    alt={imageAlt}
-                    loading="lazy"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-106"
-                />
+                <>
+                    <Image
+                        width={600}
+                        height={300}
+                        src={imageSrc}
+                        alt={imageAlt}
+                        loading="lazy"
+                        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+
+                    <div
+                        class="absolute inset-0 pointer-events-none"
+                        style="
+            background:
+              linear-gradient(
+                to top,
+                rgba(99,45,144,.5) 0%,
+                rgba(99,45,144,.3) 20%,
+                rgba(99,45,144,.15) 40%,
+                transparent 70%
+              );
+          "
+                    />
+                </>
             ) : (
-                <div class="w-full h-full flex items-center justify-center bg-[#f5f0fc] text-[#632d90]/40 font-sans text-sm">
+                <div class="flex h-full items-center justify-center bg-[#f5f0fc] text-[#632d90]/40">
                     D'Cabra Recetas
                 </div>
             )
         }
     </div>
 
-    <div class="p-6 flex flex-col flex-1 items-center text-center gap-3">
+    <div class="flex flex-1 flex-col p-6 gap-2">
         <h3
-            class="font-sans text-[1.1rem] text-[#1c1a14] leading-[1.35] m-0 min-h-[46px] line-clamp-2"
+            class="!font-sans text-[14px] font-bold leading-tight text-[#1c1a14] line-clamp-2"
         >
             {recipe.title}
         </h3>
 
-        <p
-            class="text-[0.82rem] text-gray-500 leading-[1.6] flex-1 m-0 line-clamp-3"
-        >
+        <p class="flex-1 text-[12px] leading-[1.7] text-gray-500 line-clamp-2">
             {cleanDesc}
         </p>
 
         <a
             href={`/recetas/${recipe.slug}`}
-            class="inline-block bg-[#632d90] font-sans font-bold text-[0.8rem] px-6 py-2 rounded-full text-white no-underline mt-2 transition-all duration-200 hover:bg-[#4b1a70] hover:-translate-y-0.5 shadow-[0_4px_10px_rgba(99,45,144,0.15)]"
+            class="inline-flex w-fit items-center justify-center rounded-full bg-[#632d90] px-4 text-[12px] py-1 font-bold text-white no-underline transition-all duration-300 hover:scale-105 hover:bg-[#4b1a70]"
         >
             Ver más
         </a>

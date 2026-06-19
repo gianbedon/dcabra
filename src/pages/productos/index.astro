@@ -1,25 +1,22 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { Image } from "astro:assets";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
-import RecipeCard from "../../components/RecipeCard.astro"; // Nuevo Componente
+import RecipeCard from "../../components/RecipeCard.astro";
 
 import { fetchGraphQL } from "@/lib/wordpress";
-import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries"; // Nueva query añadida
+import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries";
 
 import ProductCard from "../../components/ProductCard.tsx";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-// Ejecutar llamadas en paralelo
 const [productsResponse, recipesResponse] = await Promise.all([
   fetchGraphQL(GET_PRODUCTS),
-  fetchGraphQL(GET_RECIPES, { first: 3 }), // Traemos solo las 3 últimas recetas
+  fetchGraphQL(GET_RECIPES, { first: 3 }),
 ]);
 
 const allProducts = productsResponse?.data?.productos?.nodes || [];
 const recetasWP = recipesResponse?.data?.posts?.nodes || [];
 
-// ── Filtrados de Productos conocidos ───────────────────────────────
 const slugsLecheQueso = [
   "leche-de-cabra-entera-pasteurizada",
   "queso-de-cabra-natural",
@@ -53,7 +50,6 @@ const yoguresFrutado = allProducts.filter((p: any) =>
     badge="100% leche de cabra"
   />
 
-  {/* SECCIÓN LECHE Y QUESO */}
   <section class="mx-auto max-w-[1200px] px-6 py-16">
     <div class="mb-12 text-center">
       <h2
@@ -76,7 +72,6 @@ const yoguresFrutado = allProducts.filter((p: any) =>
     </div>
   </section>
 
-  {/* SECCIÓN YOGURES */}
   <section class="bg-[#faf8fc] py-16 w-full">
     <div class="mx-auto max-w-[1200px] px-6">
       <div class="mb-12 text-center">
@@ -124,7 +119,6 @@ const yoguresFrutado = allProducts.filter((p: any) =>
     </div>
   </section>
 
-  {/* SECCIÓN DE RECETAS DINÁMICAS */}
   <section class="mx-auto max-w-[1200px] px-6 py-16">
     <div class="mb-12 text-center">
       <h2
@@ -138,19 +132,36 @@ const yoguresFrutado = allProducts.filter((p: any) =>
       </div>
     </div>
 
-    {/* Grilla de Recetas Dinámicas (3 items) */}
-    <div class="grid grid-cols-1 gap-7 min-[400px]:grid-cols-2 lg:grid-cols-3">
-      {recetasWP.map((receta: any) => <RecipeCard recipe={receta} />)}
-    </div>
+    {
+      recetasWP && recetasWP.length > 0 ? (
+        <>
+          <div class="grid grid-cols-1 gap-7 min-[400px]:grid-cols-2 lg:grid-cols-3">
+            {recetasWP.map((receta: any) => (
+              <RecipeCard recipe={receta} />
+            ))}
+          </div>
 
-    {/* Botón Global para ir al archivo completo de Recetas */}
-    <div class="text-center mt-12">
-      <a
-        href="/recetas"
-        class="inline-block border-2 border-[#632d90] bg-white text-[#632d90] font-sans font-extrabold text-[0.9rem] px-8 py-3 rounded-full no-underline tracking-wide transition-all duration-250 hover:bg-[#632d90] hover:text-white hover:scale-105 shadow-[0_4px_12px_rgba(99,45,144,0.08)]"
-      >
-        Ver más recetas
-      </a>
-    </div>
+          <div class="text-center mt-12">
+            <a
+              href="/recetas"
+              class="inline-block border-2 border-[#632d90] bg-white text-[#632d90] font-sans font-extrabold text-[0.9rem] px-8 py-3 rounded-full no-underline tracking-wide transition-all duration-250 hover:bg-[#632d90] hover:text-white hover:scale-105 shadow-[0_4px_12px_rgba(99,45,144,0.08)]"
+            >
+              Ver más recetas
+            </a>
+          </div>
+        </>
+      ) : (
+        <div class="text-center py-16 px-6 bg-[#f5f0fc]/40 rounded-[1.5rem] border border-dashed border-[#ede7f6] max-w-md mx-auto shadow-[inset_0_2px_8px_rgba(99,45,144,0.02)]">
+          <div class="text-4xl mb-4 animate-bounce">🍳</div>
+          <h3 class="!font-sans text-[1.2rem] font-bold text-[#1c1a14] mb-2">
+            No existen recetas disponibles
+          </h3>
+          <p class="text-[0.875rem] text-gray-500 leading-relaxed">
+            Por el momento no tenemos recetas para mostrar aquí. ¡Estamos
+            cocinando nuevas ideas, vuelve pronto!
+          </p>
+        </div>
+      )
+    }
   </section>
 </Layout>

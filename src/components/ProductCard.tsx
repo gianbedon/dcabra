@@ -20,11 +20,9 @@ export default function ProductCard({ product }: ProductCardProps) {
       "
     >
       <div className="h-[210px] bg-[#F4F1FD] flex items-center justify-center p-4">
-        <img
-          src={product.featuredImage?.node?.sourceUrl}
-          alt={product.title}
-          className="h-[170px] w-full object-contain transition-transform duration-500 hover:scale-105"
-        />
+        <a href={`/productos/${product.slug}`} className="w-full h-full flex items-center justify-center">
+          <img src={product.featuredImage?.node?.sourceUrl} alt={product.title} className="h-[170px] w-full object-contain transition-transform duration-500 hover:scale-105" />
+        </a>
       </div>
 
       <div className="p-5 flex flex-col flex-1 gap-2">

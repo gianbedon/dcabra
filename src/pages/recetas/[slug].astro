@@ -1,0 +1,105 @@
+---
+// src/pages/recetas/[slug].astro
+import Layout from "../../layouts/Layout.astro";
+import HeroNavegacion from "../../components/HeroNavegacion.astro";
+import RecipeCard from "../../components/RecipeCard.astro";
+
+import { fetchGraphQL } from "@/lib/wordpress";
+// Eliminamos GET_RECIPES_SLUGS porque usamos directamente GET_RECIPES_PAGINATED
+import { GET_RECIPE_BY_SLUG, GET_RECIPES_PAGINATED } from "@/lib/queries";
+import fondoGriego from "../../assets/fondo-griego.jpg";
+
+// 1. Definir rutas dinámicas estáticas basándonos en todos los posts de WP
+export async function getStaticPaths() {
+    const response = await fetchGraphQL(GET_RECIPES_PAGINATED);
+    const recetas = response?.data?.posts?.nodes || [];
+
+    return recetas.map((receta: any) => ({
+        params: { slug: receta.slug },
+    }));
+}
+
+// 2. Capturar parámetros y realizar consultas en paralelo
+const { slug } = Astro.params;
+
+const [recipeResponse, allRecipesResponse] = await Promise.all([
+    fetchGraphQL(GET_RECIPE_BY_SLUG, { slug }),
+    fetchGraphQL(GET_RECIPES_PAGINATED),
+]);
+
+const receta = recipeResponse?.data?.postBy;
+
+// Si la receta no existe en WordPress redirigimos a un error 404 seguro
+if (!receta) {
+    return Astro.redirect("/404");
+}
+
+// Filtrar las recetas sugeridas del bloque inferior para que no se repita la actual
+const otrasRecetasRaw = allRecipesResponse?.data?.posts?.nodes || [];
+const sugeridas = otrasRecetasRaw
+    .filter((r: any) => r.slug !== slug)
+    .slice(0, 3);
+---
+
+<Layout
+    title={`${receta.title} – Recetas D'Cabra`}
+    description="Prepara platos deliciosos y saludables utilizando los mejores lácteos de cabra."
+>
+    <HeroNavegacion
+        imageBackground={fondoGriego}
+        eyebrow="Cocina Saludable"
+        title={receta.title}
+        badge="Recetario Natural"
+    />
+
+    <article class="max-w-[800px] mx-auto px-6 py-16">
+        <h1
+            class="font-[Luckiest_Guy] text-4xl text-[#632d90] text-center mb-8 uppercase tracking-wide"
+        >
+            {receta.title}
+        </h1>
+
+        {
+            receta.featuredImage?.node?.sourceUrl && (
+                <img
+                    src={receta.featuredImage.node.sourceUrl}
+                    alt={receta.title}
+                    class="w-full h-[400px] object-cover rounded-[2rem] shadow-md mb-12"
+                />
+            )
+        }
+
+        {
+            /* Renderizado seguro de bloques Gutenberg inyectando el HTML procesado */
+        }
+        <div
+            class="prose max-w-none font-sans text-gray-700 leading-relaxed
+                prose-headings:font-bold prose-headings:text-[#632d90]
+                prose-p:mb-4 prose-ul:list-disc prose-ul:pl-6 prose-li:mb-2"
+        >
+            <Fragment set:html={receta.content} />
+        </div>
+
+        <div class="mt-12 text-center">
+            <a
+                href="/recetas"
+                class="inline-block border-2 border-[#632d90] text-[#632d90] hover:bg-[#632d90] hover:text-white font-bold py-2 px-6 rounded-full transition-colors no-underline text-sm"
+            >
+                ← Volver al recetario
+            </a>
+        </div>
+    </article>
+
+    <section class="bg-[#faf8fc] py-16 border-t border-gray-100">
+        <div class="max-w-[1200px] mx-auto px-6">
+            <h2
+                class="text-center font-[Luckiest_Guy] text-3xl text-[#632d90] mb-12 uppercase tracking-wide"
+            >
+                Otras Recetas que te Encantarán
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {sugeridas.map((r: any) => <RecipeCard recipe={r} />)}
+            </div>
+        </div>
+    </section>
+</Layout>
