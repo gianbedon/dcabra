@@ -1,5 +1,3 @@
-// src/lib/queries.ts
-
 export const GET_CATEGORIES = `
 query GetCategories($slugs: [String]) {
   categoriasDeProducto(where: { slug: $slugs }) {
@@ -110,42 +108,35 @@ query GetRecipesPaginated {
 }
 `;
 
-// ── NUEVAS QUERIES PARA DETALLES (Filtros específicos por Slug) ──────────────────
-
-/**
- * Obtiene un único producto buscando por su slug.
- * Mantiene la misma estructura exacta de atributos y categorías que tu GET_PRODUCTS.
- */
 export const GET_PRODUCT_BY_SLUG = `
-query GetProductBySlug($slug: String!) {
-  productoBy(slug: $slug) {
-    id
-    title
-    slug
-    content
-    featuredImage {
-      node {
-        sourceUrl
+  query GetProductBySlug($slug: String!) {
+    productoBy(slug: $slug) {
+      id
+      title
+      slug
+      content
+      featuredImage {
+        node {
+          sourceUrl
+          altText
+        }
       }
-    }
-    categoriasDeProducto {
-      nodes {
-        name
-        slug
+      categoriasDeProducto {
+        nodes {
+          name
+          slug
+        }
       }
-    }
-    atributosDeLosProductos {
-      precio
-      stock
+      atributosDeLosProductos {
+        precio
+        stock
+        beneficios
+        detalleDeConsumo
+      }
     }
   }
-}
 `;
 
-/**
- * Obtiene una única receta buscando por su slug.
- * Mantiene la misma estructura de metadatos (categorías/tags) que tus queries de posts.
- */
 export const GET_RECIPE_BY_SLUG = `
 query GetRecipeBySlug($slug: String!) {
   postBy(slug: $slug) {

@@ -226,6 +226,29 @@ body {
   color: #1c1a14;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f3e8ff;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a855f7;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #632d90;
+}
+
+::selection {
+  background: #a855f7;
+  color: #ffffff;
+}
+
 h1,
 h2,
 h3,

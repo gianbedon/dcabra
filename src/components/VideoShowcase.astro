@@ -1,41 +1,90 @@
 ---
-import { Image } from "astro:assets";
 import cabrasHistoria from "../assets/cabra-campo-historia.jpg";
 ---
 
-<section class="py-16 bg-white select-none">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Outer Video Container with thick border and shadow -->
+<section class="relative bg-white select-none overflow-hidden py-16">
+  <div class="w-full">
     <div
-      class="relative bg-white border-4 border-white ring-4 ring-primary/25 rounded-3xl overflow-hidden shadow-2xl aspect-video group cursor-pointer"
+      class="relative w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[830px] overflow-hidden shadow-2xl"
     >
-      <!-- Video Thumbnail Image -->
-      <Image
-        src={cabrasHistoria}
-        alt="Establo D'Cabra Video"
-        class="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-102"
-      />
-
-      <!-- Purple Overlay -->
-      <div
-        class="absolute inset-0 bg-primary/20 group-hover:bg-primary/10 transition-colors duration-300"
+      <video
+        id="historiaVideo"
+        class="w-full h-full object-cover"
+        src="/videos/video-web-evento.mp4"
+        poster={cabrasHistoria.src}
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        aria-label="Video Establo D'Cabra"
       >
-      </div>
+      </video>
 
-      <!-- Centered Play Button -->
-      <div class="absolute inset-0 flex items-center justify-center">
-        <div
-          class="w-20 h-20 bg-white/95 rounded-full flex items-center justify-center shadow-2xl group-hover:scale-110 transition-all duration-300"
-        >
+      <div
+        class="absolute top-0 left-0 w-full h-[90px] md:h-[120px] overflow-hidden z-20 pointer-events-none"
+      >
+        <div class="wave-track absolute top-0 left-0 flex w-[200%] h-full">
           <svg
-            class="w-10 h-10 text-primary ml-1.5"
-            fill="currentColor"
-            viewBox="0 0 24 24"
+            class="w-1/2 h-full flex-none"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
           >
-            <path d="M8 5v14l11-7z"></path>
+            <path
+              d="M0,0 H1200 V55 C1050,110 930,20 780,55 C620,92 520,110 360,55 C220,10 120,110 0,55 Z"
+              fill="white"></path>
+          </svg>
+
+          <svg
+            class="w-1/2 h-full flex-none"
+            viewBox="0 0 1200 120"
+            preserveAspectRatio="none"
+          >
+            <path
+              d="M0,0 H1200 V55 C1050,110 930,20 780,55 C620,92 520,110 360,55 C220,10 120,110 0,55 Z"
+              fill="white"></path>
           </svg>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script>
+  const video = document.getElementById(
+    "historiaVideo",
+  ) as HTMLVideoElement | null;
+
+  if (video) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      {
+        threshold: 0.4,
+      },
+    );
+
+    observer.observe(video);
+  }
+</script>
+
+<style>
+  .wave-track {
+    animation: waveMove 10s linear infinite;
+  }
+
+  @keyframes waveMove {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

@@ -30,7 +30,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.title}
         </h3>
 
-        <p className="text-[0.76rem] text-[#6b7280] leading-normal flex-1 line-clamp">
+        <p className="text-[0.76rem] text-[#6b7280] leading-normal flex-1 line-clamp-2">
           {descripcion}
         </p>
 

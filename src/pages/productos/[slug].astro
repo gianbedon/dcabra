@@ -1,29 +1,26 @@
 ---
-// src/pages/producto/[slug].astro
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
 import ProductCard from "../../components/ProductCard";
 
 import { fetchGraphQL } from "@/lib/wordpress";
-// Eliminamos GET_PRODUCTS_SLUGS porque usamos directamente GET_PRODUCTS
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCTS } from "@/lib/queries";
+
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-// 1. Definir qué rutas existen (Requerido por Astro en modo estático)
 export async function getStaticPaths() {
-  // Reutilizamos GET_PRODUCTS que ya trae todos los nodos del catálogo
   const response = await fetchGraphQL(GET_PRODUCTS);
   const productos = response?.data?.productos?.nodes || [];
 
   return productos.map((prod: any) => ({
-    params: { slug: prod.slug },
+    params: {
+      slug: prod.slug,
+    },
   }));
 }
 
-// 2. Capturar el slug de la URL actual y hacer el fetch de los datos
 const { slug } = Astro.params;
 
-// Ejecutamos en paralelo la consulta del producto actual y la de "otros productos"
 const [detailResponse, alternativeResponse] = await Promise.all([
   fetchGraphQL(GET_PRODUCT_BY_SLUG, { slug }),
   fetchGraphQL(GET_PRODUCTS),
@@ -31,46 +28,77 @@ const [detailResponse, alternativeResponse] = await Promise.all([
 
 const rawProduct = detailResponse?.data?.productoBy;
 
-// Si por algún motivo el slug no devuelve un producto en WordPress, redirigimos a la página 404
 if (!rawProduct) {
   return Astro.redirect("/404");
 }
 
-// Limpieza de HTML de la descripción
-const descripcionLimpia = rawProduct.content
-  ? rawProduct.content.replace(/<\/?[^>]+(>|$)/g, "").trim()
-  : "Lácteo artesanal 100% natural de cabra.";
-
-// Mapeo del objeto Producto para la UI
-const producto = {
-  nombre: rawProduct.title,
-  variedad:
-    rawProduct.categoriasDeProducto?.nodes?.[0]?.name || "Producto D'Cabra",
-  descripcion: descripcionLimpia,
-  precio: `S/ ${rawProduct.atributosDeLosProductos?.precio || "0.00"}`,
-  imagen: rawProduct.featuredImage?.node?.sourceUrl,
-  whatsapp: `https://wa.me/51900154196?text=${encodeURIComponent(`Hola D'Cabra! 🐐 Deseo información sobre el producto: *${rawProduct.title}*`)}`,
-  // Beneficios fijos como propuesta de diseño
-  beneficios: [
-    "Alto en proteína natural",
-    "Probióticos naturales directos",
-    "Fácil digestión (Moléculas más pequeñas)",
-    "Excelente fuente de calcio",
-    "100% Leche de Cabra seleccionada",
-  ],
+const limpiarHtml = (html = "") => {
+  return html
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 };
 
-// Filtrar para que el producto actual no aparezca en "Otros Productos" abajo
+const convertirLineasALista = (texto = "") => {
+  return texto
+    .split(/\r?\n/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+};
+
+const atributos = rawProduct.atributosDeLosProductos || {};
+
+const descripcionLimpia = rawProduct.content
+  ? limpiarHtml(rawProduct.content)
+  : "Lácteo artesanal 100% natural de cabra.";
+
+const beneficiosDinamicos = convertirLineasALista(atributos.beneficios || "");
+
+const producto = {
+  nombre: rawProduct.title,
+
+  variedad:
+    rawProduct.categoriasDeProducto?.nodes?.[0]?.name || "Producto D'Cabra",
+
+  descripcion: descripcionLimpia,
+
+  precio: `S/ ${atributos.precio || "0.00"}`,
+
+  imagen: rawProduct.featuredImage?.node?.sourceUrl,
+
+  imagenAlt: rawProduct.featuredImage?.node?.altText || rawProduct.title,
+
+  whatsapp: `https://wa.me/51900154196?text=${encodeURIComponent(
+    `Hola D'Cabra! 🐐 Deseo información sobre el producto: *${rawProduct.title}*`,
+  )}`,
+
+  beneficios:
+    beneficiosDinamicos.length > 0
+      ? beneficiosDinamicos
+      : [
+          "Alto en proteína natural",
+          "Probióticos naturales directos",
+          "Fácil digestión",
+          "Excelente fuente de calcio",
+          "100% Leche de Cabra seleccionada",
+        ],
+
+  detalleDeConsumo:
+    atributos.detalleDeConsumo?.trim() ||
+    "Pureza y cremosidad natural procesada bajo los estándares más exigentes con 100% Leche de Cabra. Se recomienda mantener siempre en refrigeración constante entre 4°C y 5°C. Consumir preferentemente dentro de los plazos indicados en el empaque para disfrutar de su máxima frescura artesanal.",
+};
+
 const otrosProductosRaw = alternativeResponse?.data?.productos?.nodes || [];
+
 const otrosProductos = otrosProductosRaw
   .filter((p: any) => p.slug !== slug)
   .slice(0, 3);
+
+const pageTitle = `${producto.nombre} – D'Cabra`;
+const pageDescription = producto.descripcion;
 ---
 
-<Layout
-  title={`${producto.nombre} – D'Cabra`}
-  description={producto.descripcion}
->
+<Layout title={pageTitle} description={pageDescription}>
   <HeroNavegacion
     imageBackground={fondoGriego}
     eyebrow="Productos Premium"
@@ -78,58 +106,67 @@ const otrosProductos = otrosProductosRaw
     badge="Calidad Artesanal"
   />
 
-  <section class="max-w-[1100px] my-12 mx-auto px-8">
+  <section class="max-w-[1100px] my-10 sm:my-12 mx-auto px-4 sm:px-6 md:px-8">
     <h2
-      class="text-center text-3xl font-[Luckiest_Guy] text-[#632d90] uppercase tracking-wider mb-10"
+      class="text-center text-2xl sm:text-3xl text-[#632d90] uppercase tracking-wider mb-8 sm:mb-10"
     >
       {producto.nombre}
     </h2>
 
     <div
-      class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-10 items-center justify-items-center md:justify-items-stretch"
+      class="grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-8 md:gap-10 items-center justify-items-center md:justify-items-stretch"
     >
       <div class="w-full max-w-[500px] md:max-w-none">
         <h3
-          class="font-sans text-base font-extrabold text-[#2c2c2c] uppercase mb-4"
+          class="!font-sans text-base font-bold text-[#2c2c2c] uppercase mb-4"
         >
           Beneficios:
         </h3>
-        <ul class="flex flex-col gap-2">
-          {
-            producto.beneficios.map((b) => (
-              <li class="flex items-center gap-2 text-[0.92rem] text-[#2c2c2c] before:content-['✔'] before:text-[#6a1bb3] before:font-bold before:text-[0.85rem]">
-                {b}
-              </li>
-            ))
-          }
-        </ul>
+
+        <div class="max-h-[190px] overflow-y-auto pr-2 custom-scroll">
+          <ul class="flex flex-col gap-2">
+            {
+              producto.beneficios.map((b) => (
+                <li class="flex items-start gap-2 text-[0.92rem] text-[#2c2c2c] before:content-['✔'] before:text-[#6a1bb3] before:font-bold before:text-[0.85rem] before:mt-[2px]">
+                  <span>{b}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
       </div>
 
-      <div class="flex flex-col items-center gap-[0.6rem] min-w-[250px]">
+      <div class="flex flex-col items-center gap-[0.6rem] w-full max-w-[280px]">
         {
           producto.imagen ? (
             <img
               src={producto.imagen}
-              alt={producto.nombre}
-              class="w-[220px] h-[220px] object-contain drop-shadow-[0_8px_20px_rgba(74,14,143,0.2)]"
+              alt={producto.imagenAlt}
+              class="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] object-contain drop-shadow-[0_8px_20px_rgba(74,14,143,0.2)]"
             />
           ) : (
-            <div class="w-[220px] h-[220px] bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
+            <div class="w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] bg-gray-100 rounded-full flex items-center justify-center text-gray-400">
               Sin Imagen
             </div>
           )
         }
+
         <span
           class="text-[0.78rem] font-bold text-[#4a0e8f] uppercase tracking-[0.5px] text-center mt-2"
         >
           {producto.variedad}
         </span>
-        <span class="text-[0.82rem] text-[#666] text-center max-w-[240px]">
+
+        <span
+          class="text-[0.82rem] text-[#666] text-center max-w-[240px] leading-relaxed overflow-hidden [display:-webkit-box] [-webkit-line-clamp:3] [-webkit-box-orient:vertical]"
+        >
           {producto.descripcion}
         </span>
+
         <span class="text-xl font-extrabold text-[#6a1bb3] my-1">
           {producto.precio}
         </span>
+
         <a
           href={producto.whatsapp}
           class="inline-block bg-[#6a1bb3] hover:bg-[#5a14a0] text-white py-[0.55rem] px-6 rounded-full font-bold text-[0.85rem] text-center transition-all duration-200 hover:-translate-y-[1px] whitespace-nowrap no-underline shadow-md"
@@ -142,30 +179,30 @@ const otrosProductos = otrosProductosRaw
 
       <div class="w-full max-w-[500px] md:max-w-none">
         <h3
-          class="font-sans text-base font-extrabold text-[#2c2c2c] uppercase mb-4"
+          class="!font-sans text-base font-bold text-[#2c2c2c] uppercase mb-4"
         >
           Detalle de Consumo:
         </h3>
-        <p class="text-[0.92rem] text-[#444] leading-relaxed">
-          Pureza y cremosidad natural procesada bajo los estándares más
-          exigentes con 100% Leche de Cabra. Se recomienda mantener siempre en
-          refrigeración constante entre 4°C y 5°C. Consumir preferentemente
-          dentro de los plazos indicados en el empaque para disfrutar de su
-          máxima frescura artesanal.
-        </p>
+
+        <div class="max-h-[220px] overflow-y-auto pr-3 custom-scroll">
+          <p class="text-[0.92rem] text-[#444] leading-relaxed">
+            {producto.detalleDeConsumo}
+          </p>
+        </div>
       </div>
     </div>
   </section>
 
   <section
-    class="max-w-[1200px] my-20 mx-auto px-8 border-t border-gray-100 pt-16"
+    class="max-w-[1200px] my-14 sm:my-20 mx-auto px-4 sm:px-6 md:px-8 border-t border-gray-100 pt-12 sm:pt-16"
   >
     <h2
-      class="text-center text-3xl font-[Luckiest_Guy] text-[#632d90] uppercase tracking-wider mb-12"
+      class="text-center text-2xl sm:text-3xl font-[Luckiest_Guy] text-[#632d90] uppercase tracking-wider mb-10 sm:mb-12"
     >
       Otros Productos de la Granja
     </h2>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
       {otrosProductos.map((p: any) => <ProductCard client:load product={p} />)}
     </div>
   </section>

@@ -2,10 +2,8 @@
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
 import RecipeCard from "../../components/RecipeCard.astro";
-
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries";
-
 import ProductCard from "../../components/ProductCard.tsx";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
@@ -17,21 +15,21 @@ const [productsResponse, recipesResponse] = await Promise.all([
 const allProducts = productsResponse?.data?.productos?.nodes || [];
 const recetasWP = recipesResponse?.data?.posts?.nodes || [];
 
-const slugsLecheQueso = [
-  "leche-de-cabra-entera-pasteurizada",
-  "queso-de-cabra-natural",
-];
-
+// 1. Leche y Queso: Filtra cualquier producto que tenga la categoría 'leche' O 'quesos'
 const lecheQueso = allProducts.filter((p: any) =>
-  slugsLecheQueso.includes(p.slug),
+  p.categoriasDeProducto?.nodes?.some(
+    (cat: any) => cat.slug === "leche" || cat.slug === "quesos",
+  ),
 );
 
+// 2. Yogures Griegos
 const yoguresGriego = allProducts.filter((p: any) =>
   p.categoriasDeProducto?.nodes?.some(
     (cat: any) => cat.slug === "yogurt-griego",
   ),
 );
 
+// 3. Yogures Frutados
 const yoguresFrutado = allProducts.filter((p: any) =>
   p.categoriasDeProducto?.nodes?.some(
     (cat: any) => cat.slug === "yogurt-futado" || cat.slug === "yogurt-frutado",
@@ -63,17 +61,21 @@ const yoguresFrutado = allProducts.filter((p: any) =>
       </div>
     </div>
 
-    <div class="mx-auto grid max-w-[700px] grid-cols-1 gap-7 sm:grid-cols-2">
+    <div
+      class="mx-auto grid max-w-[700px] grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-7"
+    >
       {
-        lecheQueso.map((producto: any) => (
-          <ProductCard client:load product={producto} />
-        ))
+        lecheQueso
+          .slice(0, 2)
+          .map((producto: any) => (
+            <ProductCard client:load product={producto} />
+          ))
       }
     </div>
   </section>
 
-  <section class="bg-[#faf8fc] py-16 w-full">
-    <div class="mx-auto max-w-[1200px] px-6">
+  <section class="bg-[#faf8fc] py-10 sm:py-14 md:py-16 w-full">
+    <div class="mx-auto max-w-[1200px] px-4 sm:px-6">
       <div class="mb-12 text-center">
         <h2
           class="font-['Luckiest_Guy'] text-[clamp(2rem,5vw,3.5rem)] tracking-[0.04em] text-[#632d90] mb-2"
@@ -90,7 +92,7 @@ const yoguresFrutado = allProducts.filter((p: any) =>
       </div>
 
       <div
-        class="grid grid-cols-1 gap-7 max-[400px]:grid-cols-1 max-sm:grid-cols-2 md:grid-cols-4"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 md:gap-7"
       >
         {
           yoguresGriego.map((producto: any) => (
@@ -108,7 +110,7 @@ const yoguresFrutado = allProducts.filter((p: any) =>
       </div>
 
       <div
-        class="grid grid-cols-1 gap-7 max-[400px]:grid-cols-1 max-sm:grid-cols-2 md:grid-cols-4"
+        class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 md:gap-7"
       >
         {
           yoguresFrutado.map((producto: any) => (
@@ -119,7 +121,7 @@ const yoguresFrutado = allProducts.filter((p: any) =>
     </div>
   </section>
 
-  <section class="mx-auto max-w-[1200px] px-6 py-16">
+  <section class="mx-auto max-w-[1200px] px-4 sm:px-6 py-10 sm:py-14 md:py-16">
     <div class="mb-12 text-center">
       <h2
         class="font-['Luckiest_Guy'] text-[clamp(2rem,5vw,3.5rem)] tracking-[0.04em] text-[#632d90] mb-2"
@@ -135,7 +137,7 @@ const yoguresFrutado = allProducts.filter((p: any) =>
     {
       recetasWP && recetasWP.length > 0 ? (
         <>
-          <div class="grid grid-cols-1 gap-7 min-[400px]:grid-cols-2 lg:grid-cols-3">
+          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
             {recetasWP.map((receta: any) => (
               <RecipeCard recipe={receta} />
             ))}

@@ -1,15 +1,12 @@
 ---
-// src/pages/recetas/[slug].astro
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
 import RecipeCard from "../../components/RecipeCard.astro";
 
 import { fetchGraphQL } from "@/lib/wordpress";
-// Eliminamos GET_RECIPES_SLUGS porque usamos directamente GET_RECIPES_PAGINATED
 import { GET_RECIPE_BY_SLUG, GET_RECIPES_PAGINATED } from "@/lib/queries";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-// 1. Definir rutas dinámicas estáticas basándonos en todos los posts de WP
 export async function getStaticPaths() {
     const response = await fetchGraphQL(GET_RECIPES_PAGINATED);
     const recetas = response?.data?.posts?.nodes || [];
@@ -19,7 +16,6 @@ export async function getStaticPaths() {
     }));
 }
 
-// 2. Capturar parámetros y realizar consultas en paralelo
 const { slug } = Astro.params;
 
 const [recipeResponse, allRecipesResponse] = await Promise.all([
@@ -29,12 +25,10 @@ const [recipeResponse, allRecipesResponse] = await Promise.all([
 
 const receta = recipeResponse?.data?.postBy;
 
-// Si la receta no existe en WordPress redirigimos a un error 404 seguro
 if (!receta) {
     return Astro.redirect("/404");
 }
 
-// Filtrar las recetas sugeridas del bloque inferior para que no se repita la actual
 const otrasRecetasRaw = allRecipesResponse?.data?.posts?.nodes || [];
 const sugeridas = otrasRecetasRaw
     .filter((r: any) => r.slug !== slug)
@@ -69,9 +63,6 @@ const sugeridas = otrasRecetasRaw
             )
         }
 
-        {
-            /* Renderizado seguro de bloques Gutenberg inyectando el HTML procesado */
-        }
         <div
             class="prose max-w-none font-sans text-gray-700 leading-relaxed
                 prose-headings:font-bold prose-headings:text-[#632d90]

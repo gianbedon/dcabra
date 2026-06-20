@@ -8,23 +8,29 @@ const data = await fetchGraphQL(GET_CATEGORIES, { slugs: slugsPermitidos });
 const categorias = data?.data?.categoriasDeProducto?.nodes || [];
 ---
 
-<section class="py-16 bg-white">
-  <div class="max-w-7xl mx-auto px-4 text-center">
-    <span class="block text-gray-500 font-semibold text-lg tracking-wide mb-1">
+<section class="py-10 sm:py-14 md:py-16 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 text-center">
+    <span
+      class="block text-gray-500 font-semibold text-base sm:text-lg tracking-wide mb-1"
+    >
       Descubre
     </span>
+
     <h2
-      class="text-primary text-4xl sm:text-5xl font-black uppercase tracking-wider mb-12"
+      class="text-primary text-3xl sm:text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 sm:mb-10 md:mb-12"
     >
       Nuestras Categorías
     </h2>
 
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto">
+    <div
+      class="grid grid-cols-1 min-[420px]:grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6 max-w-5xl mx-auto"
+    >
       {
         categorias.map((categoria: any) => {
           const imagenUrl =
             categoria.camposCategoriaProducto?.imagenDeCategoria?.node
               ?.sourceUrl;
+
           const imagenAlt =
             categoria.camposCategoriaProducto?.imagenDeCategoria?.node
               ?.altText || categoria.name;
@@ -34,19 +40,20 @@ const categorias = data?.data?.categoriasDeProducto?.nodes || [];
               href={`/productos?categoria=${categoria.slug}`}
               class="group flex flex-col items-center"
             >
-              <div class="border-4 border-primary rounded-[2rem] w-full h-72 flex items-center justify-center p-6 bg-white transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg relative overflow-hidden">
+              <div class="border-4 border-primary rounded-[1.5rem] sm:rounded-[2rem] w-full h-52 min-[420px]:h-56 sm:h-64 md:h-72 flex items-center justify-center p-5 sm:p-6 bg-white transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-lg relative overflow-hidden">
                 {imagenUrl ? (
                   <img
                     src={imagenUrl}
                     alt={imagenAlt}
                     class="max-h-full max-w-full object-contain"
+                    loading="lazy"
                   />
                 ) : (
                   <span class="text-gray-400 text-sm">Sin imagen</span>
                 )}
               </div>
 
-              <div class="bg-primary text-white rounded-2xl px-6 py-3 -mt-5 font-extrabold uppercase text-sm sm:text-base text-center shadow-md z-10 min-w-[80%] transition-transform duration-300 group-hover:scale-105">
+              <div class="bg-primary text-white rounded-xl sm:rounded-2xl px-4 sm:px-6 py-2.5 sm:py-3 -mt-5 font-extrabold uppercase text-xs sm:text-sm md:text-base text-center shadow-md z-10 min-w-[75%] sm:min-w-[80%] transition-transform duration-300 group-hover:scale-105">
                 {categoria.name}
               </div>
             </a>

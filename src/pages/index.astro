@@ -5,16 +5,15 @@ import Categories from "../components/Categories.astro";
 import VisitUs from "../components/VisitUs.astro";
 import Marquee from "../components/Marquee.astro";
 import VideoShowcase from "../components/VideoShowcase.astro";
-
 import ProductCarousel from "../components/ProductCarousel";
-
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_CATEGORIES, GET_PRODUCTS } from "@/lib/queries";
 
 const slugsPermitidos = [
   "yogurt-griego",
   "yogurt-frutado",
-  "leche-y-yogurt-natural",
+  "leche",
+  "yogurt-natural",
 ];
 
 const categoriesData = await fetchGraphQL(GET_CATEGORIES, {
@@ -25,15 +24,24 @@ const productsData = await fetchGraphQL(GET_PRODUCTS);
 const nodosCategorias = categoriesData?.data?.categoriasDeProducto?.nodes || [];
 const productos = productsData?.data?.productos?.nodes || [];
 
-const categorias = nodosCategorias.sort(
-  (a: any, b: any) =>
-    slugsPermitidos.indexOf(a.slug) - slugsPermitidos.indexOf(b.slug),
-);
+const seccionesHome = [
+  {
+    title: "Yogurt Griego",
+    slugs: ["yogurt-griego"],
+  },
+  {
+    title: "Yogurt Frutado",
+    slugs: ["yogurt-frutado"],
+  },
+  {
+    title: "Leche y Yogurt Natural",
+    slugs: ["leche", "yogurt-natural"],
+  },
+];
 ---
 
 <Layout title="D'Cabra – Yogurt Griego y Lácteos de Cabra 100% Naturales">
   <Hero />
-
   <Categories />
 
   <section class="py-16 bg-white">
@@ -41,13 +49,13 @@ const categorias = nodosCategorias.sort(
       <h2 class="text-center text-primary text-4xl md:text-6xl uppercase mb-4">
         Nuestros Productos
       </h2>
-
       <div class="w-16 h-1 bg-primary mx-auto mb-16"></div>
+
       {
-        categorias.map((categoria: any) => {
+        seccionesHome.map((seccion) => {
           const productosCategoria = productos.filter((producto: any) =>
-            producto.categoriasDeProducto?.nodes?.some(
-              (cat: any) => cat.slug === categoria.slug,
+            producto.categoriasDeProducto?.nodes?.some((cat: any) =>
+              seccion.slugs.includes(cat.slug),
             ),
           );
 
@@ -56,7 +64,7 @@ const categorias = nodosCategorias.sort(
           return (
             <ProductCarousel
               client:visible
-              title={categoria.name}
+              title={seccion.title}
               products={productosCategoria}
             />
           );
@@ -64,9 +72,8 @@ const categorias = nodosCategorias.sort(
       }
     </div>
   </section>
+
   <VisitUs />
-
   <Marquee />
-
   <VideoShowcase />
 </Layout>
