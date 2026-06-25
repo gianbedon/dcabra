@@ -11,6 +11,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     ?.replace(/<[^>]*>/g, "")
     ?.trim();
 
+  const imageUrl = product.featuredImage?.node?.sourceUrl;
+
   return (
     <div
       className="
@@ -20,8 +22,21 @@ export default function ProductCard({ product }: ProductCardProps) {
       "
     >
       <div className="h-[210px] bg-[#F4F1FD] flex items-center justify-center p-4">
-        <a href={`/productos/${product.slug}`} className="w-full h-full flex items-center justify-center">
-          <img src={product.featuredImage?.node?.sourceUrl} alt={product.title} className="h-[170px] w-full object-contain transition-transform duration-500 hover:scale-105" />
+        <a
+          href={`/productos/${product.slug}`}
+          className="w-full h-full flex items-center justify-center"
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={product.title}
+              className="h-[170px] w-full object-contain transition-transform duration-500 hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full flex items-center justify-center text-sm text-gray-400">
+              Sin imagen
+            </div>
+          )}
         </a>
       </div>
 
