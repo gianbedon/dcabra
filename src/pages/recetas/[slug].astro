@@ -1,20 +1,14 @@
 ---
+export const prerender = false;
+
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
 import RecipeCard from "../../components/RecipeCard.astro";
-
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_RECIPE_BY_SLUG, GET_RECIPES_PAGINATED } from "@/lib/queries";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-export async function getStaticPaths() {
-    const response = await fetchGraphQL(GET_RECIPES_PAGINATED);
-    const recetas = response?.data?.posts?.nodes || [];
-
-    return recetas.map((receta: any) => ({
-        params: { slug: receta.slug },
-    }));
-}
+Astro.response.headers.set("Cache-Control", "no-store");
 
 const { slug } = Astro.params;
 
@@ -30,6 +24,7 @@ if (!receta) {
 }
 
 const otrasRecetasRaw = allRecipesResponse?.data?.posts?.nodes || [];
+
 const sugeridas = otrasRecetasRaw
     .filter((r: any) => r.slug !== slug)
     .slice(0, 3);

@@ -1,23 +1,14 @@
 ---
+export const prerender = false;
+
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
 import ProductCard from "../../components/ProductCard";
-
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCTS } from "@/lib/queries";
-
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-export async function getStaticPaths() {
-  const response = await fetchGraphQL(GET_PRODUCTS);
-  const productos = response?.data?.productos?.nodes || [];
-
-  return productos.map((prod: any) => ({
-    params: {
-      slug: prod.slug,
-    },
-  }));
-}
+Astro.response.headers.set("Cache-Control", "no-store");
 
 const { slug } = Astro.params;
 

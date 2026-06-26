@@ -1,4 +1,6 @@
 ---
+export const prerender = false;
+
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
 import RecipeCard from "../../components/RecipeCard.astro";
@@ -6,6 +8,8 @@ import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries";
 import ProductCard from "../../components/ProductCard.tsx";
 import fondoGriego from "../../assets/fondo-griego.jpg";
+
+Astro.response.headers.set("Cache-Control", "no-store");
 
 const [productsResponse, recipesResponse] = await Promise.all([
   fetchGraphQL(GET_PRODUCTS),
