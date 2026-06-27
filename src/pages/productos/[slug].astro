@@ -8,7 +8,20 @@ import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_PRODUCT_BY_SLUG, GET_PRODUCTS } from "@/lib/queries";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+);
+
+Astro.response.headers.set(
+  "CDN-Cache-Control",
+  "public, s-maxage=3600, stale-while-revalidate=86400",
+);
+
+Astro.response.headers.set(
+  "Vercel-CDN-Cache-Control",
+  "public, s-maxage=3600, stale-while-revalidate=86400",
+);
 
 const { slug } = Astro.params;
 

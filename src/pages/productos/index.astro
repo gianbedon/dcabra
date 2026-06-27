@@ -9,7 +9,20 @@ import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries";
 import ProductCard from "../../components/ProductCard.tsx";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+);
+
+Astro.response.headers.set(
+  "CDN-Cache-Control",
+  "public, s-maxage=3600, stale-while-revalidate=86400",
+);
+
+Astro.response.headers.set(
+  "Vercel-CDN-Cache-Control",
+  "public, s-maxage=3600, stale-while-revalidate=86400",
+);
 
 const [productsResponse, recipesResponse] = await Promise.all([
   fetchGraphQL(GET_PRODUCTS),
