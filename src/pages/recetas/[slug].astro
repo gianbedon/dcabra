@@ -8,20 +8,7 @@ import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_RECIPE_BY_SLUG, GET_RECIPES_PAGINATED } from "@/lib/queries";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-Astro.response.headers.set(
-    "Cache-Control",
-    "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
-);
-
-Astro.response.headers.set(
-    "CDN-Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400",
-);
-
-Astro.response.headers.set(
-    "Vercel-CDN-Cache-Control",
-    "public, s-maxage=3600, stale-while-revalidate=86400",
-);
+Astro.response.headers.set("Cache-Control", "no-store");
 
 const { slug } = Astro.params;
 

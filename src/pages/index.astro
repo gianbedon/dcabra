@@ -11,20 +11,7 @@ import ProductCarousel from "../components/ProductCarousel";
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_CATEGORIES, GET_PRODUCTS } from "@/lib/queries";
 
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
-);
-
-Astro.response.headers.set(
-  "CDN-Cache-Control",
-  "public, s-maxage=3600, stale-while-revalidate=86400",
-);
-
-Astro.response.headers.set(
-  "Vercel-CDN-Cache-Control",
-  "public, s-maxage=3600, stale-while-revalidate=86400",
-);
+Astro.response.headers.set("Cache-Control", "no-store");
 
 const slugsPermitidos = [
   "yogurt-griego",

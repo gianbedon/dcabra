@@ -10,20 +10,7 @@ import ProductCarousel from "../../components/ProductCarousel.tsx";
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_PRODUCTS, GET_RECIPES_PAGINATED } from "@/lib/queries";
 
-Astro.response.headers.set(
-  "Cache-Control",
-  "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
-);
-
-Astro.response.headers.set(
-  "CDN-Cache-Control",
-  "public, s-maxage=3600, stale-while-revalidate=86400",
-);
-
-Astro.response.headers.set(
-  "Vercel-CDN-Cache-Control",
-  "public, s-maxage=3600, stale-while-revalidate=86400",
-);
+Astro.response.headers.set("Cache-Control", "no-store");
 
 const url = new URL(Astro.request.url);
 const currentPage = parseInt(url.searchParams.get("page") || "1", 10);
