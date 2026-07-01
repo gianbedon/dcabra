@@ -44,40 +44,42 @@ const seccionesHome = [
 ];
 ---
 
-<Layout title="D'Cabra – Yogurt Griego y Lácteos de Cabra 100% Naturales">
-  <Hero />
+<Layout
+  title="Leche de cabra y yogurt griego artesanal en Lima | D'Cabra"
+  description="Compra yogurt griego, leche de cabra, yogurt frutado y queso artesanal D'Cabra. Productos naturales elaborados con leche de cabra en Perú."
+>
+  <Hero/>
   <Categories />
 
   <section class="py-16 bg-white">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-center text-primary text-4xl md:text-6xl uppercase mb-4">
-        Nuestros Productos
-      </h2>
-      <div class="w-16 h-1 bg-primary mx-auto mb-16"></div>
+  <div class="max-w-7xl mx-auto px-4">
+    <h2 class="text-center text-primary text-4xl md:text-6xl uppercase mb-4">
+      Nuestros Productos
+    </h2>
+    <div class="w-16 h-1 bg-primary mx-auto mb-16"></div>
 
-      {
-        seccionesHome.map((seccion) => {
-          const productosCategoria = productos.filter((producto: any) =>
-            producto.categoriasDeProducto?.nodes?.some((cat: any) =>
-              seccion.slugs.includes(cat.slug),
-            ),
-          );
+    {
+      seccionesHome.map((seccion) => {
+        const productosCategoria = productos.filter((producto: any) =>
+          producto.categoriasDeProducto?.nodes?.some((cat: any) =>
+            seccion.slugs.includes(cat.slug),
+          ),
+        );
 
-          if (!productosCategoria.length) return null;
+        if (!productosCategoria.length) return null;
 
-          return (
-            <ProductCarousel
-              client:visible
-              title={seccion.title}
-              products={productosCategoria}
-            />
-          );
-        })
-      }
-    </div>
-  </section>
+        return (
+          <ProductCarousel
+            client:visible
+            title={seccion.title}
+            products={productosCategoria}
+          />
+        );
+      })
+    }
+  </div>
+</section>
 
-  <VisitUs />
-  <Marquee />
-  <VideoShowcase />
-</Layout>
+<VisitUs />
+<Marquee />
+<VideoShowcase />

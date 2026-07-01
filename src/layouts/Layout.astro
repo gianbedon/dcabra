@@ -3,29 +3,111 @@ import "../styles/global.css";
 
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
-
 import ContactForm from "../components/ContactForm.astro";
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  type?: "website" | "article";
+  canonical?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const {
-  title = "D'Cabra – Lácteos de Cabra 100% Naturales",
-  description = "Yogurt griego, leche de cabra y más. Productos artesanales sin azúcar añadida, con probióticos naturales. Directo desde nuestra granja hasta tu mesa.",
+  title = "Leche de cabra y yogurt griego artesanal en Lima | D'Cabra",
+  description = "Compra leche de cabra, yogurt griego, yogurt frutado y queso artesanal D'Cabra. Productos naturales elaborados con leche de cabra en Perú.",
+  image = "/og-dcabra.jpg",
+  type = "website",
+  canonical,
+  noindex = false,
+  jsonLd,
 } = Astro.props;
+
+const site = Astro.site ?? new URL("https://www.dcabra.com");
+const currentUrl = new URL(Astro.url.pathname, site).toString();
+const canonicalUrl = canonical ?? currentUrl;
+const imageUrl = new URL(image, site).toString();
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "D'Cabra",
+  url: "https://www.dcabra.com",
+  logo: new URL("/logo-dcabra.png", site).toString(),
+  description:
+    "Productos artesanales elaborados con leche de cabra: yogurt griego, leche, yogurt frutado y queso.",
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "D'Cabra",
+  url: "https://www.dcabra.com",
+  inLanguage: "es-PE",
+};
+
+const allJsonLd = jsonLd
+  ? [
+      organizationJsonLd,
+      websiteJsonLd,
+      ...(Array.isArray(jsonLd) ? jsonLd : [jsonLd]),
+    ]
+  : [organizationJsonLd, websiteJsonLd];
 ---
 
 <!doctype html>
-<html lang="es">
+<html lang="es-PE">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta
+      name="robots"
+      content={noindex
+        ? "noindex,nofollow"
+        : "index,follow,max-image-preview:large"}
+    />
+
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Favicons -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#6B3A7A" />
+
+    <!-- Open Graph -->
+    <meta property="og:locale" content="es_PE" />
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="D'Cabra" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={imageUrl} />
+    <meta
+      property="og:image:alt"
+      content="Productos artesanales D'Cabra elaborados con leche de cabra"
+    />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    {
+      allJsonLd.map((schema) => (
+        <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+      ))
+    }
   </head>
+
   <body>
     <Header />
     <main class="mt-[73px]">
