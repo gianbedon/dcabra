@@ -11,8 +11,6 @@ import ProductCarousel from "../components/ProductCarousel";
 import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_CATEGORIES, GET_PRODUCTS } from "@/lib/queries";
 
-Astro.response.headers.set("Cache-Control", "no-store");
-
 const slugsPermitidos = [
   "yogurt-griego",
   "yogurt-frutado",
@@ -23,9 +21,9 @@ const slugsPermitidos = [
 const categoriesData = await fetchGraphQL(GET_CATEGORIES, {
   slugs: slugsPermitidos,
 });
+
 const productsData = await fetchGraphQL(GET_PRODUCTS);
 
-const nodosCategorias = categoriesData?.data?.categoriasDeProducto?.nodes || [];
 const productos = productsData?.data?.productos?.nodes || [];
 
 const seccionesHome = [
@@ -48,38 +46,44 @@ const seccionesHome = [
   title="Leche de cabra y yogurt griego artesanal en Lima | D'Cabra"
   description="Compra yogurt griego, leche de cabra, yogurt frutado y queso artesanal D'Cabra. Productos naturales elaborados con leche de cabra en Perú."
 >
-  <Hero/>
+  <h1 class="sr-only">
+    Leche de cabra, yogurt griego y lácteos artesanales D'Cabra en Lima
+  </h1>
+
+  <Hero />
   <Categories />
 
   <section class="py-16 bg-white">
-  <div class="max-w-7xl mx-auto px-4">
-    <h2 class="text-center text-primary text-4xl md:text-6xl uppercase mb-4">
-      Nuestros Productos
-    </h2>
-    <div class="w-16 h-1 bg-primary mx-auto mb-16"></div>
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-center text-primary text-4xl md:text-6xl uppercase mb-4">
+        Nuestros Productos
+      </h2>
 
-    {
-      seccionesHome.map((seccion) => {
-        const productosCategoria = productos.filter((producto: any) =>
-          producto.categoriasDeProducto?.nodes?.some((cat: any) =>
-            seccion.slugs.includes(cat.slug),
-          ),
-        );
+      <div class="w-16 h-1 bg-primary mx-auto mb-16"></div>
 
-        if (!productosCategoria.length) return null;
+      {
+        seccionesHome.map((seccion) => {
+          const productosCategoria = productos.filter((producto: any) =>
+            producto.categoriasDeProducto?.nodes?.some((cat: any) =>
+              seccion.slugs.includes(cat.slug),
+            ),
+          );
 
-        return (
-          <ProductCarousel
-            client:visible
-            title={seccion.title}
-            products={productosCategoria}
-          />
-        );
-      })
-    }
-  </div>
-</section>
+          if (!productosCategoria.length) return null;
 
-<VisitUs />
-<Marquee />
-<VideoShowcase />
+          return (
+            <ProductCarousel
+              client:visible
+              title={seccion.title}
+              products={productosCategoria}
+            />
+          );
+        })
+      }
+    </div>
+  </section>
+
+  <VisitUs />
+  <Marquee />
+  <VideoShowcase />
+</Layout>

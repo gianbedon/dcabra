@@ -8,7 +8,9 @@ export default defineConfig({
   site: "https://www.dcabra.com",
   trailingSlash: "never",
 
-  adapter: vercel(),
+  adapter: vercel({
+    maxDuration: 10,
+  }),
 
   integrations: [
     react(),
