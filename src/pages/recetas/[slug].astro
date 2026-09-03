@@ -13,6 +13,18 @@ Astro.response.headers.set(
     "public, max-age=3600, s-maxage=86400",
 );
 
+export async function getStaticPaths() {
+    const response = await fetchGraphQL(GET_RECIPES_PAGINATED);
+
+    const posts = response?.data?.posts?.nodes || [];
+
+    return posts.map((post: any) => ({
+        params: {
+            slug: post.slug,
+        },
+    }));
+}
+
 const { slug } = Astro.params;
 
 const [recipeResponse, allRecipesResponse] = await Promise.all([

@@ -13,6 +13,18 @@ Astro.response.headers.set(
   "public, max-age=3600, s-maxage=86400",
 );
 
+export async function getStaticPaths() {
+  const response = await fetchGraphQL(GET_PRODUCTS);
+
+  const products = response?.data?.productos?.nodes || [];
+
+  return products.map((producto: any) => ({
+    params: {
+      slug: producto.slug,
+    },
+  }));
+}
+
 const { slug } = Astro.params;
 
 const [detailResponse, alternativeResponse] = await Promise.all([
