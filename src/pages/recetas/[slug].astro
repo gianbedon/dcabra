@@ -1,5 +1,5 @@
 ---
-export const prerender = false;
+export const prerender = true;
 
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
@@ -8,7 +8,10 @@ import { fetchGraphQL } from "@/lib/wordpress";
 import { GET_RECIPE_BY_SLUG, GET_RECIPES_PAGINATED } from "@/lib/queries";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set(
+    "Cache-Control",
+    "public, max-age=3600, s-maxage=86400",
+);
 
 const { slug } = Astro.params;
 

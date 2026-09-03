@@ -1,5 +1,5 @@
 ---
-export const prerender = false;
+export const prerender = true;
 
 import Layout from "../../layouts/Layout.astro";
 import HeroNavegacion from "../../components/HeroNavegacion.astro";
@@ -9,7 +9,10 @@ import { GET_PRODUCTS, GET_RECIPES } from "@/lib/queries";
 import ProductCard from "../../components/ProductCard.tsx";
 import fondoGriego from "../../assets/fondo-griego.jpg";
 
-Astro.response.headers.set("Cache-Control", "no-store");
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=3600, s-maxage=86400",
+);
 
 const [productsResponse, recipesResponse] = await Promise.all([
   fetchGraphQL(GET_PRODUCTS),
@@ -72,7 +75,8 @@ const yoguresFrutado = allProducts.filter((p: any) =>
         lecheQueso
           .slice(0, 2)
           .map((producto: any) => (
-            <ProductCard client:load product={producto} />
+            // <ProductCard client:load product={producto} />
+            <ProductCard product={producto} />
           ))
       }
     </div>
@@ -100,7 +104,8 @@ const yoguresFrutado = allProducts.filter((p: any) =>
       >
         {
           yoguresGriego.map((producto: any) => (
-            <ProductCard client:load product={producto} />
+            // <ProductCard client:load product={producto} />
+            <ProductCard product={producto} />
           ))
         }
       </div>
@@ -118,7 +123,8 @@ const yoguresFrutado = allProducts.filter((p: any) =>
       >
         {
           yoguresFrutado.map((producto: any) => (
-            <ProductCard client:load product={producto} />
+            // <ProductCard client:load product={producto} />
+            <ProductCard product={producto} />
           ))
         }
       </div>
